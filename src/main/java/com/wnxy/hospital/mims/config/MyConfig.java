@@ -17,6 +17,9 @@ public class MyConfig {
 				// 映射路径
 				registry.addViewController("/").setViewName("/index.html");
 				registry.addViewController("/index.html").setViewName("/index.html");
+				registry.addViewController("/index_top.html").setViewName("/index_top.html");
+				registry.addViewController("/index_left.html").setViewName("/index_left.html");
+				registry.addViewController("/index_right.html").setViewName("/index_right.html");
 				registry.addViewController("/login.html").setViewName("/login.html");
 			}
 			//拦截器，暂无使用
