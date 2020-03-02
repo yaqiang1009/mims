@@ -5,11 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
-
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class OpRegistryExample {
     protected String orderByClause;
 
@@ -464,66 +459,6 @@ public class OpRegistryExample {
 
         public Criteria andDateNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("date not between", value1, value2, "date");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceIsNull() {
-            addCriterion("regprice is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceIsNotNull() {
-            addCriterion("regprice is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceEqualTo(Float value) {
-            addCriterion("regprice =", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceNotEqualTo(Float value) {
-            addCriterion("regprice <>", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceGreaterThan(Float value) {
-            addCriterion("regprice >", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceGreaterThanOrEqualTo(Float value) {
-            addCriterion("regprice >=", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceLessThan(Float value) {
-            addCriterion("regprice <", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceLessThanOrEqualTo(Float value) {
-            addCriterion("regprice <=", value, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceIn(List<Float> values) {
-            addCriterion("regprice in", values, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceNotIn(List<Float> values) {
-            addCriterion("regprice not in", values, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceBetween(Float value1, Float value2) {
-            addCriterion("regprice between", value1, value2, "regprice");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegpriceNotBetween(Float value1, Float value2) {
-            addCriterion("regprice not between", value1, value2, "regprice");
             return (Criteria) this;
         }
     }

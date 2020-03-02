@@ -174,6 +174,76 @@ public class StItemExample {
             return (Criteria) this;
         }
 
+        public Criteria andStockIdIsNull() {
+            addCriterion("stock_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdIsNotNull() {
+            addCriterion("stock_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdEqualTo(String value) {
+            addCriterion("stock_id =", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdNotEqualTo(String value) {
+            addCriterion("stock_id <>", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdGreaterThan(String value) {
+            addCriterion("stock_id >", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdGreaterThanOrEqualTo(String value) {
+            addCriterion("stock_id >=", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdLessThan(String value) {
+            addCriterion("stock_id <", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdLessThanOrEqualTo(String value) {
+            addCriterion("stock_id <=", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdLike(String value) {
+            addCriterion("stock_id like", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdNotLike(String value) {
+            addCriterion("stock_id not like", value, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdIn(List<String> values) {
+            addCriterion("stock_id in", values, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdNotIn(List<String> values) {
+            addCriterion("stock_id not in", values, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdBetween(String value1, String value2) {
+            addCriterion("stock_id between", value1, value2, "stockId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStockIdNotBetween(String value1, String value2) {
+            addCriterion("stock_id not between", value1, value2, "stockId");
+            return (Criteria) this;
+        }
+
         public Criteria andMedicineIdIsNull() {
             addCriterion("medicine_id is null");
             return (Criteria) this;

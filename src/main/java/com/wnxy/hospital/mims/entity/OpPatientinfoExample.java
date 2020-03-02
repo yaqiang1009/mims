@@ -5,11 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
-
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class OpPatientinfoExample {
     protected String orderByClause;
 
@@ -594,6 +589,76 @@ public class OpPatientinfoExample {
 
         public Criteria andPhoneNotBetween(String value1, String value2) {
             addCriterion("phone not between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNull() {
+            addCriterion("identity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIsNotNull() {
+            addCriterion("identity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityEqualTo(String value) {
+            addCriterion("identity =", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotEqualTo(String value) {
+            addCriterion("identity <>", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThan(String value) {
+            addCriterion("identity >", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityGreaterThanOrEqualTo(String value) {
+            addCriterion("identity >=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThan(String value) {
+            addCriterion("identity <", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLessThanOrEqualTo(String value) {
+            addCriterion("identity <=", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityLike(String value) {
+            addCriterion("identity like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotLike(String value) {
+            addCriterion("identity not like", value, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityIn(List<String> values) {
+            addCriterion("identity in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotIn(List<String> values) {
+            addCriterion("identity not in", values, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityBetween(String value1, String value2) {
+            addCriterion("identity between", value1, value2, "identity");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdentityNotBetween(String value1, String value2) {
+            addCriterion("identity not between", value1, value2, "identity");
             return (Criteria) this;
         }
 

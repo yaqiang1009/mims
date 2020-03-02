@@ -1,4 +1,5 @@
 package com.wnxy.hospital.mims.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,9 @@ public class Damages {
 
     private String medicineId;
 
-    private String officeId;
-
     private Integer status;
+
+    private String from;
 
     public String getDamageId() {
         return damageId;
@@ -51,19 +52,19 @@ public class Damages {
         this.medicineId = medicineId == null ? null : medicineId.trim();
     }
 
-    public String getOfficeId() {
-        return officeId;
-    }
-
-    public void setOfficeId(String officeId) {
-        this.officeId = officeId == null ? null : officeId.trim();
-    }
-
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from == null ? null : from.trim();
     }
 }

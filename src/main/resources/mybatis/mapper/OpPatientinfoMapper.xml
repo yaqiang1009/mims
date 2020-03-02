@@ -9,6 +9,7 @@
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="date" property="date" jdbcType="DATE" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="identity" property="identity" jdbcType="VARCHAR" />
     <result column="familyperson" property="familyperson" jdbcType="VARCHAR" />
     <result column="familyphone" property="familyphone" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
@@ -72,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    pt_id, pt_name, age, sex, birthday, date, phone, familyperson, familyphone, address
+    pt_id, pt_name, age, sex, birthday, date, phone, identity, familyperson, familyphone, 
+    address
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.OpPatientinfoExample" >
     select
@@ -107,12 +109,12 @@
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.OpPatientinfo" >
     insert into op_patientinfo (pt_id, pt_name, age, 
       sex, birthday, date, phone, 
-      familyperson, familyphone, address
-      )
+      identity, familyperson, familyphone, 
+      address)
     values (#{ptId,jdbcType=VARCHAR}, #{ptName,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{sex,jdbcType=CHAR}, #{birthday,jdbcType=DATE}, #{date,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, 
-      #{familyperson,jdbcType=VARCHAR}, #{familyphone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
-      )
+      #{identity,jdbcType=VARCHAR}, #{familyperson,jdbcType=VARCHAR}, #{familyphone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.OpPatientinfo" >
     insert into op_patientinfo
@@ -137,6 +139,9 @@
       </if>
       <if test="phone != null" >
         phone,
+      </if>
+      <if test="identity != null" >
+        identity,
       </if>
       <if test="familyperson != null" >
         familyperson,
@@ -169,6 +174,9 @@
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identity != null" >
+        #{identity,jdbcType=VARCHAR},
       </if>
       <if test="familyperson != null" >
         #{familyperson,jdbcType=VARCHAR},
@@ -211,6 +219,9 @@
       <if test="record.phone != null" >
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.identity != null" >
+        identity = #{record.identity,jdbcType=VARCHAR},
+      </if>
       <if test="record.familyperson != null" >
         familyperson = #{record.familyperson,jdbcType=VARCHAR},
       </if>
@@ -234,6 +245,7 @@
       birthday = #{record.birthday,jdbcType=DATE},
       date = #{record.date,jdbcType=DATE},
       phone = #{record.phone,jdbcType=VARCHAR},
+      identity = #{record.identity,jdbcType=VARCHAR},
       familyperson = #{record.familyperson,jdbcType=VARCHAR},
       familyphone = #{record.familyphone,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR}
@@ -262,6 +274,9 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="identity != null" >
+        identity = #{identity,jdbcType=VARCHAR},
+      </if>
       <if test="familyperson != null" >
         familyperson = #{familyperson,jdbcType=VARCHAR},
       </if>
@@ -282,6 +297,7 @@
       birthday = #{birthday,jdbcType=DATE},
       date = #{date,jdbcType=DATE},
       phone = #{phone,jdbcType=VARCHAR},
+      identity = #{identity,jdbcType=VARCHAR},
       familyperson = #{familyperson,jdbcType=VARCHAR},
       familyphone = #{familyphone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR}

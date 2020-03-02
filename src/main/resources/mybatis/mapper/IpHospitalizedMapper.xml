@@ -6,7 +6,7 @@
     <result column="pt_id" property="ptId" jdbcType="VARCHAR" />
     <result column="emp_id" property="empId" jdbcType="VARCHAR" />
     <result column="illness" property="illness" jdbcType="VARCHAR" />
-    <result column="order" property="order" jdbcType="VARCHAR" />
+    <result column="hos_order" property="hosOrder" jdbcType="VARCHAR" />
     <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="order_date" property="orderDate" jdbcType="DATE" />
   </resultMap>
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    hospitalized_id, pt_id, emp_id, illness, order, Remarks, order_date
+    hospitalized_id, pt_id, emp_id, illness, hos_order, Remarks, order_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpHospitalizedExample" >
     select
@@ -103,10 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpHospitalized" >
     insert into ip_hospitalized (hospitalized_id, pt_id, emp_id, 
-      illness, order, Remarks, 
+      illness, hos_order, Remarks, 
       order_date)
     values (#{hospitalizedId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
-      #{illness,jdbcType=VARCHAR}, #{order,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{illness,jdbcType=VARCHAR}, #{hosOrder,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
       #{orderDate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpHospitalized" >
@@ -124,8 +124,8 @@
       <if test="illness != null" >
         illness,
       </if>
-      <if test="order != null" >
-        order,
+      <if test="hosOrder != null" >
+        hos_order,
       </if>
       <if test="remarks != null" >
         Remarks,
@@ -147,8 +147,8 @@
       <if test="illness != null" >
         #{illness,jdbcType=VARCHAR},
       </if>
-      <if test="order != null" >
-        #{order,jdbcType=VARCHAR},
+      <if test="hosOrder != null" >
+        #{hosOrder,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -179,8 +179,8 @@
       <if test="record.illness != null" >
         illness = #{record.illness,jdbcType=VARCHAR},
       </if>
-      <if test="record.order != null" >
-        order = #{record.order,jdbcType=VARCHAR},
+      <if test="record.hosOrder != null" >
+        hos_order = #{record.hosOrder,jdbcType=VARCHAR},
       </if>
       <if test="record.remarks != null" >
         Remarks = #{record.remarks,jdbcType=VARCHAR},
@@ -199,7 +199,7 @@
       pt_id = #{record.ptId,jdbcType=VARCHAR},
       emp_id = #{record.empId,jdbcType=VARCHAR},
       illness = #{record.illness,jdbcType=VARCHAR},
-      order = #{record.order,jdbcType=VARCHAR},
+      hos_order = #{record.hosOrder,jdbcType=VARCHAR},
       Remarks = #{record.remarks,jdbcType=VARCHAR},
       order_date = #{record.orderDate,jdbcType=DATE}
     <if test="_parameter != null" >
@@ -218,8 +218,8 @@
       <if test="illness != null" >
         illness = #{illness,jdbcType=VARCHAR},
       </if>
-      <if test="order != null" >
-        order = #{order,jdbcType=VARCHAR},
+      <if test="hosOrder != null" >
+        hos_order = #{hosOrder,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         Remarks = #{remarks,jdbcType=VARCHAR},
@@ -235,7 +235,7 @@
     set pt_id = #{ptId,jdbcType=VARCHAR},
       emp_id = #{empId,jdbcType=VARCHAR},
       illness = #{illness,jdbcType=VARCHAR},
-      order = #{order,jdbcType=VARCHAR},
+      hos_order = #{hosOrder,jdbcType=VARCHAR},
       Remarks = #{remarks,jdbcType=VARCHAR},
       order_date = #{orderDate,jdbcType=DATE}
     where hospitalized_id = #{hospitalizedId,jdbcType=VARCHAR}

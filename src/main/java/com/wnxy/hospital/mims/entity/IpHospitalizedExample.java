@@ -5,11 +5,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
-
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class IpHospitalizedExample {
     protected String orderByClause;
 
@@ -417,73 +412,73 @@ public class IpHospitalizedExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIsNull() {
-            addCriterion("order is null");
+        public Criteria andHosOrderIsNull() {
+            addCriterion("hos_order is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIsNotNull() {
-            addCriterion("order is not null");
+        public Criteria andHosOrderIsNotNull() {
+            addCriterion("hos_order is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderEqualTo(String value) {
-            addCriterion("order =", value, "order");
+        public Criteria andHosOrderEqualTo(String value) {
+            addCriterion("hos_order =", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotEqualTo(String value) {
-            addCriterion("order <>", value, "order");
+        public Criteria andHosOrderNotEqualTo(String value) {
+            addCriterion("hos_order <>", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGreaterThan(String value) {
-            addCriterion("order >", value, "order");
+        public Criteria andHosOrderGreaterThan(String value) {
+            addCriterion("hos_order >", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGreaterThanOrEqualTo(String value) {
-            addCriterion("order >=", value, "order");
+        public Criteria andHosOrderGreaterThanOrEqualTo(String value) {
+            addCriterion("hos_order >=", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLessThan(String value) {
-            addCriterion("order <", value, "order");
+        public Criteria andHosOrderLessThan(String value) {
+            addCriterion("hos_order <", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLessThanOrEqualTo(String value) {
-            addCriterion("order <=", value, "order");
+        public Criteria andHosOrderLessThanOrEqualTo(String value) {
+            addCriterion("hos_order <=", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLike(String value) {
-            addCriterion("order like", value, "order");
+        public Criteria andHosOrderLike(String value) {
+            addCriterion("hos_order like", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotLike(String value) {
-            addCriterion("order not like", value, "order");
+        public Criteria andHosOrderNotLike(String value) {
+            addCriterion("hos_order not like", value, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIn(List<String> values) {
-            addCriterion("order in", values, "order");
+        public Criteria andHosOrderIn(List<String> values) {
+            addCriterion("hos_order in", values, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotIn(List<String> values) {
-            addCriterion("order not in", values, "order");
+        public Criteria andHosOrderNotIn(List<String> values) {
+            addCriterion("hos_order not in", values, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderBetween(String value1, String value2) {
-            addCriterion("order between", value1, value2, "order");
+        public Criteria andHosOrderBetween(String value1, String value2) {
+            addCriterion("hos_order between", value1, value2, "hosOrder");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotBetween(String value1, String value2) {
-            addCriterion("order not between", value1, value2, "order");
+        public Criteria andHosOrderNotBetween(String value1, String value2) {
+            addCriterion("hos_order not between", value1, value2, "hosOrder");
             return (Criteria) this;
         }
 

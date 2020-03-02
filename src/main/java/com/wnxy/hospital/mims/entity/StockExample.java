@@ -3,11 +3,6 @@ package com.wnxy.hospital.mims.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
-
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class StockExample {
     protected String orderByClause;
 
@@ -179,7 +174,6 @@ public class StockExample {
             return (Criteria) this;
         }
 
-
         public Criteria andMedicineIdIsNull() {
             addCriterion("medicine_id is null");
             return (Criteria) this;
@@ -249,7 +243,6 @@ public class StockExample {
             addCriterion("medicine_id not between", value1, value2, "medicineId");
             return (Criteria) this;
         }
-
 
         public Criteria andMedicineDanweiIsNull() {
             addCriterion("medicine_danwei is null");

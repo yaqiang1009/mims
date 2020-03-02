@@ -1,15 +1,16 @@
 package com.wnxy.hospital.mims.entity;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
 public class StItem {
     private String itemId;
+
+    private String stockId;
 
     private String medicineId;
 
@@ -21,6 +22,14 @@ public class StItem {
 
     public void setItemId(String itemId) {
         this.itemId = itemId == null ? null : itemId.trim();
+    }
+
+    public String getStockId() {
+        return stockId;
+    }
+
+    public void setStockId(String stockId) {
+        this.stockId = stockId == null ? null : stockId.trim();
     }
 
     public String getMedicineId() {
