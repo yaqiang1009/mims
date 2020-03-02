@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.wnxy.hospital.mims.entity.StIn;
+import com.wnxy.hospital.mims.entity.StItem;
 import com.wnxy.hospital.mims.service.stock.StockService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,8 @@ public class StockServiceTest {
 	@Test
 	public void testAdd() {
 		StockService stockService = (StockService) ac.getBean("stockServiceImpl");
-		StIn stIn=new StIn(UUID.randomUUID().toString(),"1","1",new Date());
-		stockService.insertStock(stIn);
+		StIn stIn=new StIn(UUID.randomUUID().toString(),"1",UUID.randomUUID().toString(),new Date());
+		StItem stItem=new StItem(stIn.getItemId(), "1", "1", 5);
+		stockService.insertStock(stIn,stItem);
 	}
 }
