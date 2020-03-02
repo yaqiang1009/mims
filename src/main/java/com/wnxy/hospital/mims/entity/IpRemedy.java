@@ -12,14 +12,19 @@ public class IpRemedy {
     private String remedyId;
 
     private String hospitalizedId;
-
+    private IpHospitalized ipHospitalized;
+    
     private String wardId;
+    private IpWard ipWard;
 
     private String bedId;
+    private IpBed ipBed;
 
     private String ptId;
+    private OpPatientinfo opPatientinfo;
 
     private String empId;
+    private Emp emp;
 
     private Date remedyDate;
 

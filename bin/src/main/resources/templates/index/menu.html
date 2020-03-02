@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>菜单</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/menu.css}" />
+</head>
+<body>
+	<div class="container-fluid" style="padding: 0;">
+		<div class="row-fluid">
+			<div class="col-md-12" style="padding: 0;">
+			<!-- 导航栏 -->
+				<ul id="main-nav" class="nav nav-tabs nav-stacked">
+					<!-- ****住院部**** -->
+					<!-- 角色一 -->
+					<li>
+						<a href="#systemSetting10" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-sort-by-attributes"></i>
+							<span style="display: inline-block;margin-left: 20px;">住院管理</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<!-- 功能菜单 -->
+						<ul id="systemSetting10" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<!-- 功能一 -->
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">住院申请</a>
+							</li>
+							<!-- 功能二 -->
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">出院审核</a>
+							</li>
+							<!-- 功能三 -->
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">医疗状态</a>
+							</li>
+							<!-- 功能四 -->
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">病人信息</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色二 -->
+					<li>
+						<a href="#systemSetting11" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-plane"></i>
+							<span style="display: inline-block;margin-left: 20px;">病人管理</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting11" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">病人状态</a>
+							</li>
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">治疗相关</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色三 -->
+					<li>
+						<a href="#systemSetting12" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-cutlery"></i>
+							<span style="display: inline-block;margin-left: 20px;">资费系统</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting12" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">全部药单</a>
+							</li>
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">用药史</a>
+							</li>
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">押金查询</a>
+							</li>
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">押金明细</a>
+							</li>
+						</ul>
+					</li>
+					<!-- ****门诊部**** -->
+					<!-- 角色一 -->
+					<li>
+						<a href="#systemSetting20" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting20" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色二 -->
+					<li>
+						<a href="#systemSetting21" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting21" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- ****药房**** -->
+					<!-- 角色一 -->
+					<li>
+						<a href="#systemSetting30" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting30" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色二 -->
+					<li>
+						<a href="#systemSetting31" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting31" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- ****后台**** -->
+					<!-- 角色一 -->
+					<li>
+						<a href="#systemSetting40" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting40" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色二 -->
+					<li>
+						<a href="#systemSetting41" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting41" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/menu.js}"></script>
+</html>

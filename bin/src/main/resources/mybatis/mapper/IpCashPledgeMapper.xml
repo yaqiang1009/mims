@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.IpCashPledgeMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    <id column="cash_id" property="cashId" jdbcType="VARCHAR" />
+    <result column="pt_id" property="ptId" jdbcType="VARCHAR" />
+    <result column="remaining" property="remaining" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cash_id, pt_id, remaining
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpCashPledgeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_cash_pledge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_cash_pledge
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ip_cash_pledge
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.IpCashPledgeExample" >
+    delete from ip_cash_pledge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    insert into ip_cash_pledge (cash_id, pt_id, remaining
+      )
+    values (#{cashId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{remaining,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    insert into ip_cash_pledge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cashId != null" >
+        cash_id,
+      </if>
+      <if test="ptId != null" >
+        pt_id,
+      </if>
+      <if test="remaining != null" >
+        remaining,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cashId != null" >
+        #{cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="ptId != null" >
+        #{ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remaining != null" >
+        #{remaining,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.IpCashPledgeExample" resultType="java.lang.Integer" >
+    select count(*) from ip_cash_pledge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ip_cash_pledge
+    <set >
+      <if test="record.cashId != null" >
+        cash_id = #{record.cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptId != null" >
+        pt_id = #{record.ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remaining != null" >
+        remaining = #{record.remaining,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ip_cash_pledge
+    set cash_id = #{record.cashId,jdbcType=VARCHAR},
+      pt_id = #{record.ptId,jdbcType=VARCHAR},
+      remaining = #{record.remaining,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    update ip_cash_pledge
+    <set >
+      <if test="ptId != null" >
+        pt_id = #{ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remaining != null" >
+        remaining = #{remaining,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    update ip_cash_pledge
+    set pt_id = #{ptId,jdbcType=VARCHAR},
+      remaining = #{remaining,jdbcType=DOUBLE}
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </update>
+</mapper>
