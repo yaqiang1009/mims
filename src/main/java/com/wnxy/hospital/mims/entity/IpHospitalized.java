@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IpHospitalized {
     private String hospitalizedId;
-
+    
     private String ptId;
-
+    private OpPatientinfo ptentity;
+    
     private String empId;
-
+    private Emp empentity;
+    
     private String illness;
 
     private String hosOrder;

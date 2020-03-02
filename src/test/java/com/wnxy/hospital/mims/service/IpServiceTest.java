@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -45,51 +46,15 @@ public class IpServiceTest {
 		ward.insert(record);
 	}
 	
-	//添加病床
 	@Test
-	public void text02() {
-		IpBedMapper ipBedMapper = (IpBedMapper) ac.getBean("ipBedMapper");
-		IpBed ipBed=new IpBed();
-		ipBed.setBedId("101");
-		ipBed.setBedNum(1);
-		ipBed.setWardId("001");
-		ipBedMapper.insert(ipBed);
-	}
-	
-	//添加院部
-	@Test
-	public void text03() {
-		OfficeMapper officeMapper = (OfficeMapper) ac.getBean("officeMapper");
-		Office office = new Office("1", "住院部");
-		officeMapper.insert(office);
-	}
-	
-	//添加科室
-	@Test
-	public void text04() {
-		OpDepMapper opDepMapper = (OpDepMapper) ac.getBean("opDepMapper");
-		OpDep opDep = new OpDep("1", "口腔科");
-		opDepMapper.insert(opDep);
-	}
-	
-	//添加住院医生
-	@Test
-	public void text05() {
-		EmpMapper empMapper = (EmpMapper) ac.getBean("empMapper");
-		Emp emp= new Emp();
-		emp.setEmpId("1");
-		emp.setEmpName("李医生");
-		empMapper.insert(emp);
-	}
-	
-	//添加住院病人
-	@Test
-	public void text06() {
-		OpPatientinfoMapper opPatientinfoMapper = (OpPatientinfoMapper) ac.getBean("opPatientinfoMapper");
-		OpPatientinfo opPatientinfo= new OpPatientinfo();
-		opPatientinfo.setPtId("1");
-		opPatientinfo.setPtName("张三");
-		opPatientinfoMapper.insert(opPatientinfo);
+	public void op_ip_orderDaoTest() {
+		//创建订单对象
+		IpHospitalized record=new IpHospitalized("11815dc20ca643f0ad601e8fecd87c18", 
+				"11822dc20ca643f0ad602e8fecd87c18", null, "11822dc20ca643f0ad602e8fecd17c21",
+		null, "有病", "申请中", "", new Date());
+		//插入数据
+		IpHospitalizedMapper ipHospitalizedMapper = (IpHospitalizedMapper)ac.getBean("ipHospitalizedMapper");
+		ipHospitalizedMapper.insert(record);
 	}
 	
 	//添加住院订单
@@ -97,7 +62,7 @@ public class IpServiceTest {
 	public void text() { 
 		//创建订单对象
 		IpHospitalized record=new IpHospitalized("11815dc20ca643f0ad601e8fecd87c18",
-						  "11822dc20ca643f0ad602e8fecd87c18", "11822dc20ca643f0ad602e8fecd17c21", "有病",
+						  "11822dc20ca643f0ad602e8fecd87c18", null, "11822dc20ca643f0ad602e8fecd17c21", null, "有病",
 						  "申请中", "", new Date()); 
 		//插入数据 
 		IpHospitalizedMapper ipHospitalizedMapper =(IpHospitalizedMapper)ac.getBean("ipHospitalizedMapper");
@@ -109,26 +74,17 @@ public class IpServiceTest {
 	public void text0() {
 		Op_Ip_Order op_Ip_Order = (Op_Ip_Order)ac.getBean("op_Ip_OrderImpl");
 		String addOrder = op_Ip_Order.addOrder("11822dc20ca643f0ad602e8fecd87c18", 
-				"11822dc20ca643f0ad602e8fecd17c21", "他有病");
+				"11822dc20ca643f0ad602e8fecd17c21", "他还是有病");
 		 System.out.println(addOrder);
 	}
 
-	//测试创建医疗单对象
+	//检索住院单
 	@Test
-	public void tex() {
-		IpRemedy ipRemedy=new IpRemedy();
-		ipRemedy.setRemedyId(ipRemedy.getRemedyId());
-		ipRemedy.setHospitalizedId("1");
-		ipRemedy.setWardId("1");
-		ipRemedy.setBedId("1");
-		ipRemedy.setPtId("1");
-		ipRemedy.setEmpId("1");
-		ipRemedy.setRemedyDate(new Date());
-		ipRemedy.setRemedyStatus("住院");
-		System.out.println(ipRemedy);
-		IpRemedyMapper ipRemedyMapper = (IpRemedyMapper) ac.getBean("IpRemedyMapper");
-		ipRemedyMapper.insert(ipRemedy);
+	public void Ip_HosOrderServiceImplTest() {
+		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
+		List<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos();
+		for(IpHospitalized hos:selectAllHos) {
+			System.out.println(hos);
+		}
 	}
-	
-	
 }

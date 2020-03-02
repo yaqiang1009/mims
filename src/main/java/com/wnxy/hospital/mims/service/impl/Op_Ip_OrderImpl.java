@@ -20,8 +20,8 @@ public class Op_Ip_OrderImpl implements Op_Ip_Order{
 		String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
 		try {
 			//创建订单对象
-			IpHospitalized record=new IpHospitalized(uuid, pt_id, emp_id,
-					illness, "申请中", "", new Date());
+			IpHospitalized record=new IpHospitalized(uuid, pt_id, null, emp_id,
+					null, illness, "申请中", "", new Date());
 			//插入数据
 			ipHospitalizedMapper.insert(record);
 			return "插入成功";
