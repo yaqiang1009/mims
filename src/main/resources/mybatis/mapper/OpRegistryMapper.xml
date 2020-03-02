@@ -7,6 +7,7 @@
     <result column="dl_id" property="dlId" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="DATE" />
+    <result column="regprice" property="regprice" jdbcType="REAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    rs_id, pt_id, dl_id, state, date
+    rs_id, pt_id, dl_id, state, date, regprice
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.OpRegistryExample" >
     select
@@ -101,9 +102,9 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.OpRegistry" >
     insert into op_registry (rs_id, pt_id, dl_id, 
-      state, date)
+      state, date, regprice)
     values (#{rsId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{dlId,jdbcType=VARCHAR}, 
-      #{state,jdbcType=INTEGER}, #{date,jdbcType=DATE})
+      #{state,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{regprice,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.OpRegistry" >
     insert into op_registry
@@ -123,6 +124,9 @@
       <if test="date != null" >
         date,
       </if>
+      <if test="regprice != null" >
+        regprice,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="rsId != null" >
@@ -139,6 +143,9 @@
       </if>
       <if test="date != null" >
         #{date,jdbcType=DATE},
+      </if>
+      <if test="regprice != null" >
+        #{regprice,jdbcType=REAL},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.date != null" >
         date = #{record.date,jdbcType=DATE},
       </if>
+      <if test="record.regprice != null" >
+        regprice = #{record.regprice,jdbcType=REAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       pt_id = #{record.ptId,jdbcType=VARCHAR},
       dl_id = #{record.dlId,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
-      date = #{record.date,jdbcType=DATE}
+      date = #{record.date,jdbcType=DATE},
+      regprice = #{record.regprice,jdbcType=REAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="date != null" >
         date = #{date,jdbcType=DATE},
       </if>
+      <if test="regprice != null" >
+        regprice = #{regprice,jdbcType=REAL},
+      </if>
     </set>
     where rs_id = #{rsId,jdbcType=VARCHAR}
   </update>
@@ -205,7 +219,8 @@
     set pt_id = #{ptId,jdbcType=VARCHAR},
       dl_id = #{dlId,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
-      date = #{date,jdbcType=DATE}
+      date = #{date,jdbcType=DATE},
+      regprice = #{regprice,jdbcType=REAL}
     where rs_id = #{rsId,jdbcType=VARCHAR}
   </update>
 </mapper>

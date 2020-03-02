@@ -3,6 +3,11 @@ package com.wnxy.hospital.mims.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class OfficeExample {
     protected String orderByClause;
 
