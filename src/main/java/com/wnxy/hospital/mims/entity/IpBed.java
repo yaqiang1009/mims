@@ -11,6 +11,7 @@ public class IpBed {
     private String bedId;
 
     private String wardId;
+    private IpWard ipWard;
 
     private Integer bedNum;
 

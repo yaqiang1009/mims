@@ -12,8 +12,10 @@ public class Emp {
     private String empId;
 
     private String officeId;
+    private Office office;
 
     private String depId;
+    private OpDep opDep;
 
     private String empName;
 

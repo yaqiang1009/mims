@@ -1,5 +1,7 @@
-package com.wnxy.hospital.mims.service;
+package com.wnxy.hospital.mims.mapper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,6 +28,7 @@ import com.wnxy.hospital.mims.mapper.IpWardMapper;
 import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
+import com.wnxy.hospital.mims.service.Op_Ip_Order;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
 
 import lombok.extern.log4j.Log4j;
@@ -33,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class IpServiceTest {
+public class IpMapperTest {
 	@Autowired
 	ApplicationContext ac;
 	
@@ -94,39 +97,34 @@ public class IpServiceTest {
 	
 	//添加住院订单
 	@Test 
-	public void text() { 
-		//创建订单对象
-		IpHospitalized record=new IpHospitalized("11815dc20ca643f0ad601e8fecd87c18",
-						  "11822dc20ca643f0ad602e8fecd87c18", "11822dc20ca643f0ad602e8fecd17c21", "有病",
-						  "申请中", "", new Date()); 
-		//插入数据 
+	public void text07() { 
 		IpHospitalizedMapper ipHospitalizedMapper =(IpHospitalizedMapper)ac.getBean("ipHospitalizedMapper");
-		ipHospitalizedMapper.insert(record); 
+		IpHospitalized ipHospitalized=new IpHospitalized(); 
+		ipHospitalized.setHospitalizedId("1");
+		ipHospitalized.setEmpId("1");
+		ipHospitalized.setPtId("1");
+		/*
+		 * Date date = new Date(); SimpleDateFormat format = new
+		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); String mydate=format.format(date);
+		 */
+		ipHospitalized.setOrderDate(new Date());
+		ipHospitalized.setHosOrder("待转院");
+		ipHospitalizedMapper.insert(ipHospitalized); 
 	}
 	 
-	//添加住院订单service
+	//添加医疗单
 	@Test
-	public void text0() {
-		Op_Ip_Order op_Ip_Order = (Op_Ip_Order)ac.getBean("op_Ip_OrderImpl");
-		String addOrder = op_Ip_Order.addOrder("11822dc20ca643f0ad602e8fecd87c18", 
-				"11822dc20ca643f0ad602e8fecd17c21", "他有病");
-		 System.out.println(addOrder);
-	}
-
-	//测试创建医疗单对象
-	@Test
-	public void tex() {
+	public void text08() {
+		IpRemedyMapper ipRemedyMapper = (IpRemedyMapper) ac.getBean("ipRemedyMapper");
 		IpRemedy ipRemedy=new IpRemedy();
 		ipRemedy.setRemedyId(ipRemedy.getRemedyId());
 		ipRemedy.setHospitalizedId("1");
-		ipRemedy.setWardId("1");
-		ipRemedy.setBedId("1");
+		ipRemedy.setWardId("001");
+		ipRemedy.setBedId("101");
 		ipRemedy.setPtId("1");
 		ipRemedy.setEmpId("1");
 		ipRemedy.setRemedyDate(new Date());
 		ipRemedy.setRemedyStatus("住院");
-		System.out.println(ipRemedy);
-		IpRemedyMapper ipRemedyMapper = (IpRemedyMapper) ac.getBean("IpRemedyMapper");
 		ipRemedyMapper.insert(ipRemedy);
 	}
 	
