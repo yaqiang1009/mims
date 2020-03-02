@@ -1,10 +1,6 @@
 package com.wnxy.hospital.mims.entity;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
-
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

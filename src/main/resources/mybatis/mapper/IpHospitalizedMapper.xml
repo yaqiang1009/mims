@@ -103,7 +103,7 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpHospitalized" >
     insert into ip_hospitalized (hospitalized_id, pt_id, emp_id, 
-      illness, order, Remarks, 
+      illness, `order`, Remarks, 
       order_date)
     values (#{hospitalizedId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
       #{illness,jdbcType=VARCHAR}, #{order,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
