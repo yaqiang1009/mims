@@ -1,5 +1,13 @@
 package com.wnxy.hospital.mims.entity;
 
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Component
 public class OpDoclevel {
     private String dlId;
 

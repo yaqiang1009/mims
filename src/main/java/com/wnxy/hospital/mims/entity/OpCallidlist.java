@@ -2,6 +2,13 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+@AllArgsConstructor
+@NoArgsConstructor
+@Component
 public class OpCallidlist {
     private String clId;
 

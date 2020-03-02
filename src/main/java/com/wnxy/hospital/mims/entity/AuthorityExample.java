@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
 public class AuthorityExample {
     protected String orderByClause;
 
