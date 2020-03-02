@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -40,8 +41,8 @@ public class IpServiceTest {
 	public void op_ip_orderDaoTest() {
 		//创建订单对象
 		IpHospitalized record=new IpHospitalized("11815dc20ca643f0ad601e8fecd87c18", 
-				"11822dc20ca643f0ad602e8fecd87c18", "11822dc20ca643f0ad602e8fecd17c21",
-		"有病", "申请中", "", new Date());
+				"11822dc20ca643f0ad602e8fecd87c18", null, "11822dc20ca643f0ad602e8fecd17c21",
+		null, "有病", "申请中", "", new Date());
 		//插入数据
 		IpHospitalizedMapper ipHospitalizedMapper = (IpHospitalizedMapper)ac.getBean("ipHospitalizedMapper");
 		ipHospitalizedMapper.insert(record);
@@ -51,8 +52,16 @@ public class IpServiceTest {
 	public void op_ip_orderImplTest() {
 		Op_Ip_Order op_Ip_Order = (Op_Ip_Order)ac.getBean("op_Ip_OrderImpl");
 		String addOrder = op_Ip_Order.addOrder("11822dc20ca643f0ad602e8fecd87c18", 
-				"11822dc20ca643f0ad602e8fecd17c21", "他有病");
+				"11822dc20ca643f0ad602e8fecd17c21", "他还是有病");
 		 System.out.println(addOrder);
 	}
-
+	//检索住院单
+	@Test
+	public void Ip_HosOrderServiceImplTest() {
+		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
+		List<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos();
+		for(IpHospitalized hos:selectAllHos) {
+			System.out.println(hos);
+		}
+	}
 }
