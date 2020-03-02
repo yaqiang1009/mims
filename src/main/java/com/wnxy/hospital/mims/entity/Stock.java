@@ -9,13 +9,7 @@ import lombok.NoArgsConstructor;
 public class Stock {
     private String stockId;
 
-    private String inId;
-
-    private String outId;
-
     private String medicineId;
-
-    private String damageId;
 
     private String medicineDanwei;
 
@@ -31,21 +25,7 @@ public class Stock {
         this.stockId = stockId == null ? null : stockId.trim();
     }
 
-    public String getInId() {
-        return inId;
-    }
 
-    public void setInId(String inId) {
-        this.inId = inId == null ? null : inId.trim();
-    }
-
-    public String getOutId() {
-        return outId;
-    }
-
-    public void setOutId(String outId) {
-        this.outId = outId == null ? null : outId.trim();
-    }
 
     public String getMedicineId() {
         return medicineId;
@@ -55,13 +35,7 @@ public class Stock {
         this.medicineId = medicineId == null ? null : medicineId.trim();
     }
 
-    public String getDamageId() {
-        return damageId;
-    }
-
-    public void setDamageId(String damageId) {
-        this.damageId = damageId == null ? null : damageId.trim();
-    }
+ 
 
     public String getMedicineDanwei() {
         return medicineDanwei;
