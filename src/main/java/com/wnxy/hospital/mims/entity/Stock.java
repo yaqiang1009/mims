@@ -1,4 +1,5 @@
 package com.wnxy.hospital.mims.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,6 @@ public class Stock {
         this.stockId = stockId == null ? null : stockId.trim();
     }
 
-
-
     public String getMedicineId() {
         return medicineId;
     }
@@ -34,8 +33,6 @@ public class Stock {
     public void setMedicineId(String medicineId) {
         this.medicineId = medicineId == null ? null : medicineId.trim();
     }
-
- 
 
     public String getMedicineDanwei() {
         return medicineDanwei;

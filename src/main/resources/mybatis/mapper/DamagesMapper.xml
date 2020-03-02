@@ -6,8 +6,8 @@
     <result column="medicine_count" property="medicineCount" jdbcType="INTEGER" />
     <result column="damage_reason" property="damageReason" jdbcType="VARCHAR" />
     <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
-    <result column="office_id" property="officeId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="from" property="from" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    damage_id, medicine_count, damage_reason, medicine_id, office_id, status
+    damage_id, medicine_count, damage_reason, medicine_id, status, from
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.DamagesExample" >
     select
@@ -102,10 +102,10 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.Damages" >
     insert into damages (damage_id, medicine_count, damage_reason, 
-      medicine_id, office_id, status
+      medicine_id, status, from
       )
     values (#{damageId,jdbcType=VARCHAR}, #{medicineCount,jdbcType=INTEGER}, #{damageReason,jdbcType=VARCHAR}, 
-      #{medicineId,jdbcType=VARCHAR}, #{officeId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      #{medicineId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{from,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.Damages" >
@@ -123,11 +123,11 @@
       <if test="medicineId != null" >
         medicine_id,
       </if>
-      <if test="officeId != null" >
-        office_id,
-      </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="from != null" >
+        from,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -143,11 +143,11 @@
       <if test="medicineId != null" >
         #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="officeId != null" >
-        #{officeId,jdbcType=VARCHAR},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="from != null" >
+        #{from,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -172,11 +172,11 @@
       <if test="record.medicineId != null" >
         medicine_id = #{record.medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="record.officeId != null" >
-        office_id = #{record.officeId,jdbcType=VARCHAR},
-      </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.from != null" >
+        from = #{record.from,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -189,8 +189,8 @@
       medicine_count = #{record.medicineCount,jdbcType=INTEGER},
       damage_reason = #{record.damageReason,jdbcType=VARCHAR},
       medicine_id = #{record.medicineId,jdbcType=VARCHAR},
-      office_id = #{record.officeId,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      from = #{record.from,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -207,11 +207,11 @@
       <if test="medicineId != null" >
         medicine_id = #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="officeId != null" >
-        office_id = #{officeId,jdbcType=VARCHAR},
-      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="from != null" >
+        from = #{from,jdbcType=VARCHAR},
       </if>
     </set>
     where damage_id = #{damageId,jdbcType=VARCHAR}
@@ -221,8 +221,8 @@
     set medicine_count = #{medicineCount,jdbcType=INTEGER},
       damage_reason = #{damageReason,jdbcType=VARCHAR},
       medicine_id = #{medicineId,jdbcType=VARCHAR},
-      office_id = #{officeId,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      from = #{from,jdbcType=VARCHAR}
     where damage_id = #{damageId,jdbcType=VARCHAR}
   </update>
 </mapper>

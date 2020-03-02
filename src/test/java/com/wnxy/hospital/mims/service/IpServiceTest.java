@@ -30,9 +30,8 @@ public class IpServiceTest {
 	
 	@Test
 	public void contextLoads() {
-		
 		IpWardMapper ward = (IpWardMapper)ac.getBean("ipWardMapper");
-		IpWard record=new IpWard("003", "病房1");
+		IpWard record=new IpWard("001", "病房1");
 		ward.insert(record);
 		System.out.println("完成");
 	}

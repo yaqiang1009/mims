@@ -1,10 +1,10 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +22,8 @@ public class OpPatientinfo {
     private Date date;
 
     private String phone;
+
+    private String identity;
 
     private String familyperson;
 
@@ -83,6 +85,14 @@ public class OpPatientinfo {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 
     public String getFamilyperson() {

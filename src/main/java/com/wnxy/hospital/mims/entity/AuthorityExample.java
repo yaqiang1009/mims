@@ -2,9 +2,6 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 
 public class AuthorityExample {
     protected String orderByClause;

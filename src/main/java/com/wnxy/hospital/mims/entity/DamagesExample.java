@@ -3,11 +3,6 @@ package com.wnxy.hospital.mims.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
-
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class DamagesExample {
     protected String orderByClause;
 
@@ -379,76 +374,6 @@ public class DamagesExample {
             return (Criteria) this;
         }
 
-        public Criteria andOfficeIdIsNull() {
-            addCriterion("office_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdIsNotNull() {
-            addCriterion("office_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdEqualTo(String value) {
-            addCriterion("office_id =", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdNotEqualTo(String value) {
-            addCriterion("office_id <>", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdGreaterThan(String value) {
-            addCriterion("office_id >", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdGreaterThanOrEqualTo(String value) {
-            addCriterion("office_id >=", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdLessThan(String value) {
-            addCriterion("office_id <", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdLessThanOrEqualTo(String value) {
-            addCriterion("office_id <=", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdLike(String value) {
-            addCriterion("office_id like", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdNotLike(String value) {
-            addCriterion("office_id not like", value, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdIn(List<String> values) {
-            addCriterion("office_id in", values, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdNotIn(List<String> values) {
-            addCriterion("office_id not in", values, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdBetween(String value1, String value2) {
-            addCriterion("office_id between", value1, value2, "officeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOfficeIdNotBetween(String value1, String value2) {
-            addCriterion("office_id not between", value1, value2, "officeId");
-            return (Criteria) this;
-        }
-
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
@@ -506,6 +431,76 @@ public class DamagesExample {
 
         public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromIsNull() {
+            addCriterion("from is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromIsNotNull() {
+            addCriterion("from is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromEqualTo(String value) {
+            addCriterion("from =", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromNotEqualTo(String value) {
+            addCriterion("from <>", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromGreaterThan(String value) {
+            addCriterion("from >", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromGreaterThanOrEqualTo(String value) {
+            addCriterion("from >=", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromLessThan(String value) {
+            addCriterion("from <", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromLessThanOrEqualTo(String value) {
+            addCriterion("from <=", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromLike(String value) {
+            addCriterion("from like", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromNotLike(String value) {
+            addCriterion("from not like", value, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromIn(List<String> values) {
+            addCriterion("from in", values, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromNotIn(List<String> values) {
+            addCriterion("from not in", values, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromBetween(String value1, String value2) {
+            addCriterion("from between", value1, value2, "from");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromNotBetween(String value1, String value2) {
+            addCriterion("from not between", value1, value2, "from");
             return (Criteria) this;
         }
     }

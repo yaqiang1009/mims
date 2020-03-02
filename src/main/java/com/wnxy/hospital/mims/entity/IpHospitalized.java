@@ -1,10 +1,10 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class IpHospitalized {
 
     private String illness;
 
-    private String order;
+    private String hosOrder;
 
     private String remarks;
 
@@ -55,12 +55,12 @@ public class IpHospitalized {
         this.illness = illness == null ? null : illness.trim();
     }
 
-    public String getOrder() {
-        return order;
+    public String getHosOrder() {
+        return hosOrder;
     }
 
-    public void setOrder(String order) {
-        this.order = order == null ? null : order.trim();
+    public void setHosOrder(String hosOrder) {
+        this.hosOrder = hosOrder == null ? null : hosOrder.trim();
     }
 
     public String getRemarks() {
