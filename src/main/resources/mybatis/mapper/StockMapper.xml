@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.StockMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.Stock" >
+    <id column="stock_id" property="stockId" jdbcType="VARCHAR" />
+    <result column="in_id" property="inId" jdbcType="VARCHAR" />
+    <result column="out_id" property="outId" jdbcType="VARCHAR" />
+    <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
+    <result column="damage_id" property="damageId" jdbcType="VARCHAR" />
+    <result column="medicine_danwei" property="medicineDanwei" jdbcType="VARCHAR" />
+    <result column="medicine_num" property="medicineNum" jdbcType="INTEGER" />
+    <result column="medicine_type" property="medicineType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    stock_id, in_id, out_id, medicine_id, damage_id, medicine_danwei, medicine_num, medicine_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.StockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from stock
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.StockExample" >
+    delete from stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.Stock" >
+    insert into stock (stock_id, in_id, out_id, 
+      medicine_id, damage_id, medicine_danwei, 
+      medicine_num, medicine_type)
+    values (#{stockId,jdbcType=VARCHAR}, #{inId,jdbcType=VARCHAR}, #{outId,jdbcType=VARCHAR}, 
+      #{medicineId,jdbcType=VARCHAR}, #{damageId,jdbcType=VARCHAR}, #{medicineDanwei,jdbcType=VARCHAR}, 
+      #{medicineNum,jdbcType=INTEGER}, #{medicineType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.Stock" >
+    insert into stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        stock_id,
+      </if>
+      <if test="inId != null" >
+        in_id,
+      </if>
+      <if test="outId != null" >
+        out_id,
+      </if>
+      <if test="medicineId != null" >
+        medicine_id,
+      </if>
+      <if test="damageId != null" >
+        damage_id,
+      </if>
+      <if test="medicineDanwei != null" >
+        medicine_danwei,
+      </if>
+      <if test="medicineNum != null" >
+        medicine_num,
+      </if>
+      <if test="medicineType != null" >
+        medicine_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="inId != null" >
+        #{inId,jdbcType=VARCHAR},
+      </if>
+      <if test="outId != null" >
+        #{outId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineId != null" >
+        #{medicineId,jdbcType=VARCHAR},
+      </if>
+      <if test="damageId != null" >
+        #{damageId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineDanwei != null" >
+        #{medicineDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineNum != null" >
+        #{medicineNum,jdbcType=INTEGER},
+      </if>
+      <if test="medicineType != null" >
+        #{medicineType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.StockExample" resultType="java.lang.Integer" >
+    select count(*) from stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stock
+    <set >
+      <if test="record.stockId != null" >
+        stock_id = #{record.stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inId != null" >
+        in_id = #{record.inId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outId != null" >
+        out_id = #{record.outId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicineId != null" >
+        medicine_id = #{record.medicineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.damageId != null" >
+        damage_id = #{record.damageId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicineDanwei != null" >
+        medicine_danwei = #{record.medicineDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicineNum != null" >
+        medicine_num = #{record.medicineNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.medicineType != null" >
+        medicine_type = #{record.medicineType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stock
+    set stock_id = #{record.stockId,jdbcType=VARCHAR},
+      in_id = #{record.inId,jdbcType=VARCHAR},
+      out_id = #{record.outId,jdbcType=VARCHAR},
+      medicine_id = #{record.medicineId,jdbcType=VARCHAR},
+      damage_id = #{record.damageId,jdbcType=VARCHAR},
+      medicine_danwei = #{record.medicineDanwei,jdbcType=VARCHAR},
+      medicine_num = #{record.medicineNum,jdbcType=INTEGER},
+      medicine_type = #{record.medicineType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.Stock" >
+    update stock
+    <set >
+      <if test="inId != null" >
+        in_id = #{inId,jdbcType=VARCHAR},
+      </if>
+      <if test="outId != null" >
+        out_id = #{outId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineId != null" >
+        medicine_id = #{medicineId,jdbcType=VARCHAR},
+      </if>
+      <if test="damageId != null" >
+        damage_id = #{damageId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineDanwei != null" >
+        medicine_danwei = #{medicineDanwei,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineNum != null" >
+        medicine_num = #{medicineNum,jdbcType=INTEGER},
+      </if>
+      <if test="medicineType != null" >
+        medicine_type = #{medicineType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.Stock" >
+    update stock
+    set in_id = #{inId,jdbcType=VARCHAR},
+      out_id = #{outId,jdbcType=VARCHAR},
+      medicine_id = #{medicineId,jdbcType=VARCHAR},
+      damage_id = #{damageId,jdbcType=VARCHAR},
+      medicine_danwei = #{medicineDanwei,jdbcType=VARCHAR},
+      medicine_num = #{medicineNum,jdbcType=INTEGER},
+      medicine_type = #{medicineType,jdbcType=VARCHAR}
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </update>
+</mapper>

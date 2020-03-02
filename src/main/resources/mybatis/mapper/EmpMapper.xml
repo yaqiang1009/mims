@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.EmpMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.Emp" >
+    <id column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="office_id" property="officeId" jdbcType="VARCHAR" />
+    <result column="dep_id" property="depId" jdbcType="VARCHAR" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="emp_identity" property="empIdentity" jdbcType="VARCHAR" />
+    <result column="emp_sex" property="empSex" jdbcType="CHAR" />
+    <result column="emp_address" property="empAddress" jdbcType="VARCHAR" />
+    <result column="emp_email" property="empEmail" jdbcType="VARCHAR" />
+    <result column="emp_birth" property="empBirth" jdbcType="DATE" />
+    <result column="emp_nation" property="empNation" jdbcType="VARCHAR" />
+    <result column="emp_hireday" property="empHireday" jdbcType="DATE" />
+    <result column="emp_photo" property="empPhoto" jdbcType="VARCHAR" />
+    <result column="emp_phone" property="empPhone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    emp_id, office_id, dep_id, emp_name, emp_identity, emp_sex, emp_address, emp_email, 
+    emp_birth, emp_nation, emp_hireday, emp_photo, emp_phone
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.EmpExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from emp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from emp
+    where emp_id = #{empId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from emp
+    where emp_id = #{empId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.EmpExample" >
+    delete from emp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.Emp" >
+    insert into emp (emp_id, office_id, dep_id, 
+      emp_name, emp_identity, emp_sex, 
+      emp_address, emp_email, emp_birth, 
+      emp_nation, emp_hireday, emp_photo, 
+      emp_phone)
+    values (#{empId,jdbcType=VARCHAR}, #{officeId,jdbcType=VARCHAR}, #{depId,jdbcType=VARCHAR}, 
+      #{empName,jdbcType=VARCHAR}, #{empIdentity,jdbcType=VARCHAR}, #{empSex,jdbcType=CHAR}, 
+      #{empAddress,jdbcType=VARCHAR}, #{empEmail,jdbcType=VARCHAR}, #{empBirth,jdbcType=DATE}, 
+      #{empNation,jdbcType=VARCHAR}, #{empHireday,jdbcType=DATE}, #{empPhoto,jdbcType=VARCHAR}, 
+      #{empPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.Emp" >
+    insert into emp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="officeId != null" >
+        office_id,
+      </if>
+      <if test="depId != null" >
+        dep_id,
+      </if>
+      <if test="empName != null" >
+        emp_name,
+      </if>
+      <if test="empIdentity != null" >
+        emp_identity,
+      </if>
+      <if test="empSex != null" >
+        emp_sex,
+      </if>
+      <if test="empAddress != null" >
+        emp_address,
+      </if>
+      <if test="empEmail != null" >
+        emp_email,
+      </if>
+      <if test="empBirth != null" >
+        emp_birth,
+      </if>
+      <if test="empNation != null" >
+        emp_nation,
+      </if>
+      <if test="empHireday != null" >
+        emp_hireday,
+      </if>
+      <if test="empPhoto != null" >
+        emp_photo,
+      </if>
+      <if test="empPhone != null" >
+        emp_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null" >
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null" >
+        #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empIdentity != null" >
+        #{empIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="empSex != null" >
+        #{empSex,jdbcType=CHAR},
+      </if>
+      <if test="empAddress != null" >
+        #{empAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="empEmail != null" >
+        #{empEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="empBirth != null" >
+        #{empBirth,jdbcType=DATE},
+      </if>
+      <if test="empNation != null" >
+        #{empNation,jdbcType=VARCHAR},
+      </if>
+      <if test="empHireday != null" >
+        #{empHireday,jdbcType=DATE},
+      </if>
+      <if test="empPhoto != null" >
+        #{empPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="empPhone != null" >
+        #{empPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.EmpExample" resultType="java.lang.Integer" >
+    select count(*) from emp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update emp
+    <set >
+      <if test="record.empId != null" >
+        emp_id = #{record.empId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeId != null" >
+        office_id = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depId != null" >
+        dep_id = #{record.depId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empName != null" >
+        emp_name = #{record.empName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empIdentity != null" >
+        emp_identity = #{record.empIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empSex != null" >
+        emp_sex = #{record.empSex,jdbcType=CHAR},
+      </if>
+      <if test="record.empAddress != null" >
+        emp_address = #{record.empAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empEmail != null" >
+        emp_email = #{record.empEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empBirth != null" >
+        emp_birth = #{record.empBirth,jdbcType=DATE},
+      </if>
+      <if test="record.empNation != null" >
+        emp_nation = #{record.empNation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empHireday != null" >
+        emp_hireday = #{record.empHireday,jdbcType=DATE},
+      </if>
+      <if test="record.empPhoto != null" >
+        emp_photo = #{record.empPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empPhone != null" >
+        emp_phone = #{record.empPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update emp
+    set emp_id = #{record.empId,jdbcType=VARCHAR},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      dep_id = #{record.depId,jdbcType=VARCHAR},
+      emp_name = #{record.empName,jdbcType=VARCHAR},
+      emp_identity = #{record.empIdentity,jdbcType=VARCHAR},
+      emp_sex = #{record.empSex,jdbcType=CHAR},
+      emp_address = #{record.empAddress,jdbcType=VARCHAR},
+      emp_email = #{record.empEmail,jdbcType=VARCHAR},
+      emp_birth = #{record.empBirth,jdbcType=DATE},
+      emp_nation = #{record.empNation,jdbcType=VARCHAR},
+      emp_hireday = #{record.empHireday,jdbcType=DATE},
+      emp_photo = #{record.empPhoto,jdbcType=VARCHAR},
+      emp_phone = #{record.empPhone,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.Emp" >
+    update emp
+    <set >
+      <if test="officeId != null" >
+        office_id = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null" >
+        dep_id = #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="empName != null" >
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empIdentity != null" >
+        emp_identity = #{empIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="empSex != null" >
+        emp_sex = #{empSex,jdbcType=CHAR},
+      </if>
+      <if test="empAddress != null" >
+        emp_address = #{empAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="empEmail != null" >
+        emp_email = #{empEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="empBirth != null" >
+        emp_birth = #{empBirth,jdbcType=DATE},
+      </if>
+      <if test="empNation != null" >
+        emp_nation = #{empNation,jdbcType=VARCHAR},
+      </if>
+      <if test="empHireday != null" >
+        emp_hireday = #{empHireday,jdbcType=DATE},
+      </if>
+      <if test="empPhoto != null" >
+        emp_photo = #{empPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="empPhone != null" >
+        emp_phone = #{empPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.Emp" >
+    update emp
+    set office_id = #{officeId,jdbcType=VARCHAR},
+      dep_id = #{depId,jdbcType=VARCHAR},
+      emp_name = #{empName,jdbcType=VARCHAR},
+      emp_identity = #{empIdentity,jdbcType=VARCHAR},
+      emp_sex = #{empSex,jdbcType=CHAR},
+      emp_address = #{empAddress,jdbcType=VARCHAR},
+      emp_email = #{empEmail,jdbcType=VARCHAR},
+      emp_birth = #{empBirth,jdbcType=DATE},
+      emp_nation = #{empNation,jdbcType=VARCHAR},
+      emp_hireday = #{empHireday,jdbcType=DATE},
+      emp_photo = #{empPhoto,jdbcType=VARCHAR},
+      emp_phone = #{empPhone,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=VARCHAR}
+  </update>
+</mapper>

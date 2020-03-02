@@ -15,12 +15,15 @@ public class MyConfig {
 			@Override
 			public void addViewControllers(ViewControllerRegistry registry) {
 				// 映射路径
-				registry.addViewController("/").setViewName("/index.html");
-				registry.addViewController("/index.html").setViewName("/index.html");
-				registry.addViewController("/index_top.html").setViewName("/index_top.html");
-				registry.addViewController("/index_left.html").setViewName("/index_left.html");
-				registry.addViewController("/index_right.html").setViewName("/index_right.html");
-				registry.addViewController("/login.html").setViewName("/login.html");
+				//主页相关
+				registry.addViewController("/").setViewName("/index/index.html");
+				registry.addViewController("/index.html").setViewName("/index/index.html");
+				registry.addViewController("/top.html").setViewName("/index/top.html");
+				registry.addViewController("/menu.html").setViewName("/index/menu.html");
+				registry.addViewController("/content.html").setViewName("/index/content.html");
+				registry.addViewController("/password.html").setViewName("/index/password.html");
+				//
+				
 			}
 			//拦截器，暂无使用
 			/*
