@@ -3,10 +3,9 @@
 <mapper namespace="com.wnxy.hospital.mims.mapper.StockMapper" >
   <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.Stock" >
     <id column="stock_id" property="stockId" jdbcType="VARCHAR" />
-    <result column="in_id" property="inId" jdbcType="VARCHAR" />
-    <result column="out_id" property="outId" jdbcType="VARCHAR" />
+   
     <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
-    <result column="damage_id" property="damageId" jdbcType="VARCHAR" />
+   
     <result column="medicine_danwei" property="medicineDanwei" jdbcType="VARCHAR" />
     <result column="medicine_num" property="medicineNum" jdbcType="INTEGER" />
     <result column="medicine_type" property="medicineType" jdbcType="VARCHAR" />
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    stock_id, in_id, out_id, medicine_id, damage_id, medicine_danwei, medicine_num, medicine_type
+    stock_id,medicine_id,medicine_danwei, medicine_num, medicine_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.StockExample" >
     select
@@ -103,11 +102,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.Stock" >
-    insert into stock (stock_id, in_id, out_id, 
-      medicine_id, damage_id, medicine_danwei, 
+    insert into stock (stock_id,  
+      medicine_id,medicine_danwei, 
       medicine_num, medicine_type)
-    values (#{stockId,jdbcType=VARCHAR}, #{inId,jdbcType=VARCHAR}, #{outId,jdbcType=VARCHAR}, 
-      #{medicineId,jdbcType=VARCHAR}, #{damageId,jdbcType=VARCHAR}, #{medicineDanwei,jdbcType=VARCHAR}, 
+    values (#{stockId,jdbcType=VARCHAR},  
+      #{medicineId,jdbcType=VARCHAR},#{medicineDanwei,jdbcType=VARCHAR}, 
       #{medicineNum,jdbcType=INTEGER}, #{medicineType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.Stock" >
@@ -116,18 +115,11 @@
       <if test="stockId != null" >
         stock_id,
       </if>
-      <if test="inId != null" >
-        in_id,
-      </if>
-      <if test="outId != null" >
-        out_id,
-      </if>
+     
       <if test="medicineId != null" >
         medicine_id,
       </if>
-      <if test="damageId != null" >
-        damage_id,
-      </if>
+     
       <if test="medicineDanwei != null" >
         medicine_danwei,
       </if>
@@ -142,18 +134,11 @@
       <if test="stockId != null" >
         #{stockId,jdbcType=VARCHAR},
       </if>
-      <if test="inId != null" >
-        #{inId,jdbcType=VARCHAR},
-      </if>
-      <if test="outId != null" >
-        #{outId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="medicineId != null" >
         #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="damageId != null" >
-        #{damageId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="medicineDanwei != null" >
         #{medicineDanwei,jdbcType=VARCHAR},
       </if>
@@ -177,18 +162,11 @@
       <if test="record.stockId != null" >
         stock_id = #{record.stockId,jdbcType=VARCHAR},
       </if>
-      <if test="record.inId != null" >
-        in_id = #{record.inId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.outId != null" >
-        out_id = #{record.outId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="record.medicineId != null" >
         medicine_id = #{record.medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="record.damageId != null" >
-        damage_id = #{record.damageId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="record.medicineDanwei != null" >
         medicine_danwei = #{record.medicineDanwei,jdbcType=VARCHAR},
       </if>
@@ -206,10 +184,9 @@
   <update id="updateByExample" parameterType="map" >
     update stock
     set stock_id = #{record.stockId,jdbcType=VARCHAR},
-      in_id = #{record.inId,jdbcType=VARCHAR},
-      out_id = #{record.outId,jdbcType=VARCHAR},
+   
       medicine_id = #{record.medicineId,jdbcType=VARCHAR},
-      damage_id = #{record.damageId,jdbcType=VARCHAR},
+     
       medicine_danwei = #{record.medicineDanwei,jdbcType=VARCHAR},
       medicine_num = #{record.medicineNum,jdbcType=INTEGER},
       medicine_type = #{record.medicineType,jdbcType=VARCHAR}
@@ -220,18 +197,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.Stock" >
     update stock
     <set >
-      <if test="inId != null" >
-        in_id = #{inId,jdbcType=VARCHAR},
-      </if>
-      <if test="outId != null" >
-        out_id = #{outId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="medicineId != null" >
         medicine_id = #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="damageId != null" >
-        damage_id = #{damageId,jdbcType=VARCHAR},
-      </if>
+     
       <if test="medicineDanwei != null" >
         medicine_danwei = #{medicineDanwei,jdbcType=VARCHAR},
       </if>
@@ -246,10 +216,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.Stock" >
     update stock
-    set in_id = #{inId,jdbcType=VARCHAR},
-      out_id = #{outId,jdbcType=VARCHAR},
+    set 
       medicine_id = #{medicineId,jdbcType=VARCHAR},
-      damage_id = #{damageId,jdbcType=VARCHAR},
+     
       medicine_danwei = #{medicineDanwei,jdbcType=VARCHAR},
       medicine_num = #{medicineNum,jdbcType=INTEGER},
       medicine_type = #{medicineType,jdbcType=VARCHAR}

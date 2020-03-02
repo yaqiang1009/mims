@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.wnxy.hospital.mims.entity.AuthorityExample.Criteria;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class PhMedicineInventoryExample {
     protected String orderByClause;
 

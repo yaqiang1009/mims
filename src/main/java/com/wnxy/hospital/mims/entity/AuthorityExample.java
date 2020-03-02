@@ -2,13 +2,10 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class AuthorityExample {
     protected String orderByClause;
 
@@ -16,6 +13,9 @@ public class AuthorityExample {
 
     protected List<Criteria> oredCriteria;
 
+    public AuthorityExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
 
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;

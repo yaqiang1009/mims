@@ -30,11 +30,13 @@ public class IpServiceTest {
 	
 	@Test
 	public void contextLoads() {
+		
 		IpWardMapper ward = (IpWardMapper)ac.getBean("ipWardMapper");
-		IpWard record=new IpWard("001", "病房1");
+		IpWard record=new IpWard("003", "病房1");
 		ward.insert(record);
 		System.out.println("完成");
 	}
+	//添加住院订单dao
 	@Test
 	public void op_ip_orderDaoTest() {
 		//创建订单对象
@@ -45,6 +47,7 @@ public class IpServiceTest {
 		IpHospitalizedMapper ipHospitalizedMapper = (IpHospitalizedMapper)ac.getBean("ipHospitalizedMapper");
 		ipHospitalizedMapper.insert(record);
 	}
+	//添加住院订单service
 	@Test
 	public void op_ip_orderImplTest() {
 		Op_Ip_Order op_Ip_Order = (Op_Ip_Order)ac.getBean("op_Ip_OrderImpl");
