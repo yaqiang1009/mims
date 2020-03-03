@@ -2,6 +2,12 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StMedicines {
     private String medicineId;
 

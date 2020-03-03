@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
+import com.wnxy.hospital.mims.entity.IpIllness;
+import com.wnxy.hospital.mims.entity.IpIllnessExample;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.Office;
@@ -28,6 +30,7 @@ import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_IllnessServiceImpl;
 
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
@@ -87,11 +90,47 @@ public class IpServiceTest {
 			System.out.println(hos);
 		}
 	}
+
 	//检索指定住院单
 	@Test
 	public void selectHosTest() {
 		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
 		IpHospitalized selectHos = ip_HosOrderService.selectHos("7264e2cfcd4b4df18e5d620940fabb4c");
 			System.out.println(selectHos);
+	}
+	
+	//添加病情订单service
+	@Test
+	public void ip_IllnessServiceImplText01() {
+		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
+		IpIllness ipIllness= new IpIllness();
+		ipIllness.setIllness("病的不清");
+		ipIllness.setCaution("吃药");
+		ipIllness.setRemedyId("66e33789f0a84e7985ce748015e4b5df");
+		ip_IllnessServiceImpl.addIllnessOrder(ipIllness);
+	}
+	
+	//修改病情订单service
+	@Test
+	public void ip_IllnessServiceImplText02() {
+		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
+		IpIllness ipIllness= new IpIllness();
+		ipIllness.setIllnessId("858508a5d25f427491381992b9e26781");
+		ipIllness.setIllness("病好了");
+		ipIllness.setCaution("不吃药");
+		String updateIllnessOrder = ip_IllnessServiceImpl.updateIllnessOrder(ipIllness);
+		System.out.println(updateIllnessOrder);
+	}
+	
+	//查询所有病情订单service，不带条件
+	@Test
+	public void ip_IllnessServiceImplText03() {
+		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
+		IpIllnessExample example= new IpIllnessExample();
+		List<IpIllness> list = ip_IllnessServiceImpl.selectIpIllnessByExample(example);
+		for(IpIllness ipIllness : list) {
+			System.out.println(ipIllness);
+		}
+
 	}
 }
