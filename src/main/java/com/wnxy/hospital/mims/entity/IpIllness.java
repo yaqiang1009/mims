@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IpIllness {
-    private String illnessId;
+    private String illnessId=UUID.randomUUID().toString().trim().replaceAll("-", "");
 
     private String remedyId;
+    private IpRemedy ipRemedy;
 
     private String illness;
 
