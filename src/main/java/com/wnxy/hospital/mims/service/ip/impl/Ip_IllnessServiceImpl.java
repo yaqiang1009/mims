@@ -63,9 +63,7 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 	@Override
 	public List<IpIllness> selectIpIllnessByExample(IpIllnessExample example) {
 		try {
-			//方法为只修改参数不为空的字段，网页传过来时不把日期传过来就可以
 			List<IpIllness> list = ipIllnessMapper.selectByExample(example);
-			//没有异常也要判断数据库是否真的被修改
 			return list;
 		} catch (Exception e) {
 			// 异常处理
