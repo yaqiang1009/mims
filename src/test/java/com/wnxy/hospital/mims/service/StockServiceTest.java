@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -14,6 +15,8 @@ import com.wnxy.hospital.mims.entity.Damages;
 import com.wnxy.hospital.mims.entity.StIn;
 import com.wnxy.hospital.mims.entity.StItem;
 import com.wnxy.hospital.mims.entity.StOut;
+import com.wnxy.hospital.mims.entity.Stock;
+import com.wnxy.hospital.mims.mapper.StMedicinesMapper;
 import com.wnxy.hospital.mims.service.stock.StockService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +48,12 @@ public class StockServiceTest {
 		Damages damages=new Damages(UUID.randomUUID().toString(), 5, "broken",
 				"1", 0, "0");
 		stockService.frmLoss(damages);
+	}
+	@Test
+	public void testSelectAll() {
+		StockService stockService = (StockService) ac.getBean("stockServiceImpl");
+		
+		List<Stock> selectAllStock = stockService.selectAllStock();
+		
 	}
 }

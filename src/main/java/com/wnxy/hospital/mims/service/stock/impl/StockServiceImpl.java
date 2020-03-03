@@ -118,6 +118,19 @@ public class StockServiceImpl implements StockService {
 			
 		}
 	}
+	@Override
+	public List<Stock> selectAllStock() {
+		StockExample example=new StockExample();
+		
+		List<Stock> Stocks = stockMapper.selectByExample(example);
+		StMedicines stMedicines=null;
+		for(Stock s:Stocks) {
+			stMedicines = stMedicinesMapper.selectByPrimaryKey(s.getMedicineId());
+			System.out.println(s+""+stMedicines);
+			
+		}
+		return Stocks;
+	}
 	
 	
 
