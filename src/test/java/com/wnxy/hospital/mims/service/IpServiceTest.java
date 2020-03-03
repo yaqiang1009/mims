@@ -42,7 +42,7 @@ public class IpServiceTest {
 	@Test
 	public void text01() {
 		IpWardMapper ward = (IpWardMapper)ac.getBean("ipWardMapper");
-		IpWard record=new IpWard("001", "病房1");
+		IpWard record=new IpWard("005", "病房5");
 		ward.insert(record);
 	}
 	
@@ -80,11 +80,18 @@ public class IpServiceTest {
 
 	//检索住院单
 	@Test
-	public void Ip_HosOrderServiceImplTest() {
+	public void selectAllHosTest() {
 		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
 		List<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos();
 		for(IpHospitalized hos:selectAllHos) {
 			System.out.println(hos);
 		}
+	}
+	//检索指定住院单
+	@Test
+	public void selectHosTest() {
+		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
+		IpHospitalized selectHos = ip_HosOrderService.selectHos("7264e2cfcd4b4df18e5d620940fabb4c");
+			System.out.println(selectHos);
 	}
 }

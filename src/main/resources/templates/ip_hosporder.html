@@ -57,19 +57,9 @@ min-width: 140px;
 			<td>[[${hos.empentity.empName}]]</td>
 			<td>[[${hos.illness}]]</td>
 			<td>[[${#dates.format(hos.orderDate,"yyyy-MM-dd")}]]</td>
-			<td><button type="button" class="btn btn-primary">通过</button></td>
-			<td><button type="button" class="btn btn-warning">拒绝</button></td>
+			<td><a th:href="@{/Hos/pass/}+${hos.hospitalizedId}"><button type="button" class="btn btn-primary">通过</button></a></td>
+			<td><a th:href="@{/Hos/reject/}+${hos.hospitalizedId}"><button type="button" class="btn btn-warning">拒绝</button></a></td>
 		</tr> 
-<!-- 		<tr>
-			<td>张三</td>
-			<td>男</td>
-			<td>20</td>
-			<td>李医生</td>
-			<td>肚子疼</td>
-			<td>2000-10-10</td>
-			<td>通过</td>
-			<td>拒绝</td>
-		</tr> -->
 	</tbody>
 </table>
 </body>
