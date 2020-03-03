@@ -17,6 +17,8 @@ public interface IpBedMapper {
     int insertSelective(IpBed record);
 
     List<IpBed> selectByExample(IpBedExample example);
+    //查询空闲床位
+    List<IpBed> selectLeByExample(IpBedExample example);
 
     IpBed selectByPrimaryKey(String bedId);
 
