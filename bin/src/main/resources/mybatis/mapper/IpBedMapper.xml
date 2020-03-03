@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.IpBedMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.IpBed" >
+    <id column="bed_id" property="bedId" jdbcType="VARCHAR" />
+    <result column="ward_id" property="wardId" jdbcType="VARCHAR" />
+    <result column="bed_num" property="bedNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bed_id, ward_id, bed_num
+  </sql>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_bed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!-- 空闲床位查询 -->
+  <select id="selectLeByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_bed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and bed_id not in(select bed_id from ip_remedy where remedy_status='住院中') 
+    </if>
+    <if test="_parameter == null" >
+      where bed_id not in(select bed_id from ip_remedy where remedy_status='住院中') 
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_bed
+    where bed_id = #{bedId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ip_bed
+    where bed_id = #{bedId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" >
+    delete from ip_bed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpBed" >
+    insert into ip_bed (bed_id, ward_id, bed_num
+      )
+    values (#{bedId,jdbcType=VARCHAR}, #{wardId,jdbcType=VARCHAR}, #{bedNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpBed" >
+    insert into ip_bed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bedId != null" >
+        bed_id,
+      </if>
+      <if test="wardId != null" >
+        ward_id,
+      </if>
+      <if test="bedNum != null" >
+        bed_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bedId != null" >
+        #{bedId,jdbcType=VARCHAR},
+      </if>
+      <if test="wardId != null" >
+        #{wardId,jdbcType=VARCHAR},
+      </if>
+      <if test="bedNum != null" >
+        #{bedNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" resultType="java.lang.Integer" >
+    select count(*) from ip_bed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ip_bed
+    <set >
+      <if test="record.bedId != null" >
+        bed_id = #{record.bedId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wardId != null" >
+        ward_id = #{record.wardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bedNum != null" >
+        bed_num = #{record.bedNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ip_bed
+    set bed_id = #{record.bedId,jdbcType=VARCHAR},
+      ward_id = #{record.wardId,jdbcType=VARCHAR},
+      bed_num = #{record.bedNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpBed" >
+    update ip_bed
+    <set >
+      <if test="wardId != null" >
+        ward_id = #{wardId,jdbcType=VARCHAR},
+      </if>
+      <if test="bedNum != null" >
+        bed_num = #{bedNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bed_id = #{bedId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpBed" >
+    update ip_bed
+    set ward_id = #{wardId,jdbcType=VARCHAR},
+      bed_num = #{bedNum,jdbcType=INTEGER}
+    where bed_id = #{bedId,jdbcType=VARCHAR}
+  </update>
+</mapper>

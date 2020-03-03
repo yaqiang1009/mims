@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.IpPaymentOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.IpPaymentOrder" >
+    <id column="payment_id" property="paymentId" jdbcType="VARCHAR" />
+    <result column="cash_id" property="cashId" jdbcType="VARCHAR" />
+    <result column="payment" property="payment" jdbcType="DOUBLE" />
+    <result column="payment_date" property="paymentDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    payment_id, cash_id, payment, payment_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_payment_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_payment_order
+    where payment_id = #{paymentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ip_payment_order
+    where payment_id = #{paymentId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrderExample" >
+    delete from ip_payment_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrder" >
+    insert into ip_payment_order (payment_id, cash_id, payment, 
+      payment_date)
+    values (#{paymentId,jdbcType=VARCHAR}, #{cashId,jdbcType=VARCHAR}, #{payment,jdbcType=DOUBLE}, 
+      #{paymentDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrder" >
+    insert into ip_payment_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="cashId != null" >
+        cash_id,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="paymentDate != null" >
+        payment_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="cashId != null" >
+        #{cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentDate != null" >
+        #{paymentDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrderExample" resultType="java.lang.Integer" >
+    select count(*) from ip_payment_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ip_payment_order
+    <set >
+      <if test="record.paymentId != null" >
+        payment_id = #{record.paymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cashId != null" >
+        cash_id = #{record.cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payment != null" >
+        payment = #{record.payment,jdbcType=DOUBLE},
+      </if>
+      <if test="record.paymentDate != null" >
+        payment_date = #{record.paymentDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ip_payment_order
+    set payment_id = #{record.paymentId,jdbcType=VARCHAR},
+      cash_id = #{record.cashId,jdbcType=VARCHAR},
+      payment = #{record.payment,jdbcType=DOUBLE},
+      payment_date = #{record.paymentDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrder" >
+    update ip_payment_order
+    <set >
+      <if test="cashId != null" >
+        cash_id = #{cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentDate != null" >
+        payment_date = #{paymentDate,jdbcType=DATE},
+      </if>
+    </set>
+    where payment_id = #{paymentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpPaymentOrder" >
+    update ip_payment_order
+    set cash_id = #{cashId,jdbcType=VARCHAR},
+      payment = #{payment,jdbcType=DOUBLE},
+      payment_date = #{paymentDate,jdbcType=DATE}
+    where payment_id = #{paymentId,jdbcType=VARCHAR}
+  </update>
+</mapper>
