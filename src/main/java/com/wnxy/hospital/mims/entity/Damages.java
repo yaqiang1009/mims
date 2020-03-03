@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Damages {
     private String damageId;
 
@@ -18,7 +18,7 @@ public class Damages {
 
     private Integer status;
 
-    private String from;
+    private String source;
 
     public String getDamageId() {
         return damageId;
@@ -60,11 +60,11 @@ public class Damages {
         this.status = status;
     }
 
-    public String getFrom() {
-        return from;
+    public String getSource() {
+        return source;
     }
 
-    public void setFrom(String from) {
-        this.from = from == null ? null : from.trim();
+    public void setSource(String source) {
+        this.source = source == null ? null : source.trim();
     }
 }
