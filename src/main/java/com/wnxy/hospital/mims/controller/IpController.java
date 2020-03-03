@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
+import com.wnxy.hospital.mims.entity.IpLeaveapply;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
 import com.wnxy.hospital.mims.service.Ip_bedService;
 import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
+import com.wnxy.hospital.mims.service.leavehospService;
 import com.wnxy.hospital.mims.service.impl.Ip_HosOrderServiceImpl;
 
 import lombok.Setter;
@@ -113,6 +115,27 @@ public class IpController {
 		}
 		return "redirect:/ip_hosporder";
 	}
+	//************************出院审核
+	//检索出院申请信息
+	@RequestMapping("/leaveHospOrder")
+	public String leaveHospOrder(Model model) {
+		//获取对象，调方法
+		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		List<IpLeaveapply> IpLeaveapplys = ieavehospService.selectAllLeave();
+		model.addAttribute("IpLeaveapplys",IpLeaveapplys);
+		return "ip_leavehosp";
+	}
+	//检索出院申请信息
+	@RequestMapping("/leave/pass/{id}")
+	public String leavepass(@PathVariable("id") String id) {
+		//修改订单状态
+		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		ieavehospService.leavePass(id);
+		return "ip_leavehosp";
+	}
+	
+	
+	
 	/*同步请求模板
 	@RequestMapping("/mycont1")
 	public String mycont1(Model model,HttpServletRequest request) {
