@@ -21,4 +21,6 @@ public interface Op_RegistryService {// 新办就诊卡，挂号
 
 	List<OpCard> queryCardBypt_id(String pt_id);//根据病人身份证号查就诊卡
 
+	List<OpCard> queryCardBycardIdAndpt_id(String cardId, String pt_id);//根据卡号和身份证号查就诊卡
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.wnxy.hospital.mims.entity.OpCard;
 import com.wnxy.hospital.mims.entity.OpCardExample;
+import com.wnxy.hospital.mims.entity.OpCardExample.Criteria;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.entity.OpRegistry;
 import com.wnxy.hospital.mims.mapper.OpCardMapper;
@@ -54,21 +55,54 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 
 	@Override
 	public void rebondCard(OpCard opCard) {// 就诊卡挂失
-		// 将卡表中对应的卡号状态设为2不可用
-		OpCard tempCard = new OpCard(opCard.getCardId(), opCard.getPtId(), 2);
-		opCardMapper.updateByPrimaryKey(tempCard);
 
-		// 再将对应身份号的患者身份证与新卡号绑定
-		tempCard = new OpCard(UUID.randomUUID().toString().replace("-", "").trim().toString(), opCard.getPtId(), 1);
-		opCardMapper.insert(tempCard);
+		List<OpCard> verifyCards = queryCardBycardIdAndpt_id(opCard.getCardId(),opCard.getPtId());// 存储通过身份证号查询的卡记录集合用于验证
+		try {
+			if (verifyCards.size() == 1) {// 有效卡号有且只能有一个，否则抛异常
+				// 将卡表中对应的卡号状态设为2不可用
+				OpCard tempCard = new OpCard(opCard.getCardId(), opCard.getPtId(), 2);
+				opCardMapper.updateByPrimaryKey(tempCard);
+				System.out.println("老卡状态已修改");
+				System.out.println("验证卡集合长度：" + verifyCards.size());
+				// 再将对应身份号的患者身份证与新卡号绑定
+				newCard(opCard.getPtId());
+
+			} else {
+
+				throw new RuntimeException("挂失失败，卡号有误或重复挂失");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("挂失失败");
+		}
 	}
 
 	@Override
 	public List<OpCard> queryCardBypt_id(String pt_id) {// 根据身份证号查有效就诊卡
 		OpCardExample example = new OpCardExample();
-		example.createCriteria().andPtIdEqualTo(pt_id);// 根据身份证查
-		example.createCriteria().andStateEqualTo(1);// 根据有效状态查
+
+		Criteria criteria = example.createCriteria();
+
+		criteria.andPtIdEqualTo(pt_id);// 根据身份证查
+		criteria.andStateEqualTo(1);// 根据有效状态查
+
 		List<OpCard> tempOpCards = (List<OpCard>) opCardMapper.selectByExample(example);
+		System.out.println("根据身份证号查有效就诊卡：" + tempOpCards);
+		return tempOpCards;
+	}
+
+	@Override
+	public List<OpCard> queryCardBycardIdAndpt_id(String cardId, String pt_id) {// 根据卡号，身份证号查有效就诊卡
+		OpCardExample example = new OpCardExample();
+
+		Criteria criteria = example.createCriteria();
+		criteria.andCardIdEqualTo(cardId);//根据卡号查
+		criteria.andPtIdEqualTo(pt_id);// 根据身份证查
+		criteria.andStateEqualTo(1);// 根据有效状态查
+
+		List<OpCard> tempOpCards = (List<OpCard>) opCardMapper.selectByExample(example);
+		System.out.println("根据卡号，身份证号查有效就诊卡：" + tempOpCards);
 		return tempOpCards;
 	}
 
