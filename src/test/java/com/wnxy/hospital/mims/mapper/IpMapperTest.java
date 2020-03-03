@@ -44,7 +44,7 @@ public class IpMapperTest {
 	@Test
 	public void text01() {
 		IpWardMapper ward = (IpWardMapper)ac.getBean("ipWardMapper");
-		IpWard record=new IpWard("001", "病房1");
+		IpWard record=new IpWard("002", "病房2");
 		ward.insert(record);
 	}
 	
@@ -63,7 +63,7 @@ public class IpMapperTest {
 	@Test
 	public void text03() {
 		OfficeMapper officeMapper = (OfficeMapper) ac.getBean("officeMapper");
-		Office office = new Office("1", "住院部");
+		Office office = new Office("2", "门诊部");
 		officeMapper.insert(office);
 	}
 	
