@@ -98,10 +98,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.OpCard" >
-    insert into op_card (card_id, pt_id, state
-      )
-    values (#{cardId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}
-      )
+    insert into op_card (card_id, pt_id, state) values (#{cardId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.OpCard" >
     insert into op_card
