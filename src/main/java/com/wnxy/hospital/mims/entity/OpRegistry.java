@@ -1,7 +1,6 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,10 @@ public class OpRegistry {
     private Integer state;
 
     private Date date;
+
+    private Float regprice;
+
+    private String empId;
 
     public String getRsId() {
         return rsId;
@@ -57,5 +60,21 @@ public class OpRegistry {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Float getRegprice() {
+        return regprice;
+    }
+
+    public void setRegprice(Float regprice) {
+        this.regprice = regprice;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId == null ? null : empId.trim();
     }
 }
