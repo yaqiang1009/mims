@@ -15,6 +15,8 @@ public class Damages {
     private String damageReason;
 
     private String medicineId;
+    
+    private PhMedicines phMedicines;
 
     private Integer status;
 
