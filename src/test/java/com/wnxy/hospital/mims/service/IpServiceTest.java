@@ -178,6 +178,15 @@ public class IpServiceTest {
 		IpDrugDetailMapper ipDrugDetailMapper =(IpDrugDetailMapper) ac.getBean("ipDrugDetailMapper");
 		ipDrugDetailMapper.deleteByDrugId("1");
 	}
+	
+	//查询指定医生医疗单测试
+	@Test
+	public void selectAllRemedyText() {
+		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		List<IpRemedy> allRemedy = ip_RemedyService.selectAllRemedy("11822dc20ca643f0ad602e8fecd57c21");
+		System.out.println(allRemedy);
+	}
+	
 	/*
 	 * //药单详情订单获取总价Service
 	 * 

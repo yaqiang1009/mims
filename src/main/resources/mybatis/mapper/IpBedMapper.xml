@@ -92,10 +92,10 @@
     from ip_bed
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
-      and bed_id not in(select bed_id from ip_remedy where remedy_status='住院中') 
+      and bed_id not in(select bed_id from ip_remedy where remedy_status!='已出院') 
     </if>
     <if test="_parameter == null" >
-      where bed_id not in(select bed_id from ip_remedy where remedy_status='住院中') 
+      where bed_id not in(select bed_id from ip_remedy where remedy_status!='已出院') 
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}

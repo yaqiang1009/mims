@@ -56,10 +56,24 @@ $(function(){
 		}
 	});
 });
+function check(){
+	if($("#empId").val()=="0"){
+		alert("请选择主治医生");
+		return false;
+	}else if($("#wardId").val()=="0"){
+		alert("请选择病房");
+		return false;
+	}else if($("#bedId").val()=="0"){
+		alert("请选择床位");
+		return false;
+	}else{
+		return true;
+	}
+}
 </script>
 </head>
 <body>
-<form role="form" th:action="@{/Hos_pass_sub}" method="post">
+<form onsubmit="return check()" role="form" th:action="@{/Hos_pass_sub}" method="post">
 <table id="maintable" class="table table-bordered">
 	<caption>生成医疗单</caption>
 	<thead>
