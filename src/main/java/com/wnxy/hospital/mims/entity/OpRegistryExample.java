@@ -461,6 +461,136 @@ public class OpRegistryExample {
             addCriterionForJDBCDate("date not between", value1, value2, "date");
             return (Criteria) this;
         }
+
+        public Criteria andRegpriceIsNull() {
+            addCriterion("regprice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceIsNotNull() {
+            addCriterion("regprice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceEqualTo(Float value) {
+            addCriterion("regprice =", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceNotEqualTo(Float value) {
+            addCriterion("regprice <>", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceGreaterThan(Float value) {
+            addCriterion("regprice >", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceGreaterThanOrEqualTo(Float value) {
+            addCriterion("regprice >=", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceLessThan(Float value) {
+            addCriterion("regprice <", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceLessThanOrEqualTo(Float value) {
+            addCriterion("regprice <=", value, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceIn(List<Float> values) {
+            addCriterion("regprice in", values, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceNotIn(List<Float> values) {
+            addCriterion("regprice not in", values, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceBetween(Float value1, Float value2) {
+            addCriterion("regprice between", value1, value2, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegpriceNotBetween(Float value1, Float value2) {
+            addCriterion("regprice not between", value1, value2, "regprice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdIsNull() {
+            addCriterion("emp_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdIsNotNull() {
+            addCriterion("emp_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdEqualTo(String value) {
+            addCriterion("emp_id =", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdNotEqualTo(String value) {
+            addCriterion("emp_id <>", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdGreaterThan(String value) {
+            addCriterion("emp_id >", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdGreaterThanOrEqualTo(String value) {
+            addCriterion("emp_id >=", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdLessThan(String value) {
+            addCriterion("emp_id <", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdLessThanOrEqualTo(String value) {
+            addCriterion("emp_id <=", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdLike(String value) {
+            addCriterion("emp_id like", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdNotLike(String value) {
+            addCriterion("emp_id not like", value, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdIn(List<String> values) {
+            addCriterion("emp_id in", values, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdNotIn(List<String> values) {
+            addCriterion("emp_id not in", values, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdBetween(String value1, String value2) {
+            addCriterion("emp_id between", value1, value2, "empId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmpIdNotBetween(String value1, String value2) {
+            addCriterion("emp_id not between", value1, value2, "empId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

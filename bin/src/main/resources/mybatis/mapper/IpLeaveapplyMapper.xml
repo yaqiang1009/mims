@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.IpLeaveapplyMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.IpLeaveapply" >
+    <id column="apply_id" property="applyId" jdbcType="VARCHAR" />
+    <result column="remedy_id" property="remedyId" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="illness" property="illness" jdbcType="VARCHAR" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="apply_date" property="applyDate" jdbcType="DATE" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="audit_date" property="auditDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    apply_id, remedy_id, emp_id, illness, cause, apply_date, result, Remarks, audit_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_leaveapply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_leaveapply
+    where apply_id = #{applyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ip_leaveapply
+    where apply_id = #{applyId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapplyExample" >
+    delete from ip_leaveapply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapply" >
+    insert into ip_leaveapply (apply_id, remedy_id, emp_id, 
+      illness, cause, apply_date, 
+      result, Remarks, audit_date
+      )
+    values (#{applyId,jdbcType=VARCHAR}, #{remedyId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
+      #{illness,jdbcType=VARCHAR}, #{cause,jdbcType=VARCHAR}, #{applyDate,jdbcType=DATE}, 
+      #{result,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{auditDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapply" >
+    insert into ip_leaveapply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applyId != null" >
+        apply_id,
+      </if>
+      <if test="remedyId != null" >
+        remedy_id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="illness != null" >
+        illness,
+      </if>
+      <if test="cause != null" >
+        cause,
+      </if>
+      <if test="applyDate != null" >
+        apply_date,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="remarks != null" >
+        Remarks,
+      </if>
+      <if test="auditDate != null" >
+        audit_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applyId != null" >
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="remedyId != null" >
+        #{remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null" >
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapplyExample" resultType="java.lang.Integer" >
+    select count(*) from ip_leaveapply
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ip_leaveapply
+    <set >
+      <if test="record.applyId != null" >
+        apply_id = #{record.applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remedyId != null" >
+        remedy_id = #{record.remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empId != null" >
+        emp_id = #{record.empId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.illness != null" >
+        illness = #{record.illness,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cause != null" >
+        cause = #{record.cause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyDate != null" >
+        apply_date = #{record.applyDate,jdbcType=DATE},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        Remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditDate != null" >
+        audit_date = #{record.auditDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ip_leaveapply
+    set apply_id = #{record.applyId,jdbcType=VARCHAR},
+      remedy_id = #{record.remedyId,jdbcType=VARCHAR},
+      emp_id = #{record.empId,jdbcType=VARCHAR},
+      illness = #{record.illness,jdbcType=VARCHAR},
+      cause = #{record.cause,jdbcType=VARCHAR},
+      apply_date = #{record.applyDate,jdbcType=DATE},
+      result = #{record.result,jdbcType=VARCHAR},
+      Remarks = #{record.remarks,jdbcType=VARCHAR},
+      audit_date = #{record.auditDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapply" >
+    update ip_leaveapply
+    <set >
+      <if test="remedyId != null" >
+        remedy_id = #{remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        illness = #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null" >
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null" >
+        apply_date = #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        Remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        audit_date = #{auditDate,jdbcType=DATE},
+      </if>
+    </set>
+    where apply_id = #{applyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpLeaveapply" >
+    update ip_leaveapply
+    set remedy_id = #{remedyId,jdbcType=VARCHAR},
+      emp_id = #{empId,jdbcType=VARCHAR},
+      illness = #{illness,jdbcType=VARCHAR},
+      cause = #{cause,jdbcType=VARCHAR},
+      apply_date = #{applyDate,jdbcType=DATE},
+      result = #{result,jdbcType=VARCHAR},
+      Remarks = #{remarks,jdbcType=VARCHAR},
+      audit_date = #{auditDate,jdbcType=DATE}
+    where apply_id = #{applyId,jdbcType=VARCHAR}
+  </update>
+</mapper>
