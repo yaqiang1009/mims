@@ -36,7 +36,7 @@ public class Ip_DrugDetailServiceImpl implements Ip_DrugDetailService{
 		for(IpDrugDetail ipDrugDetail:ipDrugDetails) {
 			//详情主键生成
 			ipDrugDetail.setDetailId(ipDrugDetail.getDetailId());
-			//药单id为同一个，参数传进来
+			//药单id相同，参数传进来
 			ipDrugDetail.setDrugId(drugId);
 			//插入数据
 			ipDrugDetailMapper.insert(ipDrugDetail);
