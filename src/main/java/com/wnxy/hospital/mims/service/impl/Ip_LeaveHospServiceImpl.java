@@ -19,9 +19,9 @@ import com.wnxy.hospital.mims.mapper.IpLeaveapplyMapper;
 import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
-import com.wnxy.hospital.mims.service.leavehospService;
+import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
 @Component
-public class leavehospServiceImpl implements leavehospService{
+public class Ip_LeaveHospServiceImpl implements Ip_LeaveHospService{
 	@Autowired
 	private IpLeaveapplyMapper ipLeaveapplyMapper;
 	@Autowired

@@ -24,7 +24,7 @@ import com.wnxy.hospital.mims.service.Ip_RemedyService;
 import com.wnxy.hospital.mims.service.Ip_bedService;
 import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
-import com.wnxy.hospital.mims.service.leavehospService;
+import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
 import com.wnxy.hospital.mims.service.impl.Ip_HosOrderServiceImpl;
 
 import lombok.Setter;
@@ -122,7 +122,7 @@ public class IpController {
 	@RequestMapping("/leaveHospOrder")
 	public String leaveHospOrder(Model model) {
 		//获取对象，调方法
-		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		List<IpLeaveapply> IpLeaveapplys = ieavehospService.selectAllLeave();
 		model.addAttribute("IpLeaveapplys",IpLeaveapplys);
 		return "ip_leavehosp";
@@ -131,7 +131,7 @@ public class IpController {
 	@RequestMapping("/leave/pass/{id}")
 	public String leavePass(@PathVariable("id") String id) {
 		//修改订单状态
-		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		ieavehospService.leavePass(id);
 		return "redirect:/leaveHospOrder";
 	}
@@ -139,7 +139,7 @@ public class IpController {
 	@RequestMapping("/leave/reject/{id}")
 	public String leaveReject(@PathVariable("id") String id,Model model) {
 		//检索指定出院单
-		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		IpLeaveapply leaveHosp = ieavehospService.selectLeave(id);
 		model.addAttribute("leaveHosp", leaveHosp);
 		return "ip_leavehosp_reject";
@@ -148,7 +148,7 @@ public class IpController {
 	@RequestMapping("/leave_reject_sub")
 	public String leaveRejectSub(String id,String remarks,Model model) {
 		//检索指定出院单
-		leavehospService ieavehospService = (leavehospService)ac.getBean("leavehospServiceImpl");
+		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		ieavehospService.leaveReject(id, remarks);
 		return "redirect:/leaveHospOrder";
 	}

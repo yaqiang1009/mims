@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.wnxy.hospital.mims.entity.IpLeaveapply;
 
-public interface leavehospService {
+public interface Ip_LeaveHospService {
 List<IpLeaveapply> selectAllLeave();
 void leavePass(String id);
 IpLeaveapply selectLeave(String hosid);
