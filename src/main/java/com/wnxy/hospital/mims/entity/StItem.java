@@ -11,9 +11,9 @@ public class StItem {
     private String itemId;
 
     private String stockId;
-
+    private Stock stock;
     private String medicineId;
-
+    private StMedicines medicines;
     private Integer medicineNum;
 
     public String getItemId() {

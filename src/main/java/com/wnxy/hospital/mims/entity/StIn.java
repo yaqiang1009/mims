@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StIn {
     private String inId;
-
+    
     private String supplierId;
-
+    private Supplier supplier;
     private String itemId;
-
+    private StItem item;
     private Date time;
 
     public String getInId() {

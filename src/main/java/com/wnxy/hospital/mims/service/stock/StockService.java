@@ -9,9 +9,11 @@ import com.wnxy.hospital.mims.entity.StOut;
 import com.wnxy.hospital.mims.entity.Stock;
 
 public interface StockService {
-	void insertStock(StIn stIn,StItem stItem);
-	void lessStock(StOut stOut,StItem stItem);
-	void frmLoss(Damages damages);
+	void insertStock(Stock stock);
+	void lessStock(Stock stock);
+	void addStock(Stock stock);
+	
 	List<Stock> selectAllStock();
+	Stock selectById(String id);
 	
 }
