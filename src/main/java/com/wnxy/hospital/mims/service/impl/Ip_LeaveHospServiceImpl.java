@@ -77,7 +77,7 @@ public class Ip_LeaveHospServiceImpl implements Ip_LeaveHospService{
 			e.printStackTrace();
 		}
 	}
-	//检索指定出院单
+	//检索指定医疗单
 	@Override
 	public IpLeaveapply selectLeave(String hosid) {
 		try {
