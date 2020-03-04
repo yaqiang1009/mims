@@ -2,16 +2,15 @@ package com.wnxy.hospital.mims.service.ip.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.wnxy.hospital.mims.entity.IpHospitalized;
-import com.wnxy.hospital.mims.entity.IpHospitalizedExample;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpIllnessExample;
+import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.mapper.IpIllnessMapper;
+import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
 import com.wnxy.hospital.mims.service.ip.Ip_IllnessService;
 /**
  * 住院就诊病情单相关
@@ -22,15 +21,19 @@ import com.wnxy.hospital.mims.service.ip.Ip_IllnessService;
 public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 	@Autowired
 	IpIllnessMapper ipIllnessMapper;
+	@Autowired
+	IpRemedyMapper ipRemedyMapper;
 	
 	//开具病情单
 	@Override
-	public String addIllnessOrder(IpIllness ipIllness) {
+	public String addIllnessOrder(IpIllness ipIllness,String remedyId) {
 		//接收页面传的对象
 		//生成主键
 		ipIllness.setIllnessId(ipIllness.getIllnessId());
 		//插入时日期
 		ipIllness.setIllnessDate(new Date());
+		//外键id
+		ipIllness.setRemedyId(remedyId);
 		try {
 			ipIllnessMapper.insert(ipIllness);
 			return "插入成功";
@@ -64,6 +67,11 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 	public List<IpIllness> selectIpIllnessByExample(IpIllnessExample example) {
 		try {
 			List<IpIllness> list = ipIllnessMapper.selectByExample(example);
+			for(IpIllness ipIllness:list) {
+				//医疗单对象
+				IpRemedy remedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
+				ipIllness.setIpRemedy(remedy);
+			}
 			return list;
 		} catch (Exception e) {
 			// 异常处理

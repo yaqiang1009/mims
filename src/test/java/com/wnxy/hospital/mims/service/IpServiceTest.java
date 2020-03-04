@@ -1,5 +1,6 @@
 package com.wnxy.hospital.mims.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
+import com.wnxy.hospital.mims.entity.IpDrug;
+import com.wnxy.hospital.mims.entity.IpDrugDetail;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpIllnessExample;
@@ -23,6 +26,7 @@ import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.mapper.EmpMapper;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
+import com.wnxy.hospital.mims.mapper.IpDrugDetailMapper;
 import com.wnxy.hospital.mims.mapper.IpHospitalizedMapper;
 import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
 import com.wnxy.hospital.mims.mapper.IpWardMapper;
@@ -30,6 +34,8 @@ import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugDetailServiceImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_IllnessServiceImpl;
 
 import lombok.extern.log4j.Log4j;
@@ -104,12 +110,10 @@ public class IpServiceTest {
 	public void ip_IllnessServiceImplText01() {
 		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
 		IpIllness ipIllness= new IpIllness();
-		ipIllness.setIllness("病的不清");
-		ipIllness.setCaution("吃药");
-		ipIllness.setRemedyId("66e33789f0a84e7985ce748015e4b5df");
-		ip_IllnessServiceImpl.addIllnessOrder(ipIllness);
+		ipIllness.setIllness("好了");
+		ipIllness.setCaution("不吃");
+		ip_IllnessServiceImpl.addIllnessOrder(ipIllness,"66e33789f0a84e7985ce748015e4b5df");
 	}
-	
 	//修改病情订单service
 	@Test
 	public void ip_IllnessServiceImplText02() {
@@ -121,16 +125,90 @@ public class IpServiceTest {
 		String updateIllnessOrder = ip_IllnessServiceImpl.updateIllnessOrder(ipIllness);
 		System.out.println(updateIllnessOrder);
 	}
-	
 	//查询所有病情订单service，不带条件
 	@Test
 	public void ip_IllnessServiceImplText03() {
 		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
 		IpIllnessExample example= new IpIllnessExample();
+		//可以添加条件
+		example.createCriteria().andCautionLike("%不%");
 		List<IpIllness> list = ip_IllnessServiceImpl.selectIpIllnessByExample(example);
 		for(IpIllness ipIllness : list) {
 			System.out.println(ipIllness);
 		}
-
+	}
+	
+	//添加药单详情订单service
+	@Test
+	public void Ip_DrugDetailServiceImplText01() {
+		Ip_DrugDetailServiceImpl ip_DrugDetailServiceImpl = (Ip_DrugDetailServiceImpl) ac.getBean("ip_DrugDetailServiceImpl");
+		IpDrugDetail i1 =new IpDrugDetail();
+		IpDrugDetail i2 =new IpDrugDetail();
+		IpDrugDetail i3 =new IpDrugDetail();
+		i1.setDrugNum(2);
+		i1.setMedicineId("1");
+		i1.setPrice(12.0);
+		i1.setUseInstructions("一日一次");
+		i2.setDrugNum(4);
+		i2.setMedicineId("2");
+		i2.setPrice(24.0);
+		i2.setUseInstructions("一日二次");
+		i3.setDrugNum(6);
+		i3.setMedicineId("3");
+		i3.setPrice(6.0);
+		i3.setUseInstructions("一日三次");
+		List<IpDrugDetail> ipDrugDetails= new ArrayList<IpDrugDetail>();
+		ipDrugDetails.add(i1);
+		ipDrugDetails.add(i2);
+		ipDrugDetails.add(i3);
+		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "2");
+	}
+	//查询药单详情订单service
+	@Test
+	public void Ip_DrugDetailServiceImplText02() {
+		Ip_DrugDetailServiceImpl ip_DrugDetailServiceImpl = (Ip_DrugDetailServiceImpl) ac.getBean("ip_DrugDetailServiceImpl");
+		List<IpDrugDetail> lists = ip_DrugDetailServiceImpl.selectAllDrugDetailsByDrugId("2");
+		for(IpDrugDetail ipDrugDetail:lists) {
+			System.out.println(ipDrugDetail);
+		}
+	}
+	//删除整张药单详情订单dao
+	@Test
+	public void Ip_DrugDetailDaoText03() {
+		IpDrugDetailMapper ipDrugDetailMapper =(IpDrugDetailMapper) ac.getBean("ipDrugDetailMapper");
+		ipDrugDetailMapper.deleteByDrugId("1");
+	}
+	/*
+	 * //药单详情订单获取总价Service
+	 * 
+	 * @Test public void Ip_DrugDetailServiceImplText04() { Ip_DrugDetailServiceImpl
+	 * ip_DrugDetailServiceImpl = (Ip_DrugDetailServiceImpl)
+	 * ac.getBean("ip_DrugDetailServiceImpl"); Double priceTotal =
+	 * ip_DrugDetailServiceImpl.getPriceTotal("2"); System.out.println(priceTotal);
+	 * }
+	 */
+	
+	/*
+	 * //修改药单总价Service
+	 * 
+	 * @Test public void Ip_DrugServiceImplText01() { Ip_DrugServiceImpl
+	 * ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
+	 * ip_DrugServiceImpl.updateDrugTotalPriceTotal("1", 111.0); }
+	 */
+	
+	//添加药单订单service
+	@Test
+	public void Ip_DrugServiceImplText01() {
+		Ip_DrugServiceImpl ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
+		IpDrug ipDrug=new IpDrug();
+		ip_DrugServiceImpl.addDrugOrder(ipDrug, "858508a5d25f427491381992b9e26781");
+	}
+	//作废药单订单service
+	@Test
+	public void Ip_DrugServiceImplText02() {
+		Ip_DrugServiceImpl ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
+		IpDrug ipDrug=new IpDrug();
+		ipDrug.setDrugId("3");
+		ip_DrugServiceImpl.updateDrugStatus(ipDrug);
 	}
 }
