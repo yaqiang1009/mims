@@ -17,6 +17,8 @@ public interface IpIllnessMapper {
     int insertSelective(IpIllness record);
 
     List<IpIllness> selectByExample(IpIllnessExample example);
+    
+    List<IpIllness> selectByRemedyId(String remedyId);
 
     IpIllness selectByPrimaryKey(String illnessId);
 

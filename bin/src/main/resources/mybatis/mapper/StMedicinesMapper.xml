@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wnxy.hospital.mims.mapper.StMedicinesMapper">
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.StMedicines">
+    <id column="medicine_id" jdbcType="VARCHAR" property="medicineId" />
+    <result column="medicine_name" jdbcType="VARCHAR" property="medicineName" />
+    <result column="medicine_type" jdbcType="CHAR" property="medicineType" />
+    <result column="supplier_id" jdbcType="VARCHAR" property="supplierId" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="produce_date" jdbcType="DATE" property="produceDate" />
+    <result column="useful_date" jdbcType="DATE" property="usefulDate" />
+    <result column="contain" jdbcType="VARCHAR" property="contain" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="class_id" jdbcType="VARCHAR" property="classId" />
+    <result column="disable_date" jdbcType="DATE" property="disableDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    medicine_id, medicine_name, medicine_type, supplier_id, price, batch_no, produce_date, 
+    useful_date, contain, number, class_id, disable_date
+  </sql>
+  <select id="selectByExample" parameterType="com.wnxy.hospital.mims.entity.StMedicinesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from st_medicines
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from st_medicines
+    where medicine_id = #{medicineId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from st_medicines
+    where medicine_id = #{medicineId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.StMedicinesExample">
+    delete from st_medicines
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.StMedicines">
+    insert into st_medicines (medicine_id, medicine_name, medicine_type, 
+      supplier_id, price, batch_no, 
+      produce_date, useful_date, contain, 
+      number, class_id, disable_date
+      )
+    values (#{medicineId,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, #{medicineType,jdbcType=CHAR}, 
+      #{supplierId,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{batchNo,jdbcType=VARCHAR}, 
+      #{produceDate,jdbcType=DATE}, #{usefulDate,jdbcType=DATE}, #{contain,jdbcType=VARCHAR}, 
+      #{number,jdbcType=INTEGER}, #{classId,jdbcType=VARCHAR}, #{disableDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.StMedicines">
+    insert into st_medicines
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="medicineId != null">
+        medicine_id,
+      </if>
+      <if test="medicineName != null">
+        medicine_name,
+      </if>
+      <if test="medicineType != null">
+        medicine_type,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="produceDate != null">
+        produce_date,
+      </if>
+      <if test="usefulDate != null">
+        useful_date,
+      </if>
+      <if test="contain != null">
+        contain,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="disableDate != null">
+        disable_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="medicineId != null">
+        #{medicineId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null">
+        #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineType != null">
+        #{medicineType,jdbcType=CHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="produceDate != null">
+        #{produceDate,jdbcType=DATE},
+      </if>
+      <if test="usefulDate != null">
+        #{usefulDate,jdbcType=DATE},
+      </if>
+      <if test="contain != null">
+        #{contain,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="disableDate != null">
+        #{disableDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.StMedicinesExample" resultType="java.lang.Integer">
+    select count(*) from st_medicines
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update st_medicines
+    <set>
+      <if test="record.medicineId != null">
+        medicine_id = #{record.medicineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicineName != null">
+        medicine_name = #{record.medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicineType != null">
+        medicine_type = #{record.medicineType,jdbcType=CHAR},
+      </if>
+      <if test="record.supplierId != null">
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.produceDate != null">
+        produce_date = #{record.produceDate,jdbcType=DATE},
+      </if>
+      <if test="record.usefulDate != null">
+        useful_date = #{record.usefulDate,jdbcType=DATE},
+      </if>
+      <if test="record.contain != null">
+        contain = #{record.contain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.disableDate != null">
+        disable_date = #{record.disableDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update st_medicines
+    set medicine_id = #{record.medicineId,jdbcType=VARCHAR},
+      medicine_name = #{record.medicineName,jdbcType=VARCHAR},
+      medicine_type = #{record.medicineType,jdbcType=CHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      produce_date = #{record.produceDate,jdbcType=DATE},
+      useful_date = #{record.usefulDate,jdbcType=DATE},
+      contain = #{record.contain,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=INTEGER},
+      class_id = #{record.classId,jdbcType=VARCHAR},
+      disable_date = #{record.disableDate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.StMedicines">
+    update st_medicines
+    <set>
+      <if test="medicineName != null">
+        medicine_name = #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineType != null">
+        medicine_type = #{medicineType,jdbcType=CHAR},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="produceDate != null">
+        produce_date = #{produceDate,jdbcType=DATE},
+      </if>
+      <if test="usefulDate != null">
+        useful_date = #{usefulDate,jdbcType=DATE},
+      </if>
+      <if test="contain != null">
+        contain = #{contain,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="disableDate != null">
+        disable_date = #{disableDate,jdbcType=DATE},
+      </if>
+    </set>
+    where medicine_id = #{medicineId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.StMedicines">
+    update st_medicines
+    set medicine_name = #{medicineName,jdbcType=VARCHAR},
+      medicine_type = #{medicineType,jdbcType=CHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      produce_date = #{produceDate,jdbcType=DATE},
+      useful_date = #{usefulDate,jdbcType=DATE},
+      contain = #{contain,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=VARCHAR},
+      disable_date = #{disableDate,jdbcType=DATE}
+    where medicine_id = #{medicineId,jdbcType=VARCHAR}
+  </update>
+</mapper>

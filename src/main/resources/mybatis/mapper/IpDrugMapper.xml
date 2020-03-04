@@ -208,4 +208,5 @@
       drug_date = #{drugDate,jdbcType=DATE}
     where drug_id = #{drugId,jdbcType=VARCHAR}
   </update>
+  
 </mapper>

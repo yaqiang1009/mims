@@ -4,25 +4,81 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>住院申请</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <style type="text/css">
 body{
-padding: 10px;
+padding: 15px;
 }
 .th1,.th3{
-min-width: 100px;
+min-width: 150px;
 }
-td,th{
+#maintable td,#maintable th{
 text-align: center;
+vertical-align: middle;
+}
+.form-group{
+margin: 0px;
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	/* 异步请求科室 */
+	$("#empId").change(function(){
+		if($("#empId").val()!=0){
+	 		$.post(
+				'[[@{/emp_dep}]]',	
+				{empid:$("#empId").val()},
+				function(data){
+					$("#emp_dep").html(data.opDep.depName);
+				}
+			); 
+		}else{
+			$("#emp_dep").html("");
+		}
+	});
+	
+	/* 异步请求床位 */
+	$("#wardId").change(function(){
+		if($("#wardId").val()!=0){
+	 		$.post(
+				'[[@{/word_bed}]]',	
+				{wardId:$("#wardId").val()},
+				function(data){
+					var htm='<option value="0">请选择床位</option>';
+					$.each(data,function(){
+ 						htm=htm+'<option value="'+this.bedId+'">'+this.bedNum+'</option>'
+					})
+					$("#bedId").html(htm); 
+				}
+			); 
+		}else{
+			$("#bed").html("<option value='0'>请选择床位</option>");
+		}
+	});
+});
+function check(){
+	if($("#empId").val()=="0"){
+		alert("请选择主治医生");
+		return false;
+	}else if($("#wardId").val()=="0"){
+		alert("请选择病房");
+		return false;
+	}else if($("#bedId").val()=="0"){
+		alert("请选择床位");
+		return false;
+	}else{
+		return true;
+	}
+}
+</script>
 </head>
 <body>
-<form role="form" th:action="@{/Hos_pass_sub}" method="post">
-<table class="table table-bordered">
-	<caption>入院审核</caption>
+<form onsubmit="return check()" role="form" th:action="@{/Hos_pass_sub}" method="post">
+<table id="maintable" class="table table-bordered">
+	<caption>生成医疗单</caption>
 	<thead>
 		<tr>
-			<th class="th1">订单编号：</th>
+			<th class="th1">住院订单编号：</th>
 			<th class="th2">[[${ipHospitalized.hospitalizedId}]]</th>
 			<th class="th3">申请日期：</th>
 			<th class="th4">[[${#dates.format(ipHospitalized.orderDate,"yyyy-MM-dd")}]]</th>
@@ -30,7 +86,7 @@ text-align: center;
 	</thead>
 	<tbody>
 		<tr>
-			<td  colspan="4">病人信息</td>
+			<td  colspan="4"><label for="name">病人信息</label></td>
 		</tr>
 		<tr>
 			<td>姓名：</td>
@@ -44,34 +100,39 @@ text-align: center;
 			<td>联系方式：</td>
 			<td>[[${ipHospitalized.ptentity.phone}]]</td>
 		</tr>
-				<tr>
-			<td  colspan="4">推荐医生信息</td>
+		
+		<tr>
+			<td  colspan="4"><label for="name">医疗单信息</label></td>
 		</tr>
 		<tr>
-			<td>姓名：</td>
-			<td>[[${ipHospitalized.empentity.empName}]]</td>
-			<td>所属科室</td>
-			<td>[[${ipHospitalized.empentity.opDep.depName}]]</td>
-		</tr>
-		<tr>
-			<td>联系方式：</td>
-			<td>[[${ipHospitalized.empentity.empPhoto}]]</td>
-			<td>员工编号：</td>
-			<td>[[${ipHospitalized.empentity.empId}]]</td>
-		</tr>
-		<tr>
-			<td>病情简介：</td>
-			<td  colspan="3">[[${ipHospitalized.illness}]]</td>
-		</tr>
-		<tr>
-			<td>审核结果：</td>
-			<td  colspan="3">未通过</td>
-		</tr>
-		<tr>
-			<td  colspan="4">
+			<td>主治医生：</td>
+			<td>
 				<div class="form-group">
-					<label for="name">原因</label>
-					<textarea name="remarks" class="form-control" rows="3"></textarea>
+					<select id="empId" name="empId" class="form-control">
+						<option value="0">请选择主治医生</option>
+						<option th:value="${emp.empId}" th:each="emp:${emps}">[[${emp.empName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td>所属科室</td>
+			<td id="emp_dep"></td>
+		</tr>
+		<tr>
+			<td>病房：</td>
+			<td>
+				<div class="form-group">
+					<select id="wardId" name="wardId" class="form-control">
+						<option value="0">请选择病房</option>
+						<option th:value="${ward.wardId}" th:each="ward:${wards}">[[${ward.wardName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td>床位：</td>
+			<td id="bed">
+				<div class="form-group">
+					<select id="bedId" name="bedId" class="form-control">
+						<option value="0">请选择床位</option>
+					</select>
 				</div>
 			</td>
 		</tr>
@@ -82,6 +143,6 @@ text-align: center;
 </form>
 
 </body>
-<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </html>

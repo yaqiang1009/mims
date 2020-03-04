@@ -11,6 +11,8 @@ public interface IpDrugDetailMapper {
     int deleteByExample(IpDrugDetailExample example);
 
     int deleteByPrimaryKey(String detailId);
+    
+    int deleteByDrugId(String drugId);
 
     int insert(IpDrugDetail record);
 
@@ -19,6 +21,8 @@ public interface IpDrugDetailMapper {
     List<IpDrugDetail> selectByExample(IpDrugDetailExample example);
 
     IpDrugDetail selectByPrimaryKey(String detailId);
+    
+    List<IpDrugDetail> selectByDrugId(String drugId);
 
     int updateByExampleSelective(@Param("record") IpDrugDetail record, @Param("example") IpDrugDetailExample example);
 

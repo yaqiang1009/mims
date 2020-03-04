@@ -90,6 +90,12 @@
     from ip_drug_detail
     where detail_id = #{detailId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByDrugId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_drug_detail
+    where drug_id = #{drugId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ip_drug_detail
     where detail_id = #{detailId,jdbcType=VARCHAR}
@@ -99,6 +105,10 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
+  </delete>
+  <delete id="deleteByDrugId" parameterType="java.lang.String" >
+    delete from ip_drug_detail
+    where drug_id = #{drugId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpDrugDetail" >
     insert into ip_drug_detail (detail_id, drug_id, medicine_id, 

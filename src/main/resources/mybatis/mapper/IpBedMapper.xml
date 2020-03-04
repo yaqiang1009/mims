@@ -67,6 +67,7 @@
   <sql id="Base_Column_List" >
     bed_id, ward_id, bed_num
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" >
     select
     <if test="distinct" >
@@ -81,6 +82,26 @@
       order by ${orderByClause}
     </if>
   </select>
+  <!-- 空闲床位查询 -->
+  <select id="selectLeByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpBedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_bed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and bed_id not in(select bed_id from ip_remedy where remedy_status!='已出院') 
+    </if>
+    <if test="_parameter == null" >
+      where bed_id not in(select bed_id from ip_remedy where remedy_status!='已出院') 
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

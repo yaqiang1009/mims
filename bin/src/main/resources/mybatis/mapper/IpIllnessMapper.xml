@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.IpIllnessMapper" >
+  <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.IpIllness" >
+    <id column="illness_id" property="illnessId" jdbcType="VARCHAR" />
+    <result column="remedy_id" property="remedyId" jdbcType="VARCHAR" />
+    <result column="illness" property="illness" jdbcType="VARCHAR" />
+    <result column="caution" property="caution" jdbcType="VARCHAR" />
+    <result column="illness_date" property="illnessDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    illness_id, remedy_id, illness, caution, illness_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.IpIllnessExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ip_illness
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_illness
+    where illness_id = #{illnessId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ip_illness
+    where illness_id = #{illnessId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wnxy.hospital.mims.entity.IpIllnessExample" >
+    delete from ip_illness
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.IpIllness" >
+    insert into ip_illness (illness_id, remedy_id, illness, 
+      caution, illness_date)
+    values (#{illnessId,jdbcType=VARCHAR}, #{remedyId,jdbcType=VARCHAR}, #{illness,jdbcType=VARCHAR}, 
+      #{caution,jdbcType=VARCHAR}, #{illnessDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.IpIllness" >
+    insert into ip_illness
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="illnessId != null" >
+        illness_id,
+      </if>
+      <if test="remedyId != null" >
+        remedy_id,
+      </if>
+      <if test="illness != null" >
+        illness,
+      </if>
+      <if test="caution != null" >
+        caution,
+      </if>
+      <if test="illnessDate != null" >
+        illness_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="illnessId != null" >
+        #{illnessId,jdbcType=VARCHAR},
+      </if>
+      <if test="remedyId != null" >
+        #{remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="caution != null" >
+        #{caution,jdbcType=VARCHAR},
+      </if>
+      <if test="illnessDate != null" >
+        #{illnessDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wnxy.hospital.mims.entity.IpIllnessExample" resultType="java.lang.Integer" >
+    select count(*) from ip_illness
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ip_illness
+    <set >
+      <if test="record.illnessId != null" >
+        illness_id = #{record.illnessId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remedyId != null" >
+        remedy_id = #{record.remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.illness != null" >
+        illness = #{record.illness,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caution != null" >
+        caution = #{record.caution,jdbcType=VARCHAR},
+      </if>
+      <if test="record.illnessDate != null" >
+        illness_date = #{record.illnessDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ip_illness
+    set illness_id = #{record.illnessId,jdbcType=VARCHAR},
+      remedy_id = #{record.remedyId,jdbcType=VARCHAR},
+      illness = #{record.illness,jdbcType=VARCHAR},
+      caution = #{record.caution,jdbcType=VARCHAR},
+      illness_date = #{record.illnessDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpIllness" >
+    update ip_illness
+    <set >
+      <if test="remedyId != null" >
+        remedy_id = #{remedyId,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        illness = #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="caution != null" >
+        caution = #{caution,jdbcType=VARCHAR},
+      </if>
+      <if test="illnessDate != null" >
+        illness_date = #{illnessDate,jdbcType=DATE},
+      </if>
+    </set>
+    where illness_id = #{illnessId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpIllness" >
+    update ip_illness
+    set remedy_id = #{remedyId,jdbcType=VARCHAR},
+      illness = #{illness,jdbcType=VARCHAR},
+      caution = #{caution,jdbcType=VARCHAR},
+      illness_date = #{illnessDate,jdbcType=DATE}
+    where illness_id = #{illnessId,jdbcType=VARCHAR}
+  </update>
+</mapper>

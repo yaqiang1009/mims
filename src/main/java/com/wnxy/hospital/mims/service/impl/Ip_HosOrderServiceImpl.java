@@ -1,17 +1,22 @@
 package com.wnxy.hospital.mims.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpHospitalizedExample;
+import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.mapper.EmpMapper;
 import com.wnxy.hospital.mims.mapper.IpHospitalizedMapper;
+import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
@@ -26,6 +31,8 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 	private EmpMapper empMapper;
 	@Autowired
 	private OpDepMapper opDepMapper;
+	@Autowired
+	private IpRemedyMapper ipRemedyMapper;
 	//检索全部住院订单
 	@Override
 	public List<IpHospitalized> selectAllHos() {
@@ -65,6 +72,27 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 	public void updata(IpHospitalized hos) {
 		try {
 			ipHospitalizedMapper.updateByPrimaryKey(hos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("系统维护中");
+		}
+	}
+	@Transactional
+	@Override
+	public void overOrder(String id, String empId, String wardId, String bedId) {
+		try {
+		//修改住院订单状态
+			//查询
+			IpHospitalized ipHospitalized = ipHospitalizedMapper.selectByPrimaryKey(id);
+			String ptId=ipHospitalized.getPtId();
+			//修改信息
+			ipHospitalized.setHosOrder("已住院");
+			//更新数据库
+			ipHospitalizedMapper.updateByPrimaryKey(ipHospitalized);
+		//添加医疗订单
+			String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
+			IpRemedy remedy=new IpRemedy(uuid, id, ipHospitalized, wardId, null, bedId, null, ptId, null, empId, null, new Date(), "住院中");
+			ipRemedyMapper.insert(remedy);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("系统维护中");

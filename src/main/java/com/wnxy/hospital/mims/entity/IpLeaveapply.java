@@ -12,9 +12,11 @@ public class IpLeaveapply {
     private String applyId;
 
     private String remedyId;
-
+    private IpRemedy ipRemedy;
+    
     private String empId;
-
+    private Emp emp;
+    
     private String illness;
 
     private String cause;

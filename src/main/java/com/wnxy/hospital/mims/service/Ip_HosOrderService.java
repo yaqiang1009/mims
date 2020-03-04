@@ -8,4 +8,5 @@ public interface Ip_HosOrderService {
 	List<IpHospitalized> selectAllHos();
 	IpHospitalized selectHos(String id);
 	void updata(IpHospitalized hos);
+	void overOrder(String id,String empId,String wardId,String bedId);
 }

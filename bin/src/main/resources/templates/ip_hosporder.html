@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>住院申请</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+height: 60px;
+text-align: center;
+vertical-align: middle;
+}
+.th1,.th2,.th3,.th4{
+min-width: 60px;
+}
+.th5{
+min-width: 300px;
+}
+.th6{
+min-width: 90px;
+}
+.th7{
+min-width: 140px;
+}
+</style>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<table id="main_table" class="table table-bordered">
+	<caption>住院申请信息</caption>
+	<thead>
+		<tr>
+			<th class="th1">病人</th>
+			<th class="th2">性别</th>
+			<th class="th3">年龄</th>
+			<th class="th4">医生</th>
+			<th class="th5">病情简介</th>
+			<th class="th6">申请时间</th>
+			<th class="th7" colspan="2">审核操作</th>
+		</tr>
+	</thead>
+	<tbody>
+ 		<tr th:each="hos:${ipHospitalizeds}">
+			<td>[[${hos.ptentity.ptName}]]</td>
+			<td>[[${hos.ptentity.sex}]]</td>
+			<td>[[${hos.ptentity.age}]]</td>
+			<td>[[${hos.empentity.empName}]]</td>
+			<td>[[${hos.illness}]]</td>
+			<td>[[${#dates.format(hos.orderDate,"yyyy-MM-dd")}]]</td>
+			<td><a th:href="@{/Hos/pass/}+${hos.hospitalizedId}"><button type="button" class="btn btn-primary">通过</button></a></td>
+			<td><a th:href="@{/Hos/reject/}+${hos.hospitalizedId}"><button type="button" class="btn btn-warning">拒绝</button></a></td>
+		</tr> 
+	</tbody>
+</table>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

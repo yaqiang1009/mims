@@ -7,7 +7,8 @@ import com.wnxy.hospital.mims.entity.IpIllnessExample;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 
 public interface Ip_IllnessService {
-	String addIllnessOrder(IpIllness ipIllness);
+	String addIllnessOrder(IpIllness ipIllness,String remedyId);
 	String updateIllnessOrder(IpIllness ipIllness);
-	List<IpIllness> selectIpIllnessByExample(IpIllnessExample example);
+	List<IpIllness> selectAllIpIllnessByRemedyId(String remedyId);
+	IpIllness selectIpIllnessById(String illnessId);
 }
