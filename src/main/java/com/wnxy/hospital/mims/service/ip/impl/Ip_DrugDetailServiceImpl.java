@@ -29,7 +29,7 @@ public class Ip_DrugDetailServiceImpl implements Ip_DrugDetailService{
 	
 	//添加药品详情单,参数应该为一张药单上的所有药品详情
 	//添加事务。注意注意，事务不要加try-catch！！！
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String addDrugDetailOrder(List<IpDrugDetail> ipDrugDetails,String drugId) {
 		//遍历集合，分开插入每条数据
@@ -60,7 +60,7 @@ public class Ip_DrugDetailServiceImpl implements Ip_DrugDetailService{
 		int count = ipDrugMapper.updateByPrimaryKeySelective(ipDrug);
 		//判断是否修改成功
 		if(count==0) {
-			return "插入成功";
+			return "插入失败";
 		}
 		return "插入成功";
 	}

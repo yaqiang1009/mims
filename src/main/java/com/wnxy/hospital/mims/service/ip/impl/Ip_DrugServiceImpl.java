@@ -47,17 +47,60 @@ public class Ip_DrugServiceImpl implements Ip_DrugService{
 
 	//作废药单，即修改药单状态
 	@Override
-	public int updateDrugStatus(IpDrug ipDrug) {
-		//能作废的只有还未取药的订单
-		/*
-		 * IpDrugExample ipDrugExample = new IpDrugExample();
-		 * ipDrugExample.createCriteria().andDrugStatusNotEqualTo("已取药");
-		 * ipDrugExample.createCriteria().andDrugIdEqualTo(drugId);
-		 */
-		ipDrug.setDrugStatus("已取消");
-		int count = ipDrugMapper.updateByPrimaryKeySelective(ipDrug);
-		return count;
+	public String deleteDrugStatus(IpDrug ipDrug) {
+		//先查询修改的药单的状态，能作废的只有还未取药的订单
+		try {
+			IpDrug selectIpDrug = ipDrugMapper.selectByPrimaryKey(ipDrug.getDrugId());
+			if(selectIpDrug.getDrugStatus().equals("已取药")) {
+				throw new RuntimeException("无法对已取药订单操作");
+			}
+			ipDrug.setDrugStatus("已取消");
+			int count = ipDrugMapper.updateByPrimaryKeySelective(ipDrug);
+			if(count==0) {
+				return "作废失败";
+			}
+			return "作废成功";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "作废失败";
+		}
 	}
+
+	//划价成功修改药单状态
+	//药单状态共有：刚生成药单时是待扣费，待取药，欠费，已取消
+	@Override
+	public String updateDrugStatusWithPrice(IpDrug ipDrug,int result) {
+		try {
+			IpDrug selectIpDrug = ipDrugMapper.selectByPrimaryKey(ipDrug.getDrugId());
+			if(selectIpDrug.getDrugStatus().equals("已取消")) {
+				throw new RuntimeException("无法对作废订单操作");
+			}
+			//底层划价方法返回的参数
+			if(result==0) {
+				//扣费操作执行失败
+				ipDrug.setDrugStatus("欠费");
+			}else {
+				//扣费操作执行成功
+				ipDrug.setDrugStatus("待取药");
+			}
+			int count = ipDrugMapper.updateByPrimaryKeySelective(ipDrug);
+			if(count==0) {
+				return "修改失败";
+			}
+			return "修改成功";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "修改失败";
+		}
+	}
+
+	//查询药单详情
+	@Override
+	public IpDrug selectDrugByDrugId(String drugId) {
+		IpDrug selectDrug = ipDrugMapper.selectByPrimaryKey(drugId);
+		return selectDrug;
+	}
+
 
 	/*
 	 * //插入药单总价

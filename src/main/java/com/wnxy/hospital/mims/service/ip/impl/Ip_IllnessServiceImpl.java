@@ -62,11 +62,11 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 		}
 	}
 
-	//查询病情单，可添加条件
+	//查询所有病情单，一张医疗单对应多张病情单
 	@Override
-	public List<IpIllness> selectIpIllnessByExample(IpIllnessExample example) {
+	public List<IpIllness> selectAllIpIllnessByRemedyId(String remedyId) {
 		try {
-			List<IpIllness> list = ipIllnessMapper.selectByExample(example);
+			List<IpIllness> list = ipIllnessMapper.selectByRemedyId(remedyId);
 			for(IpIllness ipIllness:list) {
 				//医疗单对象
 				IpRemedy remedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
@@ -78,6 +78,16 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	//查询单张病情单详情
+	@Override
+	public IpIllness selectIpIllnessById(String illnessId) {
+		IpIllness ipIllness = ipIllnessMapper.selectByPrimaryKey(illnessId);
+		//医疗单对象赋值，多表
+		IpRemedy remedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
+		ipIllness.setIpRemedy(remedy);
+		return ipIllness;
 	}
 
 }
