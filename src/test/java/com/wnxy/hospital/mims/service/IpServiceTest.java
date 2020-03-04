@@ -37,6 +37,7 @@ import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugDetailServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_IllnessServiceImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ph_Ip_OderStatusImpl;
 
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
@@ -125,17 +126,23 @@ public class IpServiceTest {
 		String updateIllnessOrder = ip_IllnessServiceImpl.updateIllnessOrder(ipIllness);
 		System.out.println(updateIllnessOrder);
 	}
-	//查询所有病情订单service，不带条件
+	//查询所有病情订单service
 	@Test
 	public void ip_IllnessServiceImplText03() {
 		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
-		IpIllnessExample example= new IpIllnessExample();
-		//可以添加条件
-		example.createCriteria().andCautionLike("%不%");
-		List<IpIllness> list = ip_IllnessServiceImpl.selectIpIllnessByExample(example);
+		//参数为医疗单id
+		List<IpIllness> list = ip_IllnessServiceImpl.selectAllIpIllnessByRemedyId("66e33789f0a84e7985ce748015e4b5df");
 		for(IpIllness ipIllness : list) {
 			System.out.println(ipIllness);
 		}
+	}
+	//查询病情订单详情service
+	@Test
+	public void ip_IllnessServiceImplText04() {
+		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
+		//参数为医疗单id
+		IpIllness ipIllness = ip_IllnessServiceImpl.selectIpIllnessById("2");
+		System.out.println(ipIllness);
 	}
 	
 	//添加药单详情订单service
@@ -209,7 +216,23 @@ public class IpServiceTest {
 		Ip_DrugServiceImpl ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
 		IpDrug ipDrug=new IpDrug();
 		ipDrug.setDrugId("3");
-		ip_DrugServiceImpl.updateDrugStatus(ipDrug);
+		String msg = ip_DrugServiceImpl.deleteDrugStatus(ipDrug);
+		System.out.println(msg);
 	}
-
+	//修改药单状态测试单模块service
+	@Test
+	public void Ip_DrugServiceImplText03() {
+		Ph_Ip_OderStatusImpl ph_Ip_OderStatusImpl = (Ph_Ip_OderStatusImpl) ac.getBean("ph_Ip_OderStatusImpl");
+		IpDrug ipDrug=new IpDrug();
+		//String msg = ip_DrugServiceImpl.updateDrugStatusWithPrice(ipDrug, 1);
+		String msg = ph_Ip_OderStatusImpl.updateDrugStatusToPh("1");
+		System.out.println(msg);
+	}
+	//查询药单
+	@Test
+	public void Ip_DrugDetailDaoText04() {
+		Ip_DrugServiceImpl ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
+		IpDrug drugId = ip_DrugServiceImpl.selectDrugByDrugId("2");
+		System.out.println(drugId);
+	}
 }
