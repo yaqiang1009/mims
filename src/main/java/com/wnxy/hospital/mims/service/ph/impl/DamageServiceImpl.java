@@ -30,7 +30,7 @@ public class DamageServiceImpl implements DamageService{
 		Damages damage = damagesMapper.selectByPrimaryKey(damageId);
 		//根据报损单的药品编号查询药品信息
 		PhMedicines phMedicines = phMedicinesMapper.selectByPrimaryKey(damage.getMedicineId());
-		damage.setPhMedicines(phMedicines);
+		//damage.setPhMedicines(phMedicines);
 		return damage;
 	}
 	//根据条件查询报损表

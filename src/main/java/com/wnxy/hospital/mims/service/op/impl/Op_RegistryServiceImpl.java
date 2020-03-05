@@ -1,13 +1,15 @@
 package com.wnxy.hospital.mims.service.op.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wnxy.hospital.mims.entity.OpCard;
 import com.wnxy.hospital.mims.entity.OpCardExample;
@@ -16,13 +18,14 @@ import com.wnxy.hospital.mims.entity.OpDoclevel;
 import com.wnxy.hospital.mims.entity.OpDoclevelExample;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.entity.OpRegistry;
+import com.wnxy.hospital.mims.entity.OpRegistryExample;
 import com.wnxy.hospital.mims.mapper.OpCardMapper;
 import com.wnxy.hospital.mims.mapper.OpDoclevelMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.mapper.OpRegistryMapper;
 import com.wnxy.hospital.mims.service.op.Op_RegistryService;
 
-@Component
+@Service
 public class Op_RegistryServiceImpl implements Op_RegistryService {
 	@Autowired
 	OpCardMapper opCardMapper;
@@ -32,11 +35,14 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 	OpRegistryMapper opRegistryMapper;
 	@Autowired
 	OpDoclevelMapper opDoclevelMapper;
+	@Autowired
+	Op_InfoManagementServiceImpl op_InfoManagementServiceImpl;// 调用另一个实现类的方法前要注入对象，否则报空指针
 
 	@Override
 	public void newPatientInfo(OpPatientinfo opPatientinfo) {// 录入病人基本信息
 		try {
 			opPatientinfoMapper.insert(opPatientinfo);
+			System.out.println("病人基本信息录入成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("添加病人信息失败，请勿重复添加");
@@ -66,6 +72,13 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 
 	}
 
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED, rollbackFor = RuntimeException.class)
+	@Override // 病人信息录入、卡表建档必须一起完成，否则回滚
+	public void cardIssuingForPage(OpPatientinfo opPatientinfo) {// 给发卡页面用的，病人基本信息录入，建卡表记录二合一
+		newPatientInfo(opPatientinfo);
+		newCard(opPatientinfo.getPtId());
+	}
+
 	@Override
 	public void rebondCard(OpCard opCard) {// 就诊卡挂失
 
@@ -89,6 +102,14 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 			e.printStackTrace();
 			System.out.println("挂失失败");
 		}
+	}
+
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED, rollbackFor = RuntimeException.class)
+	@Override
+	public void cardRebondForPage(String pt_id) {// 给页面用的就诊卡挂失，只用输入身份证号，查卡号挂失二合一
+		List<OpCard> opCards = queryCardBypt_id(pt_id);
+		rebondCard(opCards.get(0));
+
 	}
 
 	@Override
@@ -164,29 +185,59 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 	}
 
 	@Override
-	public OpRegistry newOpRegistry(String dlId, String empId, String cardId) {
-				
-				List<OpCard> verifyCards = queryCardBycardId(cardId);
-				if (verifyCards.size() == 1) {
+	public OpRegistry newOpRegistry(String empId, String cardId) {// 新建挂号单
+
+		List<OpCard> verifyCards = queryCardBycardId(cardId);// 查就诊卡是否有效
+		// 此处要用到信息管理类的方法，先获取该类对象
+		List<OpDoclevel> opDoclevels = op_InfoManagementServiceImpl.queryOpDoclevelByEmpId(empId);// 根据医生员工号，查收费等级信息
+
+		System.out.println("此处应该有收费信息：" + opDoclevels);
+		try {
+			if (verifyCards.size() == 1 && opDoclevels.size() == 1) {// 患者就诊卡号有效，并且有对应的科室信息
+				List<OpRegistry> opRegistrys = availableOpRegistry(empId, verifyCards.get(0).getPtId(), new Date(), 1);// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
+				if (opRegistrys.size() == 0) {
 					// 挂号单号
 					String rs_Id = UUID.randomUUID().toString().replace("-", "").trim().toString();
 					// 病人身份证号
 					String pt_Id = verifyCards.get(0).getPtId();
 					// 医生等级编号
-					String tempDlId=dlId;
+					String tempDlId = opDoclevels.get(0).getDlId();
 					// 挂号单状态,1待支付
-					Integer state=1;
+					Integer state = 1;
 					// 挂号日期
-					Date date=new Date();
+					Date date = new Date();
 					// 挂号价格
-					
-					//Float regprice=new BigDecimal(val)
-					// 医生员工号private String empId;
-					// opRegistry = new OpRegistry(rs_Id,);
-					// opRegistryMapper.insert(opRegistry);
+					Float regprice = opDoclevels.get(0).getPrice();
+					// 医生员工号empId
+					OpRegistry opRegistry = new OpRegistry(rs_Id, pt_Id, tempDlId, state, date, regprice, empId);
+					opRegistryMapper.insert(opRegistry);
+					System.out.println("挂号成功");
+					return opRegistry;
+				} else {
+					throw new RuntimeException("挂号失败，请勿重复挂号");
 				}
+			} else {
+				throw new RuntimeException("挂号失败，就诊卡无效或科室不存在");
+			}
 
-				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("挂号失败");
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<OpRegistry> availableOpRegistry(String empId, String pt_id, Date date, Integer state) {// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
+		OpRegistryExample example = new OpRegistryExample();
+		com.wnxy.hospital.mims.entity.OpRegistryExample.Criteria criteria = example.createCriteria();
+		criteria.andEmpIdEqualTo(empId);
+		criteria.andPtIdEqualTo(pt_id);
+		criteria.andDateEqualTo(date);
+		criteria.andStateEqualTo(state);
+		return opRegistryMapper.selectByExample(example);
+
 	}
 
 }

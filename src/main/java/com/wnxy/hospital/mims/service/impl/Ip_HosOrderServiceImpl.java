@@ -113,7 +113,7 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 			if(pts.size()==0) {
 				//是新用户，创建押金表
 				String uuid2 = UUID.randomUUID().toString().trim().replaceAll("-", "");
-				IpCashPledge record=new IpCashPledge(uuid2, ptId, 0.0);
+				IpCashPledge record=new IpCashPledge(uuid2, ptId, null, 0.0);
 				ipCashPledgeMapper.insert(record);
 			}
 		} catch (Exception e) {

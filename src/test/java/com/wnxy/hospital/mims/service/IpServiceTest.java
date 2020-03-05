@@ -20,6 +20,7 @@ import com.wnxy.hospital.mims.entity.IpDrugDetail;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpIllnessExample;
+import com.wnxy.hospital.mims.entity.IpLeaveapply;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.Office;
@@ -36,9 +37,11 @@ import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_CashPledgeServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugDetailServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_IllnessServiceImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_LeaveapplyServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ph_Ip_OderStatusImpl;
 
 import lombok.extern.log4j.Log4j;
@@ -154,7 +157,7 @@ public class IpServiceTest {
 		IpDrugDetail i1 =new IpDrugDetail();
 		IpDrugDetail i2 =new IpDrugDetail();
 		IpDrugDetail i3 =new IpDrugDetail();
-		i1.setDrugNum(2);
+		i1.setDrugNum(1);
 		i1.setMedicineId("1");
 		i1.setPrice(12.0);
 		i1.setUseInstructions("一日一次");
@@ -170,7 +173,7 @@ public class IpServiceTest {
 		ipDrugDetails.add(i1);
 		ipDrugDetails.add(i2);
 		ipDrugDetails.add(i3);
-		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "2");
+		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "1");
 	}
 	//查询药单详情订单service
 	@Test
@@ -246,15 +249,25 @@ public class IpServiceTest {
 		IpDrug drugId = ip_DrugServiceImpl.selectDrugByDrugId("2");
 		System.out.println(drugId);
 	}
+	
+	//申请出院单
 	@Test
-	public void Text04() {
-		OpPatientinfoMapper opPatientinfoMapper = (OpPatientinfoMapper) ac.getBean("opPatientinfoMapper");
-		OpPatientinfoExample examplept=new OpPatientinfoExample();
-		String ptName="张";
-		//examplept.createCriteria().andPtNameLike("%%");
-		examplept.createCriteria().andPtNameLike("%%");
-		//查询病人
-		List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(examplept);
-		System.out.println(pts.size());
+	public void Ip_LeaveapplyServiceImplTest01() {
+		Ip_LeaveapplyServiceImpl ip_LeaveapplyServiceImpl = (Ip_LeaveapplyServiceImpl) ac.getBean("ip_LeaveapplyServiceImpl");
+		IpLeaveapply ipLeaveapply= new IpLeaveapply();
+		ipLeaveapply.setEmpId("1");
+		ipLeaveapply.setRemedyId("1");
+		ipLeaveapply.setCause("已痊愈");
+		ipLeaveapply.setIllness("有点病");
+		String msg = ip_LeaveapplyServiceImpl.addLeaveapplyOrder(ipLeaveapply);
+		System.out.println(msg);
+	}
+	
+	//充值押金
+	@Test
+	public void Ip_CashPledgeServiceImplTest01() {
+		Ip_CashPledgeServiceImpl ip_CashPledgeServiceImpl = (Ip_CashPledgeServiceImpl) ac.getBean("ip_CashPledgeServiceImpl");
+		String msg = ip_CashPledgeServiceImpl.changeCashPledgeOrder("2", 200.0);
+		System.out.println(msg);
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wnxy.hospital.mims.mapper.DamagesMapper" >
+<mapper namespace="com.woniuxy.dao.DamagesMapper" >
   <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.Damages" >
     <id column="damage_id" property="damageId" jdbcType="VARCHAR" />
     <result column="medicine_count" property="medicineCount" jdbcType="INTEGER" />
@@ -8,6 +8,7 @@
     <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="medicine_name" property="medicineName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    damage_id, medicine_count, damage_reason, medicine_id, status, source
+    damage_id, medicine_count, damage_reason, medicine_id, status, source, medicine_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.DamagesExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.Damages" >
     insert into damages (damage_id, medicine_count, damage_reason, 
-      medicine_id, status, source
-      )
+      medicine_id, status, source, 
+      medicine_name)
     values (#{damageId,jdbcType=VARCHAR}, #{medicineCount,jdbcType=INTEGER}, #{damageReason,jdbcType=VARCHAR}, 
-      #{medicineId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}
-      )
+      #{medicineId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, 
+      #{medicineName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.Damages" >
     insert into damages
@@ -129,6 +130,9 @@
       <if test="source != null" >
         source,
       </if>
+      <if test="medicineName != null" >
+        medicine_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="damageId != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="source != null" >
         #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null" >
+        #{medicineName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.source != null" >
         source = #{record.source,jdbcType=VARCHAR},
       </if>
+      <if test="record.medicineName != null" >
+        medicine_name = #{record.medicineName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       damage_reason = #{record.damageReason,jdbcType=VARCHAR},
       medicine_id = #{record.medicineId,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER},
-      source = #{record.source,jdbcType=VARCHAR}
+      source = #{record.source,jdbcType=VARCHAR},
+      medicine_name = #{record.medicineName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="source != null" >
         source = #{source,jdbcType=VARCHAR},
       </if>
+      <if test="medicineName != null" >
+        medicine_name = #{medicineName,jdbcType=VARCHAR},
+      </if>
     </set>
     where damage_id = #{damageId,jdbcType=VARCHAR}
   </update>
@@ -222,7 +236,8 @@
       damage_reason = #{damageReason,jdbcType=VARCHAR},
       medicine_id = #{medicineId,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      source = #{source,jdbcType=VARCHAR}
+      source = #{source,jdbcType=VARCHAR},
+      medicine_name = #{medicineName,jdbcType=VARCHAR}
     where damage_id = #{damageId,jdbcType=VARCHAR}
   </update>
 </mapper>
