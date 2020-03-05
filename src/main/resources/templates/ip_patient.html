@@ -29,6 +29,16 @@ width: 12%;
 .th8{
 width: 10%;
 }
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
 </style>
 <style type="text/css">
 
@@ -50,7 +60,7 @@ width: 10%;
 		</tr>
 	</thead>
 	<tbody>
- 		<tr th:each="pt:${pts}">
+ 		<tr th:each="pt:${pts.list}">
 			<td>[[${pt.ptName}]]</td>
 			<td>[[${pt.sex}]]</td>
 			<td>[[${pt.age}]]</td>
@@ -62,6 +72,26 @@ width: 10%;
 		</tr> 
 	</tbody>
 </table>
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!pts.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${pts.hasPreviousPage}"><a th:href="@{/ip_patient?index=}+${pts.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${pts.pageNum>1}" th:each="inde:${#numbers.sequence(1,pts.pageNum-1)}" >
+			<a th:if="${pts.pageNum!=inde}" th:href="@{/ip_patient?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${pts.pageNum}]]</a></li>
+		<li th:if="${pts.pageNum<pts.pages}" th:each="inde:${#numbers.sequence(pts.pageNum+1,pts.pages)}" >
+			<a th:if="${pts.pageNum!=inde}" th:href="@{/ip_patient?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${pts.hasNextPage}"><a th:href="@{/ip_patient?index=}+${pts.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!pts.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
 </body>
 
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>

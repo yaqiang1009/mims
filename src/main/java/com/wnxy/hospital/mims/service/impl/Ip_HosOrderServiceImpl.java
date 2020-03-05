@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpCashPledge;
 import com.wnxy.hospital.mims.entity.IpCashPledgeExample;
@@ -40,7 +42,9 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 	private IpCashPledgeMapper ipCashPledgeMapper;
 	//检索全部住院订单
 	@Override
-	public List<IpHospitalized> selectAllHos() {
+	public PageInfo<IpHospitalized> selectAllHos(int index) {
+		//设置分页
+		PageHelper.startPage(index, 6);
 		//检索订单
 		IpHospitalizedExample example=new IpHospitalizedExample();
 		example.createCriteria().andHosOrderEqualTo("申请中");
@@ -54,7 +58,8 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 			Emp empentity = empMapper.selectByPrimaryKey(hos.getEmpId());
 			hos.setEmpentity(empentity);
 		}
-		return ipHospitalized;
+		PageInfo<IpHospitalized> ipHospitalizeds=new PageInfo<>(ipHospitalized);
+		return ipHospitalizeds;
 	}
 	//检索指定订单
 	@Override

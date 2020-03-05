@@ -1,10 +1,14 @@
 package com.wnxy.hospital.mims.config;
 
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.github.pagehelper.PageHelper;
 
 //配置类
 @Configuration
@@ -34,6 +38,17 @@ public class MyConfig {
 			 */
 		};
 	}
+	 @Bean
+	 public PageHelper getPageHelper(){
+		 PageHelper pageHelper=new PageHelper();
+		 Properties properties=new Properties();
+		 properties.setProperty("helperDialect","mysql");
+		 properties.setProperty("reasonable","true");
+		 properties.setProperty("supportMethodsArguments","true");
+		 properties.setProperty("params","count=countSql");
+		 pageHelper.setProperties(properties);
+		 return pageHelper;
+	 }
 	
 	
 }

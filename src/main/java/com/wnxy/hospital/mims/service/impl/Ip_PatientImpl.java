@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpRemedyExample;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
@@ -21,7 +24,8 @@ public class Ip_PatientImpl implements Ip_Patient {
 	private IpRemedyMapper ipRemedyMapper;
 	//查询所有住院病人
 	@Override
-	public List<OpPatientinfo> selectNowPatient() {
+	public PageInfo<OpPatientinfo> selectNowPatient(int index) {
+		//设置分页
 		//条件
 		//检索医疗单(住院病人)
 		IpRemedyExample example=new IpRemedyExample();
@@ -32,11 +36,13 @@ public class Ip_PatientImpl implements Ip_Patient {
 		for(IpRemedy remedy:ipRemedys) {
 			values.add(remedy.getPtId());
 		}
+		PageHelper.startPage(index, 6);
 		//获取集合中病人信息
 		OpPatientinfoExample example1=new OpPatientinfoExample();
 		example1.createCriteria().andPtIdIn(values);
 		List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(example1);
-		return pts;
+		PageInfo<OpPatientinfo> ptp=new PageInfo<>(pts);
+		return ptp;
 	}
 	//查询指定病人
 	@Override

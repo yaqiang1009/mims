@@ -22,6 +22,26 @@ vertical-align: middle;
 .th7{
 width: 10%;
 }
+#main_div{
+width:290px;
+position: absolute;
+top: 5px;
+right: 0px;
+}
+#main_div input {
+	width: 200px;
+	float: left;
+}
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
 </style>
 <style type="text/css">
 
@@ -42,7 +62,7 @@ width: 10%;
 		</tr>
 	</thead>
 	<tbody>
- 		<tr th:each="remedy:${remedys}">
+ 		<tr th:each="remedy:${remedys.list}">
 			<td>[[${remedy.opPatientinfo.ptName}]]</td>
 			<td>[[${remedy.emp.empName}]]</td>
 			<td>[[${remedy.ipWard.wardName}]]</td>
@@ -53,6 +73,33 @@ width: 10%;
 		</tr> 
 	</tbody>
 </table>
+<div id="main_div" class="col-sm-10">
+	<form role="form" th:action="@{/ip_selectremedyPtName}" method="post">
+		<input class="form-control" name="name" type="text" placeholder="搜索病人姓名"/>
+		<button type="submit" class="btn btn-default">搜索</button>
+	</form>
+</div>
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!remedys.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${remedys.hasPreviousPage}"><a th:href="@{/ip_selectremedy?index=}+${remedys.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${remedys.pageNum>1}" th:each="inde:${#numbers.sequence(1,remedys.pageNum-1)}" >
+			<a th:if="${remedys.pageNum!=inde}" th:href="@{/ip_selectremedy?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${remedys.pageNum}]]</a></li>
+		<li th:if="${remedys.pageNum<remedys.pages}" th:each="inde:${#numbers.sequence(remedys.pageNum+1,remedys.pages)}" >
+			<a th:if="${remedys.pageNum!=inde}" th:href="@{/ip_selectremedy?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${remedys.hasNextPage}"><a th:href="@{/ip_selectremedy?index=}+${remedys.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!remedys.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
 </body>
 <script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>

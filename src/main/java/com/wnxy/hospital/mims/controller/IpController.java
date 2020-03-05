@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
@@ -39,9 +40,9 @@ public class IpController {
 	@Setter private ApplicationContext ac;
 	//检索全部住院订单
 	@RequestMapping("/ip_hosporder")
-	public String ip_HospOrder(Model model,HttpServletRequest request) {
+	public String ip_HospOrder(int index,Model model,HttpServletRequest request) {
 		Ip_HosOrderService ip_HosOrderService =(Ip_HosOrderService) ac.getBean("ip_HosOrderServiceImpl");
-		List<IpHospitalized> ipHospitalizeds = ip_HosOrderService.selectAllHos();
+		PageInfo<IpHospitalized> ipHospitalizeds = ip_HosOrderService.selectAllHos(index);
 		model.addAttribute("ipHospitalizeds",ipHospitalizeds);
 		return "ip_hosporder";
 	}
@@ -70,7 +71,7 @@ public class IpController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "redirect:/ip_hosporder";
+		return "redirect:/ip_hosporder?index=1";
 	}
 	//检索医疗单所需信息
 	@RequestMapping("/Hos/pass/{id}")
@@ -116,15 +117,15 @@ public class IpController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/ip_hosporder";
+		return "redirect:/ip_hosporder?index=1";
 	}
 	//************************出院审核
 	//检索出院申请信息
 	@RequestMapping("/leaveHospOrder")
-	public String leaveHospOrder(Model model) {
+	public String leaveHospOrder(Integer index,Model model) {
 		//获取对象，调方法
 		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
-		List<IpLeaveapply> IpLeaveapplys = ieavehospService.selectAllLeave();
+		PageInfo<IpLeaveapply> IpLeaveapplys = ieavehospService.selectAllLeave(index);
 		model.addAttribute("IpLeaveapplys",IpLeaveapplys);
 		return "ip_leavehosp";
 	}
@@ -134,7 +135,7 @@ public class IpController {
 		//修改订单状态
 		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		ieavehospService.leavePass(id);
-		return "redirect:/leaveHospOrder";
+		return "redirect:/leaveHospOrder?index=1";
 	}
 	//拒绝出院申请,检索信息
 	@RequestMapping("/leave/reject/{id}")
@@ -151,14 +152,22 @@ public class IpController {
 		//检索指定出院单
 		Ip_LeaveHospService ieavehospService = (Ip_LeaveHospService)ac.getBean("ip_LeaveHospServiceImpl");
 		ieavehospService.leaveReject(id, remarks);
-		return "redirect:/leaveHospOrder";
+		return "redirect:/leaveHospOrder?index=1";
 	}
 	//*************************医疗单相关
 	//住院中医疗单全部查询
 	@RequestMapping("/ip_selectremedy")
-	public String ip_SelectRemedy(Model model) {
+	public String ip_SelectRemedy(int index,Model model) {
 		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
-		List<IpRemedy> remedys = remedy.selectAllRemedy("");
+		PageInfo<IpRemedy> remedys = remedy.selectAllRemedy("",index);
+		model.addAttribute("remedys", remedys);
+		return "ip_remedy";
+	}
+	//住院中医疗单病人姓名模糊查询
+	@RequestMapping("/ip_selectremedyPtName")
+	public String ip_SelectRemedy_ptName(String name,Model model) {
+		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		PageInfo<IpRemedy> remedys = remedy.selectAllRemedyPtName(name);
 		model.addAttribute("remedys", remedys);
 		return "ip_remedy";
 	}
@@ -189,7 +198,7 @@ public class IpController {
 		//修改指定医疗单
 		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
 		ip_RemedyService.alertRemedy(id, bedId, empId, wardId);	
-		return "redirect:/ip_selectremedy";
+		return "redirect:/ip_selectremedy?index=1";
 	}
 	//*************************病床
 	//新增修改床位，检索信息
@@ -234,10 +243,10 @@ public class IpController {
 	//********************病人资料相关
 	//查询所有住院病人信息
 	@RequestMapping("/ip_patient")
-	public String ipPatient(Model model) {
+	public String ipPatient(Model model,int index) {
 		//查询
 		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
-		List<OpPatientinfo> pts = ip_Patient.selectNowPatient();
+		PageInfo<OpPatientinfo> pts = ip_Patient.selectNowPatient(index);
 		model.addAttribute("pts", pts);
 		return "ip_patient";
 	}
