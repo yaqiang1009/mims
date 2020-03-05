@@ -1,5 +1,7 @@
 package com.wnxy.hospital.mims.entity;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IpCashPledge {
-    private String cashId;
+    private String cashId=UUID.randomUUID().toString().trim().replaceAll("-", "");
 
     private String ptId;
+    private OpPatientinfo opPatientinfo;
 
     private Double remaining;
 
