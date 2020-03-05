@@ -18,6 +18,7 @@ import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpLeaveapply;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
+import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
 import com.wnxy.hospital.mims.service.Ip_RemedyService;
@@ -25,6 +26,7 @@ import com.wnxy.hospital.mims.service.Ip_bedService;
 import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
 import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
+import com.wnxy.hospital.mims.service.Ip_Patient;
 import com.wnxy.hospital.mims.service.impl.Ip_HosOrderServiceImpl;
 
 import lombok.Setter;
@@ -96,16 +98,15 @@ public class IpController {
 		Emp emp = ip_emp.selectEmp(empid);
 		return emp;
 	}
-	//添加医疗单时异步请求床位信息
+	//添加医疗单时异步请求空余床位信息
 	@ResponseBody
 	@RequestMapping("/word_bed")
 	public Object word_Bed(String wardId) {
-		System.out.println(wardId);
 		Ip_bedService ip_bedService =(Ip_bedService)ac.getBean("ip_bedServiceImpl");
 		List<IpBed> beds = ip_bedService.selectBed(wardId); 
 		return beds;
 	}
-	//入院,完成住院订单，添加医疗单
+	//入院,完成住院订单，添加医疗单，押金单
 	@RequestMapping("/Hos_pass_sub")
 	public String hos_Pass_Sub(String id,String empId,String wardId,String bedId,Model model) {
 		Ip_HosOrderService ip_HosOrderService =(Ip_HosOrderService) ac.getBean("ip_HosOrderServiceImpl");
@@ -190,7 +191,73 @@ public class IpController {
 		ip_RemedyService.alertRemedy(id, bedId, empId, wardId);	
 		return "redirect:/ip_selectremedy";
 	}
-
+	//*************************病床
+	//新增修改床位，检索信息
+	@RequestMapping("/ip_bed_alter")
+	public String bedAlter(Model model) {
+		//检索全部病房
+		Ip_wardService ip_wardService = (Ip_wardService)ac.getBean("ip_wardServiceImpl");
+		List<IpWard> wards = ip_wardService.selectAllWard();
+		model.addAttribute("wards", wards);
+		//检索全部床位
+		Ip_bedService ip_bedService = (Ip_bedService)ac.getBean("ip_bedServiceImpl");
+		List<IpBed> allBed = ip_bedService.selectAllBed();
+		model.addAttribute("allBedNum", allBed.size());
+		List<IpBed> leiBed = ip_bedService.selectLeiAllBed();
+		model.addAttribute("leiBedNum", leiBed.size());
+		return "ip_bed_alter";
+	}
+	//修改床位异步请求所有床位信息
+	@ResponseBody
+	@RequestMapping("/word_allbed")
+	public Object word_AllBed(String wardId) {
+		Ip_bedService ip_bedService =(Ip_bedService)ac.getBean("ip_bedServiceImpl");
+		List<IpBed> beds = ip_bedService.selectWardAllBed(wardId); 
+		return beds;
+	}
+	//修改床位，修改数据库
+	@RequestMapping("/bed_alter_sub")
+	public String bedAlterSub(String bedIdFor,String wardIdTo,int bedNum,Model model) {
+		//修改
+		Ip_bedService ip_bedService = (Ip_bedService)ac.getBean("ip_bedServiceImpl");
+		ip_bedService.alterBed(bedIdFor, wardIdTo, bedNum);
+		return "redirect:/ip_bed_alter";
+	}
+	//新增床位，修改数据库
+	@RequestMapping("/bed_create_sub")
+	public String bedCreateSub(String createWardId,int createBedNum,Model model) {
+		//修改
+		Ip_bedService ip_bedService = (Ip_bedService)ac.getBean("ip_bedServiceImpl");
+		ip_bedService.createBed(createWardId, createBedNum);
+		return "redirect:/ip_bed_alter";
+	}
+	//********************病人资料相关
+	//查询所有住院病人信息
+	@RequestMapping("/ip_patient")
+	public String ipPatient(Model model) {
+		//查询
+		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
+		List<OpPatientinfo> pts = ip_Patient.selectNowPatient();
+		model.addAttribute("pts", pts);
+		return "ip_patient";
+	}
+	//查询指定病人信息
+	@RequestMapping("/patient_select/{id}")
+	public String ipPatient(@PathVariable("id") String id,Model model) {
+		//查询
+		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
+		OpPatientinfo pt = ip_Patient.selectNowPtId(id);
+		model.addAttribute("pt", pt);
+		return "ip_patient_alter";
+	}
+	//修改病人信息
+	@RequestMapping("/patient_alter_sub")
+	public String patientAlter(String id,String phone,String familyperson,String familyphone,String address,Model model) {
+		//修改
+		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
+		ip_Patient.alterPt(id, phone, familyperson, familyphone, address);
+		return "redirect:/ip_patient";
+	}
 	/*同步请求模板
 	@RequestMapping("/mycont1")
 	public String mycont1(Model model,HttpServletRequest request) {

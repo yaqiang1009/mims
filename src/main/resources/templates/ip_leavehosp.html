@@ -31,9 +31,9 @@ min-width: 140px;
 </style>
 <script type="text/javascript">
 $(function(){
-	$("#passleave").click(function(){
+	$(".passleave").click(function(){
 		if(confirm("确认通过出院申请吗？")){
-			location.href=$("#passleave").val();
+			location.href=$(this).val();
 		}
 	});
 });
@@ -59,7 +59,7 @@ $(function(){
 			<td>[[${lea.illness}]]</td>
 			<td>[[${lea.cause}]]</td>
 			<td>[[${#dates.format(lea.applyDate,"yyyy-MM-dd")}]]</td>
-			<td><button th:value="@{/leave/pass/}+${lea.applyId}" id="passleave" type="button" class="btn btn-primary">通过</button></td>
+			<td><button th:value="@{/leave/pass/}+${lea.applyId}" type="button" class="passleave btn btn-primary">通过</button></td>
 			<td><a th:href="@{/leave/reject/}+${lea.applyId}"><button type="button" class="btn btn-warning">拒绝</button></a></td>
 		</tr> 
 	</tbody>

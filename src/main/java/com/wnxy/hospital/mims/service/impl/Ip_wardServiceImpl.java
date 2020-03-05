@@ -13,6 +13,7 @@ import com.wnxy.hospital.mims.service.Ip_wardService;
 public class Ip_wardServiceImpl implements Ip_wardService{
 	@Autowired
 	private IpWardMapper ipWardMapper;
+	//查询所有病房
 	@Override
 	public List<IpWard> selectAllWard() {
 		IpWardExample example=new IpWardExample();
