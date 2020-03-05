@@ -2,12 +2,6 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PhMedicineInventory {
     private String id;
 
@@ -32,6 +26,8 @@ public class PhMedicineInventory {
     private Date disableDate;
 
     private Integer warnValue;
+
+    private String medicineName;
 
     public String getId() {
         return id;
@@ -127,5 +123,13 @@ public class PhMedicineInventory {
 
     public void setWarnValue(Integer warnValue) {
         this.warnValue = warnValue;
+    }
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName == null ? null : medicineName.trim();
     }
 }
