@@ -88,6 +88,10 @@
     from op_doclevel
     where dl_id = #{dlId,jdbcType=VARCHAR}
   </select>
+  <!-- 自己加的，专门用来查等级，并且去重 -->
+   <select id="selectAllLevel" resultMap="BaseResultMap" >
+    select distinct level from op_doclevel
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from op_doclevel
     where dl_id = #{dlId,jdbcType=VARCHAR}

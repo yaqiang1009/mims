@@ -1,13 +1,12 @@
 package com.wnxy.hospital.mims.service.op.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.EmpExample;
@@ -24,7 +23,7 @@ import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpDoclevelMapper;
 import com.wnxy.hospital.mims.service.op.Op_InfoManagementService;
 
-@Component
+@Service
 public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 	@Autowired
 	OfficeMapper officeMapper;
@@ -260,18 +259,33 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 	}// 查询所有挂号费等级信息
 
 	@Override
-	public List<OpDoclevel> queryAllLevel() {
-		OpDoclevelExample example = new OpDoclevelExample();
-		example.setDistinct(true);//开启去重，同一等级只显示一个
-		example.setOrderByClause("level DESC");
-		com.wnxy.hospital.mims.entity.OpDoclevelExample.Criteria criteria = example.createCriteria();
-		criteria.andLevelIsNotNull();
-		return opDoclevelMapper.selectByExample(example);
+	public List<Integer> queryAllLevel() {
+		List<OpDoclevel> opDoclevels = opDoclevelMapper.selectAllLevel();
+		List<Integer> levels = new ArrayList<Integer>();
+		if (opDoclevels.size() != 0) {
+			for (int i = 0; i < opDoclevels.size(); i++) {
+				levels.add(i, opDoclevels.get(i).getLevel());
+			}
+			return levels;
+		}
+		return levels;
+
 	}// 查所有等级
 
 	@Override
 	public List<String> queryEmpIdByLevel(Integer level) {
-		return null;
+		OpDoclevelExample example = new OpDoclevelExample();
+		com.wnxy.hospital.mims.entity.OpDoclevelExample.Criteria criteria = example.createCriteria();
+		criteria.andLevelEqualTo(level);
+		List<OpDoclevel> opDoclevels = opDoclevelMapper.selectByExample(example);
+		List<String> empIds = new ArrayList<String>();
+		if (opDoclevels.size() != 0) {
+			for (int i = 0; i < opDoclevels.size(); i++) {
+				empIds.add(i, opDoclevels.get(i).getEmpId());
+			}
+			return empIds;
+		}
+		return empIds;
 	}// 查询指定等级下的员工编号
 
 	@Override
@@ -279,6 +293,7 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 		OpDoclevelExample example = new OpDoclevelExample();
 		com.wnxy.hospital.mims.entity.OpDoclevelExample.Criteria criteria = example.createCriteria();
 		criteria.andEmpIdEqualTo(empId);
+		System.out.println("根据员工编号查出来的收费信息：" + opDoclevelMapper.selectByExample(example));
 		return opDoclevelMapper.selectByExample(example);
 
 	}// 查询指定员工编号对应的收费情况
