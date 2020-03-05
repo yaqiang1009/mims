@@ -272,6 +272,126 @@ public class PhDispatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchCountIsNull() {
+            addCriterion("dispatch_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountIsNotNull() {
+            addCriterion("dispatch_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountEqualTo(Integer value) {
+            addCriterion("dispatch_count =", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountNotEqualTo(Integer value) {
+            addCriterion("dispatch_count <>", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountGreaterThan(Integer value) {
+            addCriterion("dispatch_count >", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_count >=", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountLessThan(Integer value) {
+            addCriterion("dispatch_count <", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_count <=", value, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountIn(List<Integer> values) {
+            addCriterion("dispatch_count in", values, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountNotIn(List<Integer> values) {
+            addCriterion("dispatch_count not in", values, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_count between", value1, value2, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_count not between", value1, value2, "dispatchCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNull() {
+            addCriterion("price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNotNull() {
+            addCriterion("price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceEqualTo(Double value) {
+            addCriterion("price =", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotEqualTo(Double value) {
+            addCriterion("price <>", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThan(Double value) {
+            addCriterion("price >", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThanOrEqualTo(Double value) {
+            addCriterion("price >=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThan(Double value) {
+            addCriterion("price <", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThanOrEqualTo(Double value) {
+            addCriterion("price <=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIn(List<Double> values) {
+            addCriterion("price in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotIn(List<Double> values) {
+            addCriterion("price not in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceBetween(Double value1, Double value2) {
+            addCriterion("price between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotBetween(Double value1, Double value2) {
+            addCriterion("price not between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
         public Criteria andOutIdIsNull() {
             addCriterion("out_id is null");
             return (Criteria) this;
@@ -342,63 +462,143 @@ public class PhDispatchExample {
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountIsNull() {
-            addCriterion("dispatch_count is null");
+        public Criteria andMedicineTypeIsNull() {
+            addCriterion("medicine_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountIsNotNull() {
-            addCriterion("dispatch_count is not null");
+        public Criteria andMedicineTypeIsNotNull() {
+            addCriterion("medicine_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountEqualTo(Integer value) {
-            addCriterion("dispatch_count =", value, "dispatchCount");
+        public Criteria andMedicineTypeEqualTo(String value) {
+            addCriterion("medicine_type =", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountNotEqualTo(Integer value) {
-            addCriterion("dispatch_count <>", value, "dispatchCount");
+        public Criteria andMedicineTypeNotEqualTo(String value) {
+            addCriterion("medicine_type <>", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountGreaterThan(Integer value) {
-            addCriterion("dispatch_count >", value, "dispatchCount");
+        public Criteria andMedicineTypeGreaterThan(String value) {
+            addCriterion("medicine_type >", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("dispatch_count >=", value, "dispatchCount");
+        public Criteria andMedicineTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("medicine_type >=", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountLessThan(Integer value) {
-            addCriterion("dispatch_count <", value, "dispatchCount");
+        public Criteria andMedicineTypeLessThan(String value) {
+            addCriterion("medicine_type <", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountLessThanOrEqualTo(Integer value) {
-            addCriterion("dispatch_count <=", value, "dispatchCount");
+        public Criteria andMedicineTypeLessThanOrEqualTo(String value) {
+            addCriterion("medicine_type <=", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountIn(List<Integer> values) {
-            addCriterion("dispatch_count in", values, "dispatchCount");
+        public Criteria andMedicineTypeLike(String value) {
+            addCriterion("medicine_type like", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountNotIn(List<Integer> values) {
-            addCriterion("dispatch_count not in", values, "dispatchCount");
+        public Criteria andMedicineTypeNotLike(String value) {
+            addCriterion("medicine_type not like", value, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountBetween(Integer value1, Integer value2) {
-            addCriterion("dispatch_count between", value1, value2, "dispatchCount");
+        public Criteria andMedicineTypeIn(List<String> values) {
+            addCriterion("medicine_type in", values, "medicineType");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("dispatch_count not between", value1, value2, "dispatchCount");
+        public Criteria andMedicineTypeNotIn(List<String> values) {
+            addCriterion("medicine_type not in", values, "medicineType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineTypeBetween(String value1, String value2) {
+            addCriterion("medicine_type between", value1, value2, "medicineType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineTypeNotBetween(String value1, String value2) {
+            addCriterion("medicine_type not between", value1, value2, "medicineType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIsNull() {
+            addCriterion("batch_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIsNotNull() {
+            addCriterion("batch_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoEqualTo(String value) {
+            addCriterion("batch_no =", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotEqualTo(String value) {
+            addCriterion("batch_no <>", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThan(String value) {
+            addCriterion("batch_no >", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThanOrEqualTo(String value) {
+            addCriterion("batch_no >=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThan(String value) {
+            addCriterion("batch_no <", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThanOrEqualTo(String value) {
+            addCriterion("batch_no <=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLike(String value) {
+            addCriterion("batch_no like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotLike(String value) {
+            addCriterion("batch_no not like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIn(List<String> values) {
+            addCriterion("batch_no in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotIn(List<String> values) {
+            addCriterion("batch_no not in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoBetween(String value1, String value2) {
+            addCriterion("batch_no between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotBetween(String value1, String value2) {
+            addCriterion("batch_no not between", value1, value2, "batchNo");
             return (Criteria) this;
         }
 
@@ -472,73 +672,123 @@ public class PhDispatchExample {
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeIsNull() {
-            addCriterion("medicine_type is null");
+        public Criteria andProduceDateIsNull() {
+            addCriterion("produce_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeIsNotNull() {
-            addCriterion("medicine_type is not null");
+        public Criteria andProduceDateIsNotNull() {
+            addCriterion("produce_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeEqualTo(String value) {
-            addCriterion("medicine_type =", value, "medicineType");
+        public Criteria andProduceDateEqualTo(Date value) {
+            addCriterionForJDBCDate("produce_date =", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeNotEqualTo(String value) {
-            addCriterion("medicine_type <>", value, "medicineType");
+        public Criteria andProduceDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("produce_date <>", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeGreaterThan(String value) {
-            addCriterion("medicine_type >", value, "medicineType");
+        public Criteria andProduceDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("produce_date >", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("medicine_type >=", value, "medicineType");
+        public Criteria andProduceDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("produce_date >=", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeLessThan(String value) {
-            addCriterion("medicine_type <", value, "medicineType");
+        public Criteria andProduceDateLessThan(Date value) {
+            addCriterionForJDBCDate("produce_date <", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeLessThanOrEqualTo(String value) {
-            addCriterion("medicine_type <=", value, "medicineType");
+        public Criteria andProduceDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("produce_date <=", value, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeLike(String value) {
-            addCriterion("medicine_type like", value, "medicineType");
+        public Criteria andProduceDateIn(List<Date> values) {
+            addCriterionForJDBCDate("produce_date in", values, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeNotLike(String value) {
-            addCriterion("medicine_type not like", value, "medicineType");
+        public Criteria andProduceDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("produce_date not in", values, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeIn(List<String> values) {
-            addCriterion("medicine_type in", values, "medicineType");
+        public Criteria andProduceDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("produce_date between", value1, value2, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeNotIn(List<String> values) {
-            addCriterion("medicine_type not in", values, "medicineType");
+        public Criteria andProduceDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("produce_date not between", value1, value2, "produceDate");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeBetween(String value1, String value2) {
-            addCriterion("medicine_type between", value1, value2, "medicineType");
+        public Criteria andDisableDateIsNull() {
+            addCriterion("disable_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andMedicineTypeNotBetween(String value1, String value2) {
-            addCriterion("medicine_type not between", value1, value2, "medicineType");
+        public Criteria andDisableDateIsNotNull() {
+            addCriterion("disable_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateEqualTo(Date value) {
+            addCriterionForJDBCDate("disable_date =", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("disable_date <>", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("disable_date >", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("disable_date >=", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateLessThan(Date value) {
+            addCriterionForJDBCDate("disable_date <", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("disable_date <=", value, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateIn(List<Date> values) {
+            addCriterionForJDBCDate("disable_date in", values, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("disable_date not in", values, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("disable_date between", value1, value2, "disableDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisableDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("disable_date not between", value1, value2, "disableDate");
             return (Criteria) this;
         }
 

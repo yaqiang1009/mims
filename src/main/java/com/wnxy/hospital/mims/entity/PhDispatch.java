@@ -7,13 +7,21 @@ public class PhDispatch {
 
     private String medicineId;
 
+    private Integer dispatchCount;
+
+    private Double price;
+
     private String outId;
 
-    private Integer dispatchCount;
+    private String medicineType;
+
+    private String batchNo;
 
     private String status;
 
-    private String medicineType;
+    private Date produceDate;
+
+    private Date disableDate;
 
     private Date enterDate;
 
@@ -35,6 +43,22 @@ public class PhDispatch {
         this.medicineId = medicineId == null ? null : medicineId.trim();
     }
 
+    public Integer getDispatchCount() {
+        return dispatchCount;
+    }
+
+    public void setDispatchCount(Integer dispatchCount) {
+        this.dispatchCount = dispatchCount;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public String getOutId() {
         return outId;
     }
@@ -43,12 +67,20 @@ public class PhDispatch {
         this.outId = outId == null ? null : outId.trim();
     }
 
-    public Integer getDispatchCount() {
-        return dispatchCount;
+    public String getMedicineType() {
+        return medicineType;
     }
 
-    public void setDispatchCount(Integer dispatchCount) {
-        this.dispatchCount = dispatchCount;
+    public void setMedicineType(String medicineType) {
+        this.medicineType = medicineType == null ? null : medicineType.trim();
+    }
+
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo == null ? null : batchNo.trim();
     }
 
     public String getStatus() {
@@ -59,12 +91,20 @@ public class PhDispatch {
         this.status = status == null ? null : status.trim();
     }
 
-    public String getMedicineType() {
-        return medicineType;
+    public Date getProduceDate() {
+        return produceDate;
     }
 
-    public void setMedicineType(String medicineType) {
-        this.medicineType = medicineType == null ? null : medicineType.trim();
+    public void setProduceDate(Date produceDate) {
+        this.produceDate = produceDate;
+    }
+
+    public Date getDisableDate() {
+        return disableDate;
+    }
+
+    public void setDisableDate(Date disableDate) {
+        this.disableDate = disableDate;
     }
 
     public Date getEnterDate() {
