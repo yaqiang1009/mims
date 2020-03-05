@@ -19,12 +19,22 @@ public interface IpCashPledgeMapper {
     List<IpCashPledge> selectByExample(IpCashPledgeExample example);
 
     IpCashPledge selectByPrimaryKey(String cashId);
+    
+    IpCashPledge selectByPtId(String ptId);
 
-    int updateByExampleSelective(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
+    int addRemainingByExampleSelective(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
 
-    int updateByExample(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
+    int subRemainingByExampleSelective(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
+    
+    int addRemainingByExample(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
+    
+    int subRemainingByExample(@Param("record") IpCashPledge record, @Param("example") IpCashPledgeExample example);
 
-    int updateByPrimaryKeySelective(IpCashPledge record);
+    int addRemainingByPrimaryKeySelective(IpCashPledge record);
 
-    int updateByPrimaryKey(IpCashPledge record);
+    int subRemainingByPrimaryKeySelective(IpCashPledge record);
+
+    int addRemainingByPrimaryKey(IpCashPledge record);
+    
+    int subRemainingByPrimaryKey(IpCashPledge record);
 }

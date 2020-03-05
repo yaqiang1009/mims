@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,13 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IpCashUse {
-    private String cashUseId;
+    private String cashUseId=UUID.randomUUID().toString().trim().replaceAll("-", "");
 
     private String cashId;
+    private IpCashPledge ipCashPledge;
 
     private Date cashUseDate;
 
     private String illnessId;
+    private IpIllness ipIllness;
 
     private Double useCash;
 
