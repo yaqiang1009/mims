@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>挂号入口</title>
+<title>就诊卡挂失</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <style type="text/css">
@@ -10,8 +10,17 @@ body {
 	padding: 15px;
 }
 
-
-
+/* 去掉number控件的加减 */
+/* google、safari */
+	input::-webkit-outer-spin-button,  
+	input::-webkit-inner-spin-button{  
+    	-webkit-appearance: none !important;  
+    	margin: 0;  
+	}
+	/* firefox */
+	input[type="number"]{
+        -moz-appearance: textfield;
+    }
 
 </style>
 <script type="text/javascript">
@@ -19,17 +28,12 @@ body {
 </script>
 </head>
 <body>
-	<!-- 录入病人基本信息发卡页面 -->
-	<a href="/op_newCard.html">办就诊卡</a><br/>
-	
-	<a href="/op_rebondCard.html">就诊卡挂失</a><br/>
-	
-	<!-- 有卡挂号直接请求controller,将卡号存到session域中 -->
+
+
 	<!-- 暂时用同步提交 -->
-	<form th:action="@{/op_cardIdTosession}">
-		就诊卡号:<input type="text" name="cardId"
-			placeholder="请输入就诊卡号">
-		<button type="submit">挂号</button>
+	<form th:action="@{/op_rebondCard}">
+		输入身份证号以挂失就诊卡:<input type="number" name="ptId" placeholder="请输入身份证号">
+		<button type="submit">确认挂失</button>
 	</form>
 
 

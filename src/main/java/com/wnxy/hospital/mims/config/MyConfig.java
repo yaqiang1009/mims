@@ -19,7 +19,7 @@ public class MyConfig {
 			@Override
 			public void addViewControllers(ViewControllerRegistry registry) {
 				// 映射路径
-				//主页相关
+				// 主页相关
 				registry.addViewController("/").setViewName("/index/index.html");
 				registry.addViewController("/index.html").setViewName("/index/index.html");
 				registry.addViewController("/top.html").setViewName("/index/top.html");
@@ -27,10 +27,14 @@ public class MyConfig {
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
 				//
-				//门诊入口
-				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");
+
+				// 门诊入口
+				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
+				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
+				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
+
 			}
-			//拦截器，暂无使用
+			// 拦截器，暂无使用
 			/*
 			 * @Override public void addInterceptors(InterceptorRegistry registry) { // 拦截器
 			 * registry.addInterceptor(new Interceptor())
@@ -39,17 +43,17 @@ public class MyConfig {
 			 */
 		};
 	}
-	 @Bean
-	 public PageHelper getPageHelper(){
-		 PageHelper pageHelper=new PageHelper();
-		 Properties properties=new Properties();
-		 properties.setProperty("helperDialect","mysql");
-		 properties.setProperty("reasonable","true");
-		 properties.setProperty("supportMethodsArguments","true");
-		 properties.setProperty("params","count=countSql");
-		 pageHelper.setProperties(properties);
-		 return pageHelper;
-	 }
-	
-	
+
+	@Bean
+	public PageHelper getPageHelper() {
+		PageHelper pageHelper = new PageHelper();
+		Properties properties = new Properties();
+		properties.setProperty("helperDialect", "mysql");
+		properties.setProperty("reasonable", "true");
+		properties.setProperty("supportMethodsArguments", "true");
+		properties.setProperty("params", "count=countSql");
+		pageHelper.setProperties(properties);
+		return pageHelper;
+	}
+
 }

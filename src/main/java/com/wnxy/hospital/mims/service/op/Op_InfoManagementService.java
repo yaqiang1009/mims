@@ -7,7 +7,7 @@ import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
 
-public interface Op_InfoManagementService {
+public interface Op_InfoManagementService  {
 	// Emp员工表操作
 	public void addEmp(Emp emp);// 添加员工信息
 

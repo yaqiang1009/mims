@@ -1,5 +1,6 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
+import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.entity.OpRegistry;
 import com.wnxy.hospital.mims.service.op.Op_InfoManagementService;
+import com.wnxy.hospital.mims.service.op.Op_RegistryService;
 import com.wnxy.hospital.mims.service.op.impl.Op_RegistryServiceImpl;
 
 import lombok.Setter;
@@ -30,12 +34,43 @@ public class OpRegController {
 	@Setter
 	private ApplicationContext ac;
 
+	// 录入病人基本信息并发卡
+	@RequestMapping("/op_newCard")
+	public String op_newCard(OpPatientinfo opPatientinfo, HttpSession session, Model model) {
+		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
+		try {
+			op_RegistryService.cardIssuingForPage(opPatientinfo);// 此处要用专门给页面用的带事务的二合一方法
+			session.invalidate();// 办卡完成后清空session
+			model.addAttribute("msg", "办卡成功");
+			return "op_msg";
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "op_msg";
+		}
+
+	}
+
 	// 将就诊卡号存到session中
 	@RequestMapping("/op_cardIdTosession")
 	public String op_cardIdTosession(HttpServletRequest req) {
 		String cardId = req.getParameter("cardId");
 		req.getSession().setAttribute("cardId", cardId);
 		return "forward:/op_showAllDep";
+	}
+
+	// 挂失就诊卡
+	@RequestMapping("/op_rebondCard")
+	public String op_rebondCard(HttpServletRequest req, Model model) {
+		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
+		String ptId = req.getParameter("ptId");
+		try {
+			op_RegistryService.cardRebondForPage(ptId);
+			model.addAttribute("msg", "就诊卡挂失成功");
+			return "op_msg";
+		} catch (Exception e) {
+			model.addAttribute("msg", e.getMessage());
+			return "op_msg";
+		}
 	}
 
 	// 查全部科室
@@ -76,18 +111,19 @@ public class OpRegController {
 	public String op_registry(@PathVariable("empId") String empId, HttpServletRequest req, HttpSession session,
 			Model model) {
 
-		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
+		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
 		String cardId = (String) req.getSession().getAttribute("cardId");// 从session中获取就诊卡号
-		OpRegistry opRegistry = op_RegistryServiceImpl.newOpRegistry(empId, cardId);
-		if (opRegistry == null) {
-			session.invalidate();// 当前挂号完成后清空session
-			model.addAttribute("msg", "挂号失败");
-			return "op_msg";
-		} else {
+		try {
+			OpRegistry opRegistry = op_RegistryService.newOpRegistry(empId, cardId);
+
 			session.invalidate();// 当前挂号完成后清空session
 			model.addAttribute("msg", "挂号成功");
 			return "op_msg";
 
+		} catch (Exception e) {
+			session.invalidate();// 当前挂号完成后清空session
+			model.addAttribute("msg", e.getMessage());
+			return "op_msg";
 		}
 
 	}
