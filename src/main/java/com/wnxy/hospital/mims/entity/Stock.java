@@ -11,7 +11,7 @@ public class Stock {
     private String stockId;
 
     private String medicineId;
-
+    private StMedicines medicines;
     private String medicineDanwei;
 
     private Integer medicineNum;

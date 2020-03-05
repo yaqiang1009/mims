@@ -2,12 +2,6 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PhDispatch {
     private String dispatchId;
 
@@ -22,6 +16,8 @@ public class PhDispatch {
     private String medicineType;
 
     private Date enterDate;
+
+    private String medicineName;
 
     public String getDispatchId() {
         return dispatchId;
@@ -77,5 +73,13 @@ public class PhDispatch {
 
     public void setEnterDate(Date enterDate) {
         this.enterDate = enterDate;
+    }
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName == null ? null : medicineName.trim();
     }
 }

@@ -1,12 +1,5 @@
 package com.wnxy.hospital.mims.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Damages {
     private String damageId;
 
@@ -19,6 +12,8 @@ public class Damages {
     private Integer status;
 
     private String source;
+
+    private String medicineName;
 
     public String getDamageId() {
         return damageId;
@@ -66,5 +61,13 @@ public class Damages {
 
     public void setSource(String source) {
         this.source = source == null ? null : source.trim();
+    }
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName == null ? null : medicineName.trim();
     }
 }

@@ -12,6 +12,7 @@ public class StOut {
     private String outId;
 
     private String itemId;
+    private StItem item;
 
     private Date time;
 
