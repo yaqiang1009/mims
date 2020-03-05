@@ -23,7 +23,8 @@ public class MyConfig {
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
 				//
-				
+				//门诊入口
+				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");
 			}
 			//拦截器，暂无使用
 			/*
