@@ -24,19 +24,23 @@
 						<ul id="systemSetting10" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<!-- 功能一,住院审核 -->
 							<li>
-								<a th:href="@{/ip_hosporder}" onclick="menuCss(this)" target="content" style="padding-left:25px;">住院申请</a>
+								<a th:href="@{/ip_hosporder?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">住院申请</a>
 							</li>
 							<!-- 功能二，出院审核 -->
 							<li>
-								<a th:href="@{/leaveHospOrder}" onclick="menuCss(this)" target="content" style="padding-left:25px;">出院审核</a>
+								<a th:href="@{/leaveHospOrder?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">出院审核</a>
 							</li>
 							<!-- 功能三 医疗单查询-->
 							<li>
-								<a th:href="@{/ip_selectremedy}" onclick="menuCss(this)" target="content" style="padding-left:25px;">医疗状态</a>
+								<a th:href="@{/ip_selectremedy?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">医疗状态</a>
 							</li>
-							<!-- 功能四 -->
+							<!-- 功能四 病床修改 -->
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">病人信息</a>
+								<a th:href="@{/ip_bed_alter}" onclick="menuCss(this)" target="content" style="padding-left:25px;">病床修改</a>
+							</li>
+							<!-- 功能五 病人信息修改 -->
+							<li>
+								<a th:href="@{/ip_patient?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">病人信息</a>
 							</li>
 						</ul>
 					</li>

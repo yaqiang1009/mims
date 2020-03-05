@@ -1,12 +1,5 @@
 package com.wnxy.hospital.mims.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PhOutMedicine {
     private String outId;
 
@@ -15,6 +8,8 @@ public class PhOutMedicine {
     private String drugId;
 
     private Double subtotal;
+
+    private String source;
 
     private Integer status;
 
@@ -48,6 +43,14 @@ public class PhOutMedicine {
 
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source == null ? null : source.trim();
     }
 
     public Integer getStatus() {

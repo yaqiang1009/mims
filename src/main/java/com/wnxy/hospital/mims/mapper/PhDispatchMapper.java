@@ -1,9 +1,11 @@
 package com.wnxy.hospital.mims.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wnxy.hospital.mims.entity.PhDispatch;
 import com.wnxy.hospital.mims.entity.PhDispatchExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface PhDispatchMapper {
     int countByExample(PhDispatchExample example);
