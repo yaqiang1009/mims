@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查取药历史信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+padding:4px;
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+.th7{
+width: 10%;
+}
+#main_div{
+width:290px;
+position: absolute;
+top: 5px;
+right: 0px;
+}
+#main_div input {
+	width: 200px;
+	float: left;
+}
+/* 分页设置 */
+#numberdiv{
+
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+</style>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<table id="main_table" class="table table-bordered">
+	<caption>住院医疗信息</caption>
+	<tbody>
+		<tr>
+			<td colspan="4"><label for="name">住院信息</label></td>
+		</tr> 
+		<tr>
+			<td>病人：</td>
+			<td>[[${remedy.opPatientinfo.ptName}]]</td>
+			<td>主治医生：</td>
+			<td>[[${remedy.emp.empName}]]</td>
+		</tr>
+		<tr>
+			<td>医疗状态：</td>
+			<td>[[${remedy.remedyStatus}]]</td>
+			<td>入院时间：</td>
+			<td>[[${#dates.format(remedy.remedyDate,"yyyy-MM-dd")}]]</td>
+		</tr>
+	</tbody>
+	<!-- 遍历药史 -->
+	<tbody th:each="IpIllness:${IpIllnessp.list}">
+		<tr>
+			<td colspan="4"><label for="name">药单</label></td>
+		</tr> 
+		<tr>
+			<td>药单日期：</td>
+			<td>[[${#dates.format(IpIllness.ipDrug.drugDate,"yyyy-MM-dd")}]]</td>
+			<td>药单ID：</td>
+			<td>[[${IpIllness.ipDrug.drugId}]]</td>
+		</tr>
+		<tr>
+			<td>药单状态：</td>
+			<td>[[${IpIllness.ipDrug.drugStatus}]]</td>
+			<td>医疗单ID：</td>
+			<td>[[${IpIllness.remedyId}]]</td>
+		</tr>
+		<tr>
+			<td colspan="4"><label for="name">药单明细</label></td>
+		</tr> 
+		<tr>
+			<td>药品名称</td>
+			<td>药品数量</td>
+			<td>使用说明</td>
+			<td>单价</td>
+		</tr>
+		<!-- 遍历药单 -->
+ 		<tr th:each="ipDrugDetail:${IpIllness.ipDrug.ipDrugDetails}">
+			<td>[[${ipDrugDetail.phMedicines.medicineName}]]</td>
+			<td>[[${ipDrugDetail.drugNum}]]</td>
+			<td>[[${ipDrugDetail.useInstructions}]]</td>
+			<td>[[${ipDrugDetail.price}]]</td>
+		</tr> 
+		<tr>
+			<td colspan="2">总价</td>
+			<td colspan="2">[[${IpIllness.ipDrug.totalPrice}]]</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!IpIllnessp.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${IpIllnessp.hasPreviousPage}"><a th:href="@{/ip_historydrgu_detail/}+${id}+@{/}+${IpIllnessp.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${IpIllnessp.pageNum>1}" th:each="inde:${#numbers.sequence(1,IpIllnessp.pageNum-1)}" >
+			<a th:if="${IpIllnessp.pageNum!=inde}" th:href="@{/ip_historydrgu_detail/}+${id}+@{/}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${IpIllnessp.pageNum}]]</a></li>
+		<li th:if="${IpIllnessp.pageNum<IpIllnessp.pages}" th:each="inde:${#numbers.sequence(IpIllnessp.pageNum+1,IpIllnessp.pages)}" >
+			<a th:if="${IpIllnessp.pageNum!=inde}" th:href="@{/ip_historydrgu_detail/}+${id}+@{/}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${IpIllnessp.hasNextPage}"><a th:href="@{/ip_historydrgu_detail/}+${id}+@{/}+${IpIllnessp.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!IpIllnessp.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

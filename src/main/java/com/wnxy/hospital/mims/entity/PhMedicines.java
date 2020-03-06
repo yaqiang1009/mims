@@ -2,12 +2,6 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PhMedicines {
     private String medicineId;
 
@@ -23,7 +17,7 @@ public class PhMedicines {
 
     private Date produceDate;
 
-    private Date usefulDate;
+    private String usefulDate;
 
     private String contain;
 
@@ -89,12 +83,12 @@ public class PhMedicines {
         this.produceDate = produceDate;
     }
 
-    public Date getUsefulDate() {
+    public String getUsefulDate() {
         return usefulDate;
     }
 
-    public void setUsefulDate(Date usefulDate) {
-        this.usefulDate = usefulDate;
+    public void setUsefulDate(String usefulDate) {
+        this.usefulDate = usefulDate == null ? null : usefulDate.trim();
     }
 
     public String getContain() {

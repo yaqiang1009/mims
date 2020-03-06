@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.service.ph.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class DamageServiceImpl implements DamageService{
 	//新增报损单
 	@Override
 	public int insertDamages(Damages damage) {
+		//添加主键
+		damage.setDamageId(UUID.randomUUID().toString());
+		//添加来源为药房
+		damage.setSource("ph");
+		//添加默认状态为1--待审批
+		damage.setStatus(1);
 		int num = damagesMapper.insertSelective(damage);
 		return num;
 	}

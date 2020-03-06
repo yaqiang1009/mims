@@ -15,12 +15,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
+import com.wnxy.hospital.mims.entity.IpCashPledge;
+import com.wnxy.hospital.mims.entity.IpCashUse;
+import com.wnxy.hospital.mims.entity.IpDrug;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
+import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpLeaveapply;
+import com.wnxy.hospital.mims.entity.IpPaymentOrder;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
+import com.wnxy.hospital.mims.service.Ip_Cash_Pledge;
+import com.wnxy.hospital.mims.service.Ip_DrService;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
 import com.wnxy.hospital.mims.service.Ip_RemedyService;
 import com.wnxy.hospital.mims.service.Ip_bedService;
@@ -28,6 +35,7 @@ import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
 import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
 import com.wnxy.hospital.mims.service.Ip_Patient;
+import com.wnxy.hospital.mims.service.impl.Ip_DrServiceImpl;
 import com.wnxy.hospital.mims.service.impl.Ip_HosOrderServiceImpl;
 
 import lombok.Setter;
@@ -266,6 +274,94 @@ public class IpController {
 		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
 		ip_Patient.alterPt(id, phone, familyperson, familyphone, address);
 		return "redirect:/ip_patient";
+	}
+	//******************************药单相关
+	//今日全部药单检索
+	@RequestMapping("/ip_nowdrgu")
+	public String ipNowDrgu(int index,Model model) {
+		//查找
+		Ip_DrService ip_DrService = (Ip_DrService)ac.getBean("ip_DrServiceImpl");
+		PageInfo<IpDrug> ipDrugs = ip_DrService.selectNowAllDr(index);
+		model.addAttribute("ipDrugs", ipDrugs);
+		return "ip_nowdrgu";
+	}
+	//全部医疗单检索
+	@RequestMapping("/ip_historydrgu")
+	public String ipHistoryDrgu(int index,Model model) {
+		//查找
+		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		PageInfo<IpRemedy> ipRemedys = ip_RemedyService.selectHisAllRemedy("", index);
+		model.addAttribute("remedys", ipRemedys);
+		return "ip_historydrgu";
+	}
+	//全部医疗单病人姓名模糊检索
+	@RequestMapping("/ip_historydrgupt")
+	public String ipHistoryDrguToPtName(String name,int index,Model model) {
+		//查找
+		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		PageInfo<IpRemedy> ipRemedys = ip_RemedyService.selectHisAllRemedy(name, index);
+		model.addAttribute("remedys", ipRemedys);
+		model.addAttribute("ptName", name);
+		return "ip_historydrgu";
+	}
+	//指定医疗单历史药单
+	@RequestMapping("/ip_historydrgu_detail/{id}/{index}")
+	public String ipHistoryDrguDetail(@PathVariable("id") String id,@PathVariable("index") int index,Model model) {
+		//查找当前页面所有病情单
+		Ip_DrService ip_DrService = (Ip_DrService)ac.getBean("ip_DrServiceImpl");
+		PageInfo<IpIllness> IpIllnessp = ip_DrService.selectIpIllnesss(id, index);
+		model.addAttribute("IpIllnessp", IpIllnessp);
+		System.out.println(IpIllnessp.getList().size());
+		//查找医疗单信息
+		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		IpRemedy remedy = ip_RemedyService.selectRemedy(id);
+		model.addAttribute("remedy", remedy);
+		model.addAttribute("id", id);
+		return "ip_historydrgu_detail";
+	}
+	//所有用户押金表
+	@RequestMapping("/ip_cash_pledge/{index}")
+	public String ipCashPledge(String name,@PathVariable("index") int index,Model model) {
+		//查询所有押金
+		Ip_Cash_Pledge ip_Cash_Pledge = (Ip_Cash_Pledge)ac.getBean("ip_Cash_PledgeImpl");
+		PageInfo<IpCashPledge> IpCashPledges = ip_Cash_Pledge.selectAllCash(name, index);
+		model.addAttribute("IpCashPledges", IpCashPledges);
+		model.addAttribute("name", name);
+		return "ip_cash_pledge";
+	}
+	//用户缴费
+	@RequestMapping("/ip_cash_bargain")
+	public String ipCashBargain(String cashId,Double price,Model model) {
+		//缴费
+		Ip_Cash_Pledge ip_Cash_Pledge = (Ip_Cash_Pledge)ac.getBean("ip_Cash_PledgeImpl");
+		ip_Cash_Pledge.cashBargain(cashId, price);
+		return "redirect:/ip_cash_pledge/1?name=";
+	}
+	//查询缴费记录
+	@RequestMapping("/ip_bargain_his")
+	public String ipBargainHis(String ptId,int index,Model model) {
+		//缴费单
+		Ip_Cash_Pledge ip_Cash_Pledge = (Ip_Cash_Pledge)ac.getBean("ip_Cash_PledgeImpl");
+		PageInfo<IpPaymentOrder> IpPaymentOrderp = ip_Cash_Pledge.selectBargainHis(ptId, index);
+		model.addAttribute("IpPaymentOrderp", IpPaymentOrderp);
+		//检索病人信息
+		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
+		OpPatientinfo pt = ip_Patient.selectNowPtId(ptId);
+		model.addAttribute("pt", pt);
+		return "ip_bargain_his";
+	}
+	//查询押金使用记录
+	@RequestMapping("/ip_cashuse_his")
+	public String ipCashuseHis(String ptId,int index,Model model) {
+		//使用单
+		Ip_Cash_Pledge ip_Cash_Pledge = (Ip_Cash_Pledge)ac.getBean("ip_Cash_PledgeImpl");
+		PageInfo<IpCashUse> IpCashUsep = ip_Cash_Pledge.selectBargainUseHis(ptId, index);
+		model.addAttribute("IpCashUsep", IpCashUsep);
+		//检索病人信息
+		Ip_Patient ip_Patient = (Ip_Patient)ac.getBean("ip_PatientImpl");
+		OpPatientinfo pt = ip_Patient.selectNowPtId(ptId);
+		model.addAttribute("pt", pt);
+		return "ip_cashuse_his";
 	}
 	/*同步请求模板
 	@RequestMapping("/mycont1")
