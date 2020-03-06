@@ -42,9 +42,9 @@ public class CallIdController {
 	 * @return
 	 */
 	@RequestMapping("/getcallList")
-	public String generiteCallIdList(Model model, String doctorid) {
+	public String generiteCallIdList(String doctorid) {
 		callIdListService.generiteCallIdList(doctorid);
-		return "";
+		return "forward:/callid/setcallList";
 	}
 	
 	/**
@@ -57,6 +57,6 @@ public class CallIdController {
 	public String setCallIdList(Model model, String doctorid) {
 		List<OpCallidlist> callidlist = callIdListService.getCallIdList(doctorid);
 		model.addAttribute("callidlist",callidlist);
-		return "";
+		return "/outpatient/workbench";
 	}
 }
