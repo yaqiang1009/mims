@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wnxy.hospital.mims.entity.StOut;
+import com.wnxy.hospital.mims.exception.StException;
 import com.wnxy.hospital.mims.mapper.StOutMapper;
 import com.wnxy.hospital.mims.service.stock.StOutService;
 @Service
@@ -12,7 +13,11 @@ public class StOutServiceImpl implements StOutService{
 	StOutMapper stOutMapper;
 	@Override
 	public StOut selectBySid(String sid) {
+		try {
 		return stOutMapper.selectByPrimaryKey(sid);
+	} catch (Exception e) {
+		throw new StException(e);
+	}
 		 
 	}
 	/**
@@ -20,7 +25,12 @@ public class StOutServiceImpl implements StOutService{
 	 */
 	@Override
 	public void insertStOut(StOut stOut) {
+		try {
+			
 		stOutMapper.insert(stOut);
+	} catch (Exception e) {
+		throw new StException(e);
+	}
 	}
 	
 

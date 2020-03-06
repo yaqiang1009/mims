@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>药库信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<script type="text/javascript" th:src="@{/js/vue.min.js}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style type="text/css">
+body {
+	padding: 10px;
+}
+
+#main_table thead tr th {
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#main_table tbody tr td {
+	padding: 4px;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+#daohang{
+	margin-left: 38%;
+}
+</style>
+
+</head>
+<body>
+	<table id="main_table" class="table table-bordered">
+	
+		<thead>
+			<tr>
+				<td>药库信息</td>
+				<td colspan="4">
+					<form th:action="@{/st_out}">
+						<input type="text" name="mname" th:value="${mname}" placeholder="输入药品名"/>
+						<input type="submit" value="搜索"/>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<th class="th1">库存编号</th>
+				<th class="th2">药品名</th>
+				<th class="th3">药品剩余数量</th>
+				<th class="th3">药品单位</th>
+				<th class="th6">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr th:each="stock:${stocks}">
+				<td>[[${stock.stockId}]]</td>
+				<td>[[${stock.medicines.medicineName}]]</td>
+				<td>[[${stock.medicineNum}]]</td>
+				<td>[[${stock.medicineDanwei}]]</td>
+				<td><a th:href="@{/st_out/}+${stock.medicineId}"><button
+							type="button" class="btn btn-primary">出库</button></a>&nbsp&nbsp&nbsp&nbsp
+					<a><button type="button" class="btn btn-primary">入库</button></a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+
+
+</body>
+
+</html>

@@ -2,10 +2,7 @@ package com.wnxy.hospital.mims.service.stock;
 
 import java.util.List;
 
-import com.wnxy.hospital.mims.entity.Damages;
-import com.wnxy.hospital.mims.entity.StIn;
-import com.wnxy.hospital.mims.entity.StItem;
-import com.wnxy.hospital.mims.entity.StOut;
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Stock;
 
 public interface StockService {
@@ -15,5 +12,7 @@ public interface StockService {
 	
 	List<Stock> selectAllStock();
 	Stock selectById(String id);
-	
+	Stock selectByMid(String mid);
+	PageInfo<Stock> selectPageStock(int pageindex,int pagesize);
+
 }

@@ -150,12 +150,21 @@
 					<li>
 						<a href="#systemSetting41" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
 							<i class="glyphicon glyphicon-yen"></i>
-							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span style="display: inline-block;margin-left: 20px;">药库管理</span>
 							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 						</a>
 						<ul id="systemSetting41" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+								<a th:href="@{/st_stock/1/5}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查询库存</a>
+							</li>
+							<li>
+								<a  onclick="menuCss(this)" target="content" style="padding-left:25px;">查询出库单</a>
+							</li>
+							<li>
+								<a th:href="@{/st_selin}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查询入库单</a>
+							</li>
+							<li>
+								<a href="st_baobiao.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">查看月报表</a>
 							</li>
 						</ul>
 					</li>
