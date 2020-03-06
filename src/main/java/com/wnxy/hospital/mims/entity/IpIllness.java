@@ -3,6 +3,8 @@ package com.wnxy.hospital.mims.entity;
 import java.util.Date;
 import java.util.UUID;
 
+import com.wnxy.hospital.mims.mapper.IpDrugMapper;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,8 @@ public class IpIllness {
     private String caution;
 
     private Date illnessDate;
-
+    //药单
+    private IpDrug ipDrug;
     public String getIllnessId() {
         return illnessId;
     }
