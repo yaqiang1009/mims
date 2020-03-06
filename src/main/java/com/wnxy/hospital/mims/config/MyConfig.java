@@ -44,7 +44,7 @@ public class MyConfig {
 			 */
 		};
 	}
-
+	//PageHelper配置bean
 	@Bean
 	public PageHelper getPageHelper() {
 		PageHelper pageHelper = new PageHelper();

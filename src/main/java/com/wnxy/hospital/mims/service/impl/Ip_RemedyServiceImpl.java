@@ -162,5 +162,49 @@ public class Ip_RemedyServiceImpl implements Ip_RemedyService{
 			return null;
 		}
 	}
+	//查询历史所有医疗单
+	@Override
+	public PageInfo<IpRemedy> selectHisAllRemedy(String ptName, int index) {
+		try {
+			//检索医疗单
+			IpRemedyExample example=new IpRemedyExample();
+			//可选，指定病人的医疗单,不满足则全部医生医疗单
+			Criteria create = example.createCriteria();
+			if(!ptName.equals("")) {
+				OpPatientinfoExample examplePt=new OpPatientinfoExample();
+				examplePt.createCriteria().andPtNameLike("%"+ptName+"%");
+				List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(examplePt);
+				//条件，集合中病人的医疗单
+				List<String> values=new ArrayList<String>();
+				for(OpPatientinfo opPatientinfo:pts) {
+					values.add(opPatientinfo.getPtId());
+				}
+				create.andPtIdIn(values);
+			}
+			//设置分页
+			PageHelper.startPage(index, 8);
+			List<IpRemedy> ipRemedys = ipRemedyMapper.selectByExample(example);
+			//对象赋值
+			for(IpRemedy remedy:ipRemedys) {
+				//病人
+				OpPatientinfo pt = opPatientinfoMapper.selectByPrimaryKey(remedy.getPtId());
+				remedy.setOpPatientinfo(pt);
+				//医生
+				Emp emp = empMapper.selectByPrimaryKey(remedy.getEmpId());
+				remedy.setEmp(emp);
+				//病房
+				IpWard ward = ipWardMapper.selectByPrimaryKey(remedy.getWardId());
+				remedy.setIpWard(ward);
+				//床位
+				IpBed bed = ipBedMapper.selectByPrimaryKey(remedy.getBedId());
+				remedy.setIpBed(bed);
+			}
+			PageInfo<IpRemedy> ipRemedyp=new PageInfo<>(ipRemedys);
+			return ipRemedyp;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

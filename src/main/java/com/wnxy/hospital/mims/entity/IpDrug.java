@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,8 @@ public class IpDrug {
     private String drugStatus;
 
     private Date drugDate;
-
+    //药单明细
+    private List<IpDrugDetail> ipDrugDetails;
     public String getDrugId() {
         return drugId;
     }
