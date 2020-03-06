@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示科室下所有医生</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td>照片</td>
+			<td>姓名</td>
+			<td>性别</td>
+			<td>入职日期</td>
+			<td>医生级别</td>
+			<td>挂号费</td>
+			<td>操作</td>
+		</tr>
+
+
+		<tr>
+			<td><img th:src="@{${emp.empPhoto}}" alt="图片"></td>
+
+			<td>[[${emp.empName}]]</td>
+			<td>[[${emp.empSex}]]</td>
+			<td>[[${emp.empHireday}]]</td>
+			<td>[[${opDoclevel.level}]]</td>
+			<td>[[${opDoclevel.price}]]</td>
+			<!-- 挂号时调用挂号方法，需要将session里的就诊卡号和当前医生的员工编号传过去 -->
+			<td><a th:href="@{/op_registry/}+${emp.empId}">挂号</a></td>
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

@@ -1,7 +1,7 @@
 package com.wnxy.hospital.mims.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +16,7 @@ import com.wnxy.hospital.mims.entity.OpCard;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.entity.OpRegistry;
 import com.wnxy.hospital.mims.service.op.impl.Op_InfoManagementServiceImpl;
 import com.wnxy.hospital.mims.service.op.impl.Op_RegistryServiceImpl;
 
@@ -46,10 +47,26 @@ public class OpServiceTest {
 	}
 
 	@Test
+	public void test021() {// 发卡页面，录入病人基本信息和建卡表记录二合一，事务管理
+		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
+		OpPatientinfo opPatientinfo = new OpPatientinfo("513411111111111113", "zs", 11, "男", new Date(19111111),
+				new Date(), "13888888888", "ls", "13999999999", "chenedu");
+		op_RegistryServiceImpl.cardIssuingForPage(opPatientinfo);
+
+	}
+
+	@Test
 	public void test03() {// 就诊卡挂失
 		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
-		OpCard opCard = new OpCard("04aa3a2c03ed4fce8461c2a668218a", "513411111111111111", 1);
+		OpCard opCard = new OpCard("4ee7d999d84b48489a78da95dd15f687", "513411111111111113", 1);
 		op_RegistryServiceImpl.rebondCard(opCard);
+	}
+
+	@Test
+	public void test031() {// 挂失就诊卡，给页面用的，只输入身份证号，将根据身份证号查有效就诊卡和挂失二合一
+		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
+
+		op_RegistryServiceImpl.cardRebondForPage("513411111111111113");
 	}
 
 	@Test
@@ -58,6 +75,15 @@ public class OpServiceTest {
 		String pt_id = "513411111111111112";
 		OpPatientinfo patientInfo = op_RegistryServiceImpl.queryPatientBypt_id(pt_id);
 		System.out.println(patientInfo);
+	}
+
+	@Test
+	public void test041() {// 新建挂号单
+		
+		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
+		
+		OpRegistry opRegistry=op_RegistryServiceImpl.newOpRegistry("f96f2fb706e4452cb038806763b2af2c", "a4f7396991df478daefd75052e288538");
+		System.out.println(opRegistry);
 	}
 
 	@Test
@@ -88,7 +114,7 @@ public class OpServiceTest {
 	public void test06() {// 添加科室信息
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 				.getBean("op_InfoManagementServiceImpl");
-		op_InfoManagementServiceImpl.addOpDep("内科");
+		op_InfoManagementServiceImpl.addOpDep("外科");
 
 	}
 
@@ -153,6 +179,14 @@ public class OpServiceTest {
 		System.out.println(op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b"));
 
 	}
+	
+	@Test
+	public void test073() {// 查指定员工编号的员工
+		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
+				.getBean("op_InfoManagementServiceImpl");
+		System.out.println(op_InfoManagementServiceImpl.queryEmpByEmpId("a354caba11384a9fb6b76e7664bbb18b"));
+
+	}
 
 	@Test
 	public void test08() {// 添加医生收费等级记录
@@ -171,5 +205,22 @@ public class OpServiceTest {
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 				.getBean("op_InfoManagementServiceImpl");
 		System.out.println(op_InfoManagementServiceImpl.queryAllLevel());
+
+	}
+
+	@Test
+	public void test082() {// 查同一等级下的员工编号
+		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
+				.getBean("op_InfoManagementServiceImpl");
+		System.out.println(op_InfoManagementServiceImpl.queryEmpIdByLevel(1));
+
+	}
+	
+	@Test
+	public void test083() {// 根据医生员工编号查收费等级信息
+		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
+				.getBean("op_InfoManagementServiceImpl");
+		System.out.println(op_InfoManagementServiceImpl.queryOpDoclevelByEmpId("f96f2fb706e4452cb038806763b2af2c"));
+
 	}
 }

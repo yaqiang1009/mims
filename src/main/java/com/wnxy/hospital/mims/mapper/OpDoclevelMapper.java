@@ -4,6 +4,7 @@ import com.wnxy.hospital.mims.entity.OpDoclevel;
 import com.wnxy.hospital.mims.entity.OpDoclevelExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 public interface OpDoclevelMapper {
     int countByExample(OpDoclevelExample example);
@@ -27,4 +28,6 @@ public interface OpDoclevelMapper {
     int updateByPrimaryKeySelective(OpDoclevel record);
 
     int updateByPrimaryKey(OpDoclevel record);
+    
+    List<OpDoclevel> selectAllLevel();//自己加的，专门用来查所有等级，结果是去重后的
 }

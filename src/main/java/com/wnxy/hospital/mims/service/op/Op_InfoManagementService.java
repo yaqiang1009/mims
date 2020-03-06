@@ -7,7 +7,7 @@ import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
 
-public interface Op_InfoManagementService {
+public interface Op_InfoManagementService  {
 	// Emp员工表操作
 	public void addEmp(Emp emp);// 添加员工信息
 
@@ -56,7 +56,7 @@ public interface Op_InfoManagementService {
 
 	public List<OpDoclevel> queryAllOpDoclevel();// 查询所有挂号费等级信息
 
-	public List<OpDoclevel> queryAllLevel();// 查所有等级
+	public List<Integer> queryAllLevel();// 查所有等级
 
 	public List<String> queryEmpIdByLevel(Integer level);// 查询指定等级下的员工编号
 

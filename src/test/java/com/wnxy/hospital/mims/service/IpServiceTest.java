@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpDrug;
@@ -25,6 +26,7 @@ import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.entity.OpPatientinfoExample;
 import com.wnxy.hospital.mims.mapper.EmpMapper;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.mapper.IpDrugDetailMapper;
@@ -95,8 +97,8 @@ public class IpServiceTest {
 	@Test
 	public void selectAllHosTest() {
 		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
-		List<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos();
-		for(IpHospitalized hos:selectAllHos) {
+		PageInfo<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos(1);
+		for(IpHospitalized hos:selectAllHos.getList()) {
 			System.out.println(hos);
 		}
 	}
@@ -193,7 +195,7 @@ public class IpServiceTest {
 	@Test
 	public void selectAllRemedyText() {
 		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
-		List<IpRemedy> allRemedy = ip_RemedyService.selectAllRemedy("11822dc20ca643f0ad602e8fecd57c21");
+		PageInfo<IpRemedy> allRemedy = ip_RemedyService.selectAllRemedy("11822dc20ca643f0ad602e8fecd57c21",1);
 		System.out.println(allRemedy);
 	}
 	

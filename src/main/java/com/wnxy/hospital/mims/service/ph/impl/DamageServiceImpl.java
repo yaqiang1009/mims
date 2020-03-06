@@ -9,6 +9,7 @@ import com.wnxy.hospital.mims.entity.Damages;
 import com.wnxy.hospital.mims.entity.DamagesExample;
 import com.wnxy.hospital.mims.entity.DamagesExample.Criteria;
 import com.wnxy.hospital.mims.entity.PhMedicines;
+import com.wnxy.hospital.mims.exception.PhMedicineException;
 import com.wnxy.hospital.mims.mapper.DamagesMapper;
 import com.wnxy.hospital.mims.mapper.PhMedicinesMapper;
 import com.wnxy.hospital.mims.service.ph.DamageService;
@@ -39,14 +40,19 @@ public class DamageServiceImpl implements DamageService{
 		DamagesExample de = new DamagesExample();
 		Criteria cc = de.createCriteria();
 		cc.andDamageIdLike("%"+damage.getDamageId()+"%");
-		//根据报损数量查询
+		//根据报损数量查询,数量完全相等
 		cc.andMedicineCountEqualTo(damage.getMedicineCount());
 		//根据状态查询
 		cc.andStatusEqualTo(damage.getStatus());
-		//默认只能查询药品的报损表
-		
+		//根据来源(药房、药品)查询
+		cc.andSourceEqualTo(damage.getSource());
 		//通过药品名称获取药品编号
-		
-		return null;
+		cc.andMedicineNameLike(damage.getMedicineName());
+		try {
+			List<Damages> damages = damagesMapper.selectByExample(de);
+			return damages;
+		} catch (Exception e) {
+			throw new PhMedicineException(e);
+		}
 	}
 }
