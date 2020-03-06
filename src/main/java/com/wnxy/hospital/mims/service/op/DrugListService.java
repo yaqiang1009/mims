@@ -10,5 +10,5 @@ public interface DrugListService {
 	
 	List<OpDruglist> getDrugList(String prescriptionid);
 	
-	void modifyDrugList(String druglistid, Integer num);
+	void modifyDrugList(String prescriptionid,String medicineid ,Integer num);
 }

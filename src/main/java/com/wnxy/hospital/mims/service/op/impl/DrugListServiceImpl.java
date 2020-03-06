@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wnxy.hospital.mims.entity.OpDruglist;
 import com.wnxy.hospital.mims.entity.OpDruglistExample;
 import com.wnxy.hospital.mims.entity.OpPrescription;
+import com.wnxy.hospital.mims.entity.PhMedicines;
 import com.wnxy.hospital.mims.mapper.OpDruglistMapper;
 import com.wnxy.hospital.mims.mapper.OpPrescriptionMapper;
 import com.wnxy.hospital.mims.mapper.PhMedicinesMapper;
@@ -26,36 +27,36 @@ public class DrugListServiceImpl implements DrugListService {
 	@Autowired
 	PhMedicinesMapper mcmapper;
 
+	
 	@Override
 	public void generateDrugList(List<OpDruglist> druglist) {
 		try {
-			String presctiptionid = "";// 获得处方id
+			String prescriptionid = druglist.get(0).getPtId();// 获得处方id
 			String medicineId = "";// 获得药品id
-			BigDecimal total = new BigDecimal("0");// 药费总计
+			Integer num = 0; //药品数量
 			for (OpDruglist drug : druglist) {
-				// 查询当前处方中药物id
+				// 药品id 处方id 数量
 				medicineId = drug.getMedicineId();
-				presctiptionid = drug.getPtId();
-				OpDruglistExample example = new OpDruglistExample();
-				example.createCriteria().andMedicineIdEqualTo(drug.getMedicineId()).andPtIdEqualTo(presctiptionid);
-				List<OpDruglist> hasmedicine = dlmapper.selectByExample(example);
-				System.out.println(hasmedicine);
-				// 从药房中获取药物价格
-				Double price = mcmapper.selectByPrimaryKey(medicineId).getPrice();
-				if (hasmedicine.isEmpty()) {
-					// 计费
-					total = total
-							.add(new BigDecimal(price.toString()).multiply(new BigDecimal(drug.getNum().toString())));
-					drug.setSingleprice(price.floatValue());
-					// 写入数据库
-					dlmapper.insert(drug);
-				}
+				num = drug.getNum();
+
+				// 调用药房的代码，获取药品单价
+				PhMedicines medicine = mcmapper.selectByPrimaryKey(medicineId);
+				Double price = medicine.getPrice();
+
+				// 使用数据库的药品单价
+				drug.setSingleprice(price.floatValue());
+				
+				// 写入药品表
+				dlmapper.insert(drug);
+				
+				// 调用药房的代码，扣库存
+				medicine.setNumber(medicine.getNumber() - num);
+				mcmapper.updateByPrimaryKey(medicine);
 			}
+			// 总计
+			BigDecimal total = getPrescriptionTotal(prescriptionid);
 			System.out.println(total);
-			// 计算总价，计入处方单
-			OpPrescription prescription = ptmapper.selectByPrimaryKey(presctiptionid);
-			prescription.setTotal(total.floatValue());
-			ptmapper.updateByPrimaryKey(prescription);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,17 +75,39 @@ public class DrugListServiceImpl implements DrugListService {
 	}
 
 	@Override
-	public void modifyDrugList(String druglistid, Integer num) {
+	public void modifyDrugList(String prescriptionid,String medicineid, Integer num) {
 		try {
 			// 修改药单药品及其数量
 			OpDruglistExample example = new OpDruglistExample();
-			example.createCriteria().andDlIdEqualTo(druglistid);
-			List<OpDruglist> old = dlmapper.selectByExample(example);
-			old.get(0).setNum(num);
-			dlmapper.updateByPrimaryKey(old.get(0));
+			example.createCriteria().andPtIdEqualTo(prescriptionid).andMedicineIdEqualTo(medicineid);
+			List<OpDruglist> druglist = dlmapper.selectByExample(example);
+			// 判断该处方单是否已完成支付，已支付或已完成不能修改
+			OpPrescription prescriptioin = ptmapper.selectByPrimaryKey(prescriptionid);
+			if (prescriptioin.getState() == 0&&druglist.size()>0) {
+				// 修改数量
+				druglist.get(0).setNum(num);
+				dlmapper.updateByPrimaryKey(druglist.get(0));
+				// 修改费用
+				getPrescriptionTotal(prescriptionid);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public BigDecimal getPrescriptionTotal(String prescriptionid) {
+		// 统计计费
+		BigDecimal total = new BigDecimal("0");// 药费总计
+		
+		List<OpDruglist> drugList = getDrugList(prescriptionid);
+		for(OpDruglist drug:drugList) {
+			total = total.add(new BigDecimal(drug.getSingleprice().toString())
+					.multiply(new BigDecimal(drug.getNum().toString())));
+		}
+		// 计算总价，计入处方单
+		OpPrescription prescription = ptmapper.selectByPrimaryKey(prescriptionid);
+		prescription.setTotal(total.floatValue());
+		ptmapper.updateByPrimaryKey(prescription);
+		return total;
+	}
 }

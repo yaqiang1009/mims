@@ -27,7 +27,7 @@ public class PrescriptionServiceTest {
 		String tmId = "886070a9-5ded-11ea-a024-00ffaca66b24";
 		String empId = "6f24ac1b-5d1e-11ea-ba6e-00ffaca66b24";
 		OpPrescription prescription = 
-				new OpPrescription(MyUuid.getMyUuid(), tmId, empId, new Date(), "", 0F, 0);
+				new OpPrescription(MyUuid.getMyUuid(), tmId, empId, new Date(), "多喝岩浆", 123F, 1);
 		prescriptionService.generatePrescription(prescription);
 	}
 	@Test

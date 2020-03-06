@@ -2,7 +2,6 @@ package com.wnxy.hospital.mims.service.op;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +41,9 @@ public class DrugListServiceTest {
 	}
 	@Test
 	public void testmodifyDrugList() {
-		String druglistid="";
-		drugListService.modifyDrugList(druglistid, 3);
+		String prescriptionid="3ed6b3ee434a46a5ac4ce81eea43c7cc";
+		String medicineid="1231";
+		drugListService.modifyDrugList(prescriptionid,medicineid, 2);
 	}
 	
 	

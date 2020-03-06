@@ -9,4 +9,6 @@ public interface PrescriptionService {
 	OpPrescription getPrescription(String prescirptionid);
 	
 	void modifyPrescription(String prescirptionid,Integer state);
+	
+	
 }

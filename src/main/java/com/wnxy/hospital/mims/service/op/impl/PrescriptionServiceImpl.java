@@ -15,8 +15,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	
 	@Override
 	public String generatePrescription(OpPrescription prescription) {
-		//生成处方单
+		// 生成处方单，并返回处方单号
 		try {
+			Float total = 0F;// 初始总金额
+			Integer state = 0;// 处方状态0未支付
+			prescription.setTotal(total);
+			prescription.setState(state);
 			psptmapper.insert(prescription);
 			return prescription.getPtId();
 		} catch (Exception e) {
@@ -27,7 +31,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public OpPrescription getPrescription(String prescirptionid) {
-		//获得处方单
+		// 获得处方单
 		try {
 			return psptmapper.selectByPrimaryKey(prescirptionid);
 		} catch (Exception e) {
@@ -38,7 +42,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public void modifyPrescription(String prescirptionid, Integer state) {
-		//修改处方状态
+		// 修改处方状态
 		try {
 			OpPrescription old = psptmapper.selectByPrimaryKey(prescirptionid);
 			old.setState(state);
@@ -47,5 +51,4 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 			e.printStackTrace();
 		}
 	}
-
 }
