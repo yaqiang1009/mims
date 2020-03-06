@@ -10,4 +10,5 @@ public interface Ip_RemedyService {
 	PageInfo<IpRemedy> selectAllRemedyPtName(String ptName);
 	IpRemedy selectRemedy(String id);
 	IpRemedy alertRemedy(String id,String bedId,String empId,String wardId);
+	PageInfo<IpRemedy> selectHisAllRemedy(String ptName,int index);
 }

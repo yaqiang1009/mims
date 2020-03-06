@@ -69,16 +69,13 @@
 						</a>
 						<ul id="systemSetting12" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">全部药单</a>
+								<a th:href="@{/ip_nowdrgu?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">当日药单</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">用药史</a>
+								<a th:href="@{/ip_historydrgu?index=1}" onclick="menuCss(this)" target="content" style="padding-left:25px;">用药史</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">押金查询</a>
-							</li>
-							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">押金明细</a>
+								<a th:href="@{/ip_cash_pledge/1?name=}" onclick="menuCss(this)" target="content" style="padding-left:25px;">押金信息</a>
 							</li>
 						</ul>
 					</li>
