@@ -612,53 +612,63 @@ public class PhMedicinesExample {
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateEqualTo(Date value) {
-            addCriterionForJDBCDate("useful_date =", value, "usefulDate");
+        public Criteria andUsefulDateEqualTo(String value) {
+            addCriterion("useful_date =", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("useful_date <>", value, "usefulDate");
+        public Criteria andUsefulDateNotEqualTo(String value) {
+            addCriterion("useful_date <>", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("useful_date >", value, "usefulDate");
+        public Criteria andUsefulDateGreaterThan(String value) {
+            addCriterion("useful_date >", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("useful_date >=", value, "usefulDate");
+        public Criteria andUsefulDateGreaterThanOrEqualTo(String value) {
+            addCriterion("useful_date >=", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateLessThan(Date value) {
-            addCriterionForJDBCDate("useful_date <", value, "usefulDate");
+        public Criteria andUsefulDateLessThan(String value) {
+            addCriterion("useful_date <", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("useful_date <=", value, "usefulDate");
+        public Criteria andUsefulDateLessThanOrEqualTo(String value) {
+            addCriterion("useful_date <=", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateIn(List<Date> values) {
-            addCriterionForJDBCDate("useful_date in", values, "usefulDate");
+        public Criteria andUsefulDateLike(String value) {
+            addCriterion("useful_date like", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("useful_date not in", values, "usefulDate");
+        public Criteria andUsefulDateNotLike(String value) {
+            addCriterion("useful_date not like", value, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("useful_date between", value1, value2, "usefulDate");
+        public Criteria andUsefulDateIn(List<String> values) {
+            addCriterion("useful_date in", values, "usefulDate");
             return (Criteria) this;
         }
 
-        public Criteria andUsefulDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("useful_date not between", value1, value2, "usefulDate");
+        public Criteria andUsefulDateNotIn(List<String> values) {
+            addCriterion("useful_date not in", values, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateBetween(String value1, String value2) {
+            addCriterion("useful_date between", value1, value2, "usefulDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsefulDateNotBetween(String value1, String value2) {
+            addCriterion("useful_date not between", value1, value2, "usefulDate");
             return (Criteria) this;
         }
 

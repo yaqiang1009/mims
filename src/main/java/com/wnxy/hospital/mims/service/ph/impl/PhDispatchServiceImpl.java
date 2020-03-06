@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.service.ph.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class PhDispatchServiceImpl implements PhDispatchService {
 	@Override
 	public int insertPhDispatch(PhDispatch pd) {
 		try {
+			//添加主键
+			pd.setDispatchId(UUID.randomUUID().toString());
+			//添加默认状态为1--待处理
+			pd.setStatus("1");
 			int num = phDispatchMapper.insertSelective(pd);
 			return num;
 		} catch (Exception e) {

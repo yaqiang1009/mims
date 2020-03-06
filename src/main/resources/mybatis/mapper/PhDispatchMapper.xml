@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.woniuxy.dao.PhDispatchMapper" >
+<mapper namespace="com.wnxy.hospital.mims.mapper.PhDispatchMapper" >
   <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.PhDispatch" >
     <id column="dispatch_id" property="dispatchId" jdbcType="VARCHAR" />
     <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
