@@ -32,6 +32,7 @@ public class MyConfig {
 				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
 				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
 				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
+				registry.addViewController("/op_selectOpRegistryByCondition.html").setViewName("/op_selectOpRegistryByCondition.html");// 多条件模糊查挂号单
 
 			}
 			// 拦截器，暂无使用

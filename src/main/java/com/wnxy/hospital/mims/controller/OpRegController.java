@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
@@ -73,6 +75,35 @@ public class OpRegController {
 		}
 	}
 
+	// 查全部有效挂号单
+	@RequestMapping("/op_allAvailableReg")
+	public String op_allAvailableReg(HttpServletRequest req, Model model) {
+		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
+		List<OpRegistry> availableOpRegistrys = op_RegistryService.AllAvailableOpRegistry(1);
+		model.addAttribute("availableOpRegistrys", availableOpRegistrys);
+		return ("op_allAvailableReg");
+	}
+
+	// 根据条件查挂号单
+	@RequestMapping("/selectOpRegistryByCondition")
+	public String selectOpRegistryByCondition(OpRegistry opRegistry, Model model) {
+		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
+		float regprice = 0.0f;
+		System.out.println("输入身份证：" + opRegistry.getPtId());
+		System.out.println("输入日期：" + opRegistry.getDate());
+		System.out.println("输入价格：" + opRegistry.getRegprice());
+		if (opRegistry.getRegprice() == null) {
+			opRegistry.setRegprice(regprice);
+		}
+
+
+		List<OpRegistry> opRegistrys = op_RegistryService.selectOpRegistryByCondition(opRegistry.getRsId(),
+				opRegistry.getPtId(), opRegistry.getDlId(), opRegistry.getState(), opRegistry.getDate(),
+				opRegistry.getRegprice(), opRegistry.getEmpId());
+		model.addAttribute("opRegistrys", opRegistrys);
+		return ("op_selectOpRegistryByCondition");
+	}
+
 	// 查全部科室
 	@RequestMapping("/op_showAllDep")
 	public String op_showAllDep(Model model, HttpServletRequest request) {
@@ -83,7 +114,7 @@ public class OpRegController {
 		return "op_showAllDep";
 	}
 
-	// 查科室编号对应的全部医生
+	// 查科室编号对应的全部医生,未加分页
 	@RequestMapping("/op_showDocInDep/{depId}")
 	public String op_showDocInDep(@PathVariable("depId") String depId, Model model) {
 		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
@@ -92,6 +123,16 @@ public class OpRegController {
 		model.addAttribute("emps", emps);
 		return "op_showDocInDep";
 	}
+
+//	// 查科室编号对应的全部医生,加分页
+//	@RequestMapping("/op_showDocInDep/{depId}/{index}")
+//	public String op_showDocInDep(@PathVariable("depId")String depId,@PathVariable("index")int index, Model model) {
+//		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
+//				.getBean("op_InfoManagementServiceImpl");
+//		PageInfo<Emp> emps = op_InfoManagementService.queryEmpByDepId(depId, index);// 根据页面传过来的部门编号查对应部门的医生
+//		model.addAttribute("emps", emps);
+//		return "op_showDocInDep";
+//	}
 
 	// 查对应员工编号的医生详细信息
 	@RequestMapping("/op_showDocDetail/{empId}")

@@ -20,7 +20,8 @@ body {
 		</tr>
 		<tr th:each="opDep:${opDeps}">
 			<td><a th:href="@{/op_showDocInDep/}+${opDep.depId}"> [[${opDep.depName}]] </a>
-			</td>
+			</td> 
+		
 
 		</tr>
 	</table>
