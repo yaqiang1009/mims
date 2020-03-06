@@ -14,6 +14,7 @@
     <result column="enter_date" property="enterDate" jdbcType="DATE" />
     <result column="disable_date" property="disableDate" jdbcType="DATE" />
     <result column="warn_value" property="warnValue" jdbcType="INTEGER" />
+    <result column="medicine_name" property="medicineName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, medicine_id, number, price, type, damage_id, damage_count, batch_no, produce_date, 
-    enter_date, disable_date, warn_value
+    enter_date, disable_date, warn_value, medicine_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.PhMedicineInventoryExample" >
     select
@@ -111,13 +112,13 @@
     insert into ph_medicine_inventory (id, medicine_id, number, 
       price, type, damage_id, 
       damage_count, batch_no, produce_date, 
-      enter_date, disable_date, warn_value
-      )
+      enter_date, disable_date, warn_value, 
+      medicine_name)
     values (#{id,jdbcType=VARCHAR}, #{medicineId,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{price,jdbcType=DOUBLE}, #{type,jdbcType=CHAR}, #{damageId,jdbcType=VARCHAR}, 
       #{damageCount,jdbcType=INTEGER}, #{batchNo,jdbcType=VARCHAR}, #{produceDate,jdbcType=DATE}, 
-      #{enterDate,jdbcType=DATE}, #{disableDate,jdbcType=DATE}, #{warnValue,jdbcType=INTEGER}
-      )
+      #{enterDate,jdbcType=DATE}, #{disableDate,jdbcType=DATE}, #{warnValue,jdbcType=INTEGER}, 
+      #{medicineName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.PhMedicineInventory" >
     insert into ph_medicine_inventory
@@ -158,6 +159,9 @@
       <if test="warnValue != null" >
         warn_value,
       </if>
+      <if test="medicineName != null" >
+        medicine_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -195,6 +199,9 @@
       </if>
       <if test="warnValue != null" >
         #{warnValue,jdbcType=INTEGER},
+      </if>
+      <if test="medicineName != null" >
+        #{medicineName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +250,9 @@
       <if test="record.warnValue != null" >
         warn_value = #{record.warnValue,jdbcType=INTEGER},
       </if>
+      <if test="record.medicineName != null" >
+        medicine_name = #{record.medicineName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +271,8 @@
       produce_date = #{record.produceDate,jdbcType=DATE},
       enter_date = #{record.enterDate,jdbcType=DATE},
       disable_date = #{record.disableDate,jdbcType=DATE},
-      warn_value = #{record.warnValue,jdbcType=INTEGER}
+      warn_value = #{record.warnValue,jdbcType=INTEGER},
+      medicine_name = #{record.medicineName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +313,9 @@
       <if test="warnValue != null" >
         warn_value = #{warnValue,jdbcType=INTEGER},
       </if>
+      <if test="medicineName != null" >
+        medicine_name = #{medicineName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -317,7 +331,8 @@
       produce_date = #{produceDate,jdbcType=DATE},
       enter_date = #{enterDate,jdbcType=DATE},
       disable_date = #{disableDate,jdbcType=DATE},
-      warn_value = #{warnValue,jdbcType=INTEGER}
+      warn_value = #{warnValue,jdbcType=INTEGER},
+      medicine_name = #{medicineName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpLeaveapply;
@@ -34,8 +36,10 @@ public class Ip_LeaveHospServiceImpl implements Ip_LeaveHospService{
 	private OpDepMapper opDepMapper;
 	//检索所有出院申请
 	@Override
-	public List<IpLeaveapply> selectAllLeave() {
+	public PageInfo<IpLeaveapply> selectAllLeave(int index) {
 		try {
+			//设置分页
+			PageHelper.startPage(index, 6);
 			IpLeaveapplyExample example=new IpLeaveapplyExample();
 			example.createCriteria().andResultEqualTo("申请中");
 			List<IpLeaveapply> IpLeaveapplys = ipLeaveapplyMapper.selectByExample(example);
@@ -51,7 +55,8 @@ public class Ip_LeaveHospServiceImpl implements Ip_LeaveHospService{
 				Emp emp = empMapper.selectByPrimaryKey(le.getEmpId());
 				le.setEmp(emp);
 			}
-			return IpLeaveapplys;
+			PageInfo<IpLeaveapply> IpLeaveapplyp=new PageInfo<>(IpLeaveapplys);
+			return IpLeaveapplyp;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

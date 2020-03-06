@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示所有门诊科室</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td>科室</td>
+
+		</tr>
+		<tr th:each="opDep:${opDeps}">
+			<td><a th:href="@{/op_showDocInDep/}+${opDep.depId}"> [[${opDep.depName}]] </a>
+			</td>
+
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

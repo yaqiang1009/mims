@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpDrug;
@@ -19,11 +20,13 @@ import com.wnxy.hospital.mims.entity.IpDrugDetail;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpIllnessExample;
+import com.wnxy.hospital.mims.entity.IpLeaveapply;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.entity.OpPatientinfoExample;
 import com.wnxy.hospital.mims.mapper.EmpMapper;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.mapper.IpDrugDetailMapper;
@@ -34,9 +37,11 @@ import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_CashPledgeServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugDetailServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_IllnessServiceImpl;
+import com.wnxy.hospital.mims.service.ip.impl.Ip_LeaveapplyServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ph_Ip_OderStatusImpl;
 
 import lombok.extern.log4j.Log4j;
@@ -92,8 +97,8 @@ public class IpServiceTest {
 	@Test
 	public void selectAllHosTest() {
 		Ip_HosOrderService ip_HosOrderService = (Ip_HosOrderService)ac.getBean("ip_HosOrderServiceImpl");
-		List<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos();
-		for(IpHospitalized hos:selectAllHos) {
+		PageInfo<IpHospitalized> selectAllHos = ip_HosOrderService.selectAllHos(1);
+		for(IpHospitalized hos:selectAllHos.getList()) {
 			System.out.println(hos);
 		}
 	}
@@ -152,7 +157,7 @@ public class IpServiceTest {
 		IpDrugDetail i1 =new IpDrugDetail();
 		IpDrugDetail i2 =new IpDrugDetail();
 		IpDrugDetail i3 =new IpDrugDetail();
-		i1.setDrugNum(2);
+		i1.setDrugNum(1);
 		i1.setMedicineId("1");
 		i1.setPrice(12.0);
 		i1.setUseInstructions("一日一次");
@@ -168,7 +173,7 @@ public class IpServiceTest {
 		ipDrugDetails.add(i1);
 		ipDrugDetails.add(i2);
 		ipDrugDetails.add(i3);
-		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "2");
+		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "1");
 	}
 	//查询药单详情订单service
 	@Test
@@ -190,7 +195,7 @@ public class IpServiceTest {
 	@Test
 	public void selectAllRemedyText() {
 		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
-		List<IpRemedy> allRemedy = ip_RemedyService.selectAllRemedy("11822dc20ca643f0ad602e8fecd57c21");
+		PageInfo<IpRemedy> allRemedy = ip_RemedyService.selectAllRemedy("11822dc20ca643f0ad602e8fecd57c21",1);
 		System.out.println(allRemedy);
 	}
 	
@@ -243,5 +248,26 @@ public class IpServiceTest {
 		Ip_DrugServiceImpl ip_DrugServiceImpl = (Ip_DrugServiceImpl) ac.getBean("ip_DrugServiceImpl");
 		IpDrug drugId = ip_DrugServiceImpl.selectDrugByDrugId("2");
 		System.out.println(drugId);
+	}
+	
+	//申请出院单
+	@Test
+	public void Ip_LeaveapplyServiceImplTest01() {
+		Ip_LeaveapplyServiceImpl ip_LeaveapplyServiceImpl = (Ip_LeaveapplyServiceImpl) ac.getBean("ip_LeaveapplyServiceImpl");
+		IpLeaveapply ipLeaveapply= new IpLeaveapply();
+		ipLeaveapply.setEmpId("1");
+		ipLeaveapply.setRemedyId("1");
+		ipLeaveapply.setCause("已痊愈");
+		ipLeaveapply.setIllness("有点病");
+		String msg = ip_LeaveapplyServiceImpl.addLeaveapplyOrder(ipLeaveapply);
+		System.out.println(msg);
+	}
+	
+	//充值押金
+	@Test
+	public void Ip_CashPledgeServiceImplTest01() {
+		Ip_CashPledgeServiceImpl ip_CashPledgeServiceImpl = (Ip_CashPledgeServiceImpl) ac.getBean("ip_CashPledgeServiceImpl");
+		String msg = ip_CashPledgeServiceImpl.changeCashPledgeOrder("2", 200.0);
+		System.out.println(msg);
 	}
 }

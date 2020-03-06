@@ -25,9 +25,18 @@ public class MyConfig {
 				registry.addViewController("/menu.html").setViewName("/index/menu.html");
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
+
 				
 				registry.addViewController("/st_selin").setViewName("/st_selin.html");
 				//
+
+				//
+
+				// 门诊入口
+				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
+				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
+				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
+
 
 			}
 			// 拦截器，暂无使用
@@ -39,19 +48,20 @@ public class MyConfig {
 			 */
 		};
 	}
-
 	/*
 	 * 注册MyBatis分页插件PageHelper
 	 */
+	//PageHelper配置bean
 	@Bean
-	public PageHelper pageHelper() {
-		//System.out.println("MyBatisConfiguration.pageHelper()");
+	public PageHelper getPageHelper() {
 		PageHelper pageHelper = new PageHelper();
-		Properties p = new Properties();
-		p.setProperty("offsetAsPageNum", "true");
-		p.setProperty("rowBoundsWithCount", "true");
-		p.setProperty("reasonable", "true");
-		pageHelper.setProperties(p);
+		Properties properties = new Properties();
+		properties.setProperty("helperDialect", "mysql");
+		properties.setProperty("reasonable", "true");
+		properties.setProperty("supportMethodsArguments", "true");
+		properties.setProperty("params", "count=countSql");
+		pageHelper.setProperties(properties);
+
 		return pageHelper;
 	}
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>就诊卡挂失</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+
+/* 去掉number控件的加减 */
+/* google、safari */
+	input::-webkit-outer-spin-button,  
+	input::-webkit-inner-spin-button{  
+    	-webkit-appearance: none !important;  
+    	margin: 0;  
+	}
+	/* firefox */
+	input[type="number"]{
+        -moz-appearance: textfield;
+    }
+
+</style>
+<script type="text/javascript">
+	
+</script>
+</head>
+<body>
+
+
+	<!-- 暂时用同步提交 -->
+	<form th:action="@{/op_rebondCard}">
+		输入身份证号以挂失就诊卡:<input type="number" name="ptId" placeholder="请输入身份证号">
+		<button type="submit">确认挂失</button>
+	</form>
+
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

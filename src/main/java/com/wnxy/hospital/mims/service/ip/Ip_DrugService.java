@@ -6,6 +6,6 @@ public interface Ip_DrugService {
 	String addDrugOrder(IpDrug ipDrug,String illnessId);
 	//String updateDrugTotalPriceTotal(String drugId,Double totalPrice);
 	String deleteDrugStatus(IpDrug ipDrug);
-	String updateDrugStatusWithPrice(IpDrug ipDrug,int result);
+	//String updateDrugStatusWithPrice(IpDrug ipDrug,int result);
 	IpDrug selectDrugByDrugId(String drugId);
 }

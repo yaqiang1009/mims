@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示科室下所有医生</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<!-- <tr>
+			<td>照片</td>
+			<td>姓名</td>
+			
+		</tr> -->
+
+
+		<tr th:each="emp:${emps}">
+			<td><a th:href="@{/op_showDocDetail/}+${emp.empId}"> <img
+					th:src="@{${emp.empPhoto}}" alt="图片"></a></td>
+
+			<td><a th:href="@{/op_showDocDetail/}+${emp.empId}">
+					[[${emp.empName}]]</a></td>
+	
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

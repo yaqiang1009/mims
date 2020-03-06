@@ -6,6 +6,7 @@
     <result column="dl_id" property="dlId" jdbcType="VARCHAR" />
     <result column="drug_id" property="drugId" jdbcType="VARCHAR" />
     <result column="subtotal" property="subtotal" jdbcType="DOUBLE" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    out_id, dl_id, drug_id, subtotal, status
+    out_id, dl_id, drug_id, subtotal, source, status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.PhOutMedicineExample" >
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.PhOutMedicine" >
     insert into ph_out_medicine (out_id, dl_id, drug_id, 
-      subtotal, status)
+      subtotal, source, status
+      )
     values (#{outId,jdbcType=VARCHAR}, #{dlId,jdbcType=VARCHAR}, #{drugId,jdbcType=VARCHAR}, 
-      #{subtotal,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER})
+      #{subtotal,jdbcType=DOUBLE}, #{source,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.PhOutMedicine" >
     insert into ph_out_medicine
@@ -119,6 +122,9 @@
       </if>
       <if test="subtotal != null" >
         subtotal,
+      </if>
+      <if test="source != null" >
+        source,
       </if>
       <if test="status != null" >
         status,
@@ -136,6 +142,9 @@
       </if>
       <if test="subtotal != null" >
         #{subtotal,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -163,6 +172,9 @@
       <if test="record.subtotal != null" >
         subtotal = #{record.subtotal,jdbcType=DOUBLE},
       </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null" >
         status = #{record.status,jdbcType=INTEGER},
       </if>
@@ -177,6 +189,7 @@
       dl_id = #{record.dlId,jdbcType=VARCHAR},
       drug_id = #{record.drugId,jdbcType=VARCHAR},
       subtotal = #{record.subtotal,jdbcType=DOUBLE},
+      source = #{record.source,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,6 +207,9 @@
       <if test="subtotal != null" >
         subtotal = #{subtotal,jdbcType=DOUBLE},
       </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -205,6 +221,7 @@
     set dl_id = #{dlId,jdbcType=VARCHAR},
       drug_id = #{drugId,jdbcType=VARCHAR},
       subtotal = #{subtotal,jdbcType=DOUBLE},
+      source = #{source,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where out_id = #{outId,jdbcType=VARCHAR}
   </update>

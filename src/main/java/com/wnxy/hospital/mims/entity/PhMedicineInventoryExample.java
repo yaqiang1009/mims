@@ -901,6 +901,76 @@ public class PhMedicineInventoryExample {
             addCriterion("warn_value not between", value1, value2, "warnValue");
             return (Criteria) this;
         }
+
+        public Criteria andMedicineNameIsNull() {
+            addCriterion("medicine_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameIsNotNull() {
+            addCriterion("medicine_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameEqualTo(String value) {
+            addCriterion("medicine_name =", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotEqualTo(String value) {
+            addCriterion("medicine_name <>", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameGreaterThan(String value) {
+            addCriterion("medicine_name >", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameGreaterThanOrEqualTo(String value) {
+            addCriterion("medicine_name >=", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLessThan(String value) {
+            addCriterion("medicine_name <", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLessThanOrEqualTo(String value) {
+            addCriterion("medicine_name <=", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLike(String value) {
+            addCriterion("medicine_name like", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotLike(String value) {
+            addCriterion("medicine_name not like", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameIn(List<String> values) {
+            addCriterion("medicine_name in", values, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotIn(List<String> values) {
+            addCriterion("medicine_name not in", values, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameBetween(String value1, String value2) {
+            addCriterion("medicine_name between", value1, value2, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotBetween(String value1, String value2) {
+            addCriterion("medicine_name not between", value1, value2, "medicineName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
