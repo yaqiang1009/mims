@@ -41,11 +41,12 @@
 </style>
 <script th:src="@{/js/jquery-2.1.4.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
 
 <body>
 
     <div class="row">
-        <div class="col-xs-3 left">
+        <div class="col-xs-3 left" id="callid">
             <table class="table tb1">
                 <thead>
                     <tr>
@@ -65,7 +66,7 @@
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>李四</td>
+                        <td v:bind:title="callidlist"></td>
                         <td><button class="btn btn-default btn-group-sm"><a href="#">叫号</a></button></td>
                     </tr>
                     <tr>
@@ -123,6 +124,14 @@
                 </ul>
             </div>
         </div>
+        <script>
+            var vm = new Vue({
+                el: "#callid",
+                data: {
+                    callidlist: "hsadf"
+                }
+            })
+        </script>
         <div class="col-xs-8">
             <!-- 工作台 -->
 
@@ -191,8 +200,7 @@
                     <div class="tab-pane" id="panel-prescription" style="padding: 5px 50px 10px;">
                         <!--处方模板-->
                         <br/>
-                        <button class="btn btn-primary">添加处方</button><br/><br/>
-                        药品类别：
+                        <button class="btn btn-primary">添加处方</button><br/><br/> 药品类别：
                         <select class="selectpicker" data-style="btn-primary">
 							<option value="PA">Pennsylvania</option>
 							<option value="CT">Connecticut</option>

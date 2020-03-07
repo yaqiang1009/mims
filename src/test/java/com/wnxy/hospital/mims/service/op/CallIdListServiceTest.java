@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.wnxy.hospital.mims.entity.OpCallidlist;
+import com.wnxy.hospital.mims.dto.CallIdItemDTO;
 import com.wnxy.hospital.mims.service.op.impl.CallIdListServiceImpl;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class CallIdListServiceTest {
 	@Autowired
 	CallIdListServiceImpl callIdListService;
@@ -26,9 +29,9 @@ public class CallIdListServiceTest {
 	@Test
 	public void testgetCallIdList() {
 		String doctorid = "6f24ac1b-5d1e-11ea-ba6e-00ffaca66b24";
-		List<OpCallidlist> list = callIdListService.getCallIdList(doctorid);
-		for(OpCallidlist s:list) {
-			System.out.println(s);
+		List<CallIdItemDTO> callIdList = callIdListService.getCallIdList(doctorid);
+		for(CallIdItemDTO s:callIdList) {
+			log.info(s.toString());
 		}
 	}
 	
