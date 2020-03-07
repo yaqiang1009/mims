@@ -15,6 +15,7 @@ public interface StInMapper {
     int insert(StIn record);
 
     int insertSelective(StIn record);
+    List<StIn> selectYueBaoBiao(String yue);
 
     List<StIn> selectByExample(StInExample example);
 

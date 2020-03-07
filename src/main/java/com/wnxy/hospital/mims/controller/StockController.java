@@ -1,6 +1,7 @@
 package com.wnxy.hospital.mims.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 import com.wnxy.hospital.mims.entity.StIn;
 import com.wnxy.hospital.mims.entity.StItem;
 import com.wnxy.hospital.mims.entity.StMedicines;
@@ -132,7 +134,7 @@ public class StockController {
 				stocks.add(foundStock);
 			}
 			model.addAttribute("stocks", stocks);
-			model.addAttribute("mname",mname);
+			model.addAttribute("mname", mname);
 			return "st_stock2";
 		} catch (StException e) {
 			model.addAttribute("msg", e.getMessage());
@@ -201,48 +203,66 @@ public class StockController {
 		}
 	}
 
+	/**
+	 * 
+	 * 异步响应入库页面，并分页
+	 */
 	@ResponseBody
 	@RequestMapping("/st_selin/{pageindex}/{pagesize}/{mname}")
 	public PageInfo<StIn> st_selin(@PathVariable("pageindex") int pageindex, @PathVariable("pagesize") int pagesize,
 			@PathVariable("mname") String mname) {
 		try {
-			System.out.println(pageindex+"---"+pagesize+"---"+mname);
+			System.out.println(pageindex + "---" + pagesize + "---" + mname);
 			List<StMedicines> stMedicines = new ArrayList<StMedicines>();
-			if (!"aaa".equals(mname)) {
+			if (!"输入药品名查询".equals(mname)) {
 				stMedicines = stMedicinesService.selectByName(mname);
 			} else {
 				stMedicines = stMedicinesService.selectAll();
 			}
-			if(stMedicines==null) {
+			if (stMedicines == null) {
 				return null;
 			}
-			
-			
-			//通过药品名得到主键
-			//通过药品主键查询条目
-			List<StItem> stItems=new ArrayList<StItem>();
-			
-			List<StItem> list=new ArrayList<StItem>();
-			for(StMedicines s:stMedicines) {
-				list=stItemService.selectByMid(s.getMedicineId());
-				
-				for(StItem st:list) {
+			// 通过药品名得到主键
+			// 通过药品主键查询条目
+			List<StItem> stItems = new ArrayList<StItem>();
+
+			List<StItem> list = new ArrayList<StItem>();
+			for (StMedicines s : stMedicines) {
+				list = stItemService.selectByMid(s.getMedicineId());
+
+				for (StItem st : list) {
 					stItems.add(st);
 				}
 			}
-			//装配stItems集合
-			//System.out.println("control:"+stItems);
+			// 装配stItems集合
+			// System.out.println("control:"+stItems);
 			Supplier supplier;
 			StItem stItem;
 			StMedicines stMedicine;
-			
+
 			PageHelper.startPage(pageindex, pagesize);
 			List<StIn> stIns = stInService.selectByItems(stItems);
-			PageInfo<StIn> pageinfo=new PageInfo<StIn>(stIns);
-			
-			stIns=pageinfo.getList();
-			System.out.println(stIns);
-			for (StIn s : stIns) {
+			PageInfo<StIn> pageinfo = new PageInfo<StIn>(stIns);
+			// 新集合用来储存满足条件的数据
+			// 以实现分页
+			List<StIn> stIns2 = new ArrayList<StIn>();
+			stIns = pageinfo.getList();
+			System.out.println(stIns.size());
+			// 这里数组需要初始化长度
+			int[] nums = new int[pageinfo.getSize() / pagesize + 1];
+			for (int j = 1; j <= pageinfo.getSize() / pagesize + 1; j++) {
+				nums[j - 1] = j;
+			}
+			for (int i = 0; i < stIns.size(); i++) {
+				if (i >= (pageindex - 1) * pagesize && i < pageindex * pagesize) {
+					stIns2.add(stIns.get(i));
+				}
+			}
+			// 设置返回对象的参数
+			pageinfo.setNavigatepageNums(nums);
+			pageinfo.setList(stIns2);
+
+			for (StIn s : stIns2) {
 				// 装配供应商
 				supplier = supplierService.selectBySid(s.getSupplierId());
 				s.setSupplier(supplier);
@@ -254,8 +274,162 @@ public class StockController {
 				s.setItem(stItem);
 
 			}
-			
+
 			return pageinfo;
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * 异步响应出库页面，并分页
+	 */
+	@ResponseBody
+	@RequestMapping("/st_selout/{pageindex}/{pagesize}/{mname}")
+	public PageInfo<StOut> st_selout(@PathVariable("pageindex") int pageindex, @PathVariable("pagesize") int pagesize,
+			@PathVariable("mname") String mname) {
+		try {
+
+			List<StMedicines> stMedicines = new ArrayList<StMedicines>();
+			if (!"输入药品名查询".equals(mname)) {
+				stMedicines = stMedicinesService.selectByName(mname);
+			} else {
+				stMedicines = stMedicinesService.selectAll();
+			}
+			if (stMedicines == null) {
+				return null;
+			}
+			// 通过药品名得到主键
+			// 通过药品主键查询条目
+			List<StItem> stItems = new ArrayList<StItem>();
+
+			List<StItem> list = new ArrayList<StItem>();
+			for (StMedicines s : stMedicines) {
+				list = stItemService.selectByMid(s.getMedicineId());
+
+				for (StItem st : list) {
+					stItems.add(st);
+				}
+			}
+			// 装配stItems集合
+			// System.out.println("control:"+stItems);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+
+			PageHelper.startPage(pageindex, pagesize);
+			List<StOut> stOuts = stOutService.selectByItems(stItems);
+			PageInfo<StOut> pageinfo = new PageInfo<StOut>(stOuts);
+			// 新集合用来储存满足条件的数据
+			// 以实现分页
+			List<StOut> stOut2 = new ArrayList<StOut>();
+			stOuts = pageinfo.getList();
+			System.out.println(stOuts.size());
+			// 这里数组需要初始化长度
+			int[] nums = new int[pageinfo.getSize() / pagesize + 1];
+			for (int j = 1; j <= pageinfo.getSize() / pagesize + 1; j++) {
+				nums[j - 1] = j;
+			}
+			for (int i = 0; i < stOuts.size(); i++) {
+				if (i >= (pageindex - 1) * pagesize && i < pageindex * pagesize) {
+					stOut2.add(stOuts.get(i));
+				}
+			}
+			// 设置返回对象的参数
+			pageinfo.setNavigatepageNums(nums);
+			pageinfo.setList(stOut2);
+
+			for (StOut s : stOut2) {
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+
+			return pageinfo;
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping("/st_baobiao/in/{year}/{month}/{pageindex}")
+	public PageInfo<StIn> st_baobiao(
+
+			@PathVariable("year") String year, @PathVariable("month") String month,
+			@PathVariable("pageindex") int pageindex) {
+		
+		try {
+			
+			if (StringUtil.isEmpty(year)) {
+				year="2020";
+			}
+			if (StringUtil.isEmpty(month)) {
+				month="03";
+			}
+
+			PageHelper.startPage(pageindex, 5);
+			List<StIn> stIns = stInService.selectYueBaoBiao(year + "-" + month);
+			PageInfo<StIn> pageinfo = new PageInfo<StIn>(stIns);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+			for (StIn s : pageinfo.getList()) {
+				// 装配供应商
+				supplier = supplierService.selectBySid(s.getSupplierId());
+				s.setSupplier(supplier);
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+			return pageinfo;
+
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@ResponseBody
+	@RequestMapping("/st_baobiao/out/{year}/{month}/{pageindex}")
+	public PageInfo<StOut> st_baobiaoOut(
+			@PathVariable("year") String year, @PathVariable("month") String month,
+			@PathVariable("pageindex") int pageindex) {
+		try {
+			
+			if (StringUtil.isEmpty(year)) {
+				year="2020";
+			}
+			if (StringUtil.isEmpty(month)) {
+				month="03";
+			}
+
+			PageHelper.startPage(pageindex, 5);
+			List<StOut> stOuts = stOutService.selectYueBaoBiao(year + "-" + month);
+			PageInfo<StOut> pageinfo = new PageInfo<StOut>(stOuts);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+			for (StOut s : pageinfo.getList()) {
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+			return pageinfo;
+
 		} catch (StException e) {
 			e.printStackTrace();
 			return null;

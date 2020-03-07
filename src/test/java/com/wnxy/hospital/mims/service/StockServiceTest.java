@@ -19,6 +19,7 @@ import com.wnxy.hospital.mims.entity.StMedicines;
 import com.wnxy.hospital.mims.entity.StOut;
 import com.wnxy.hospital.mims.entity.Stock;
 import com.wnxy.hospital.mims.mapper.StMedicinesMapper;
+import com.wnxy.hospital.mims.service.stock.StInService;
 import com.wnxy.hospital.mims.service.stock.StMedicinesService;
 import com.wnxy.hospital.mims.service.stock.StockService;
 
@@ -51,6 +52,13 @@ public class StockServiceTest {
 			stocks.add(foundStock);
 
 		}
+		
+	}
+	@Test
+	public void testYue() {
+		StInService stInService = (StInService) ac.getBean("stInServiceImpl");
+		String yue="2020-03";
+		System.out.println(stInService.selectYueBaoBiao(yue));
 		
 	}
 	

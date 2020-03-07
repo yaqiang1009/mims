@@ -66,6 +66,7 @@ public class StInServiceImpl implements StInService{
 				StInExample example=new StInExample();
 				example.createCriteria().andItemIdEqualTo(s.getItemId());
 				found = stInMapper.selectByExample(example);
+				//进行非空判断，避免报错
 				if(found.size()!=0) {
 					list.add(found.get(0));
 				}
@@ -75,6 +76,15 @@ public class StInServiceImpl implements StInService{
 		}catch (Exception e) {
 			throw new StException("Impl错误");
 		}
+	}
+	/* (non-Javadoc)
+	 * @see com.wnxy.hospital.mims.service.stock.StInService#selectYB(java.lang.String)
+	 */
+	@Override
+	public List<StIn> selectYueBaoBiao(String yue) {
+	
+		return stInMapper.selectYueBaoBiao(yue);
+		
 	}
 
 }

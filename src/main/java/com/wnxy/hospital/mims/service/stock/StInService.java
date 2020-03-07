@@ -10,5 +10,6 @@ public interface StInService {
 	void insertStIn(StIn stIn);
 	List<StIn> selectAll();
 	List<StIn> selectByItems(List<StItem> stItems);
+	List<StIn> selectYueBaoBiao(String yue);
 	
 }

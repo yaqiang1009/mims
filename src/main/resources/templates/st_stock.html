@@ -77,7 +77,9 @@ body {
 				<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
-			
+			<!--  
+				页码分为三部分组成，分别进行判断
+			-->
 			<li th:each="i:${pageinfo.navigatepageNums}" 
 				th:if="${pageinfo.pageNum -3} lt ${i} and ${i} lt ${pageinfo.pageNum }">
 				<a th:href="@{/st_stock/}+${i}+@{/5}" >[[${i}]]</a>

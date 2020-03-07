@@ -41,15 +41,15 @@ body {
 	<div id="app">
 		
 		<table id="main_table" class="table table-bordered">
-			<caption>入库信息        <input type="text" v-model="mname" @input="sel"
+			<caption>出库信息 <input type="text" v-model="mname" @input="sel"
 			placeholder="输入药品名查询" /></caption>
 			<thead>
 				<tr>
 					<th class="th2">药品名</th>
 					<th class="th3">药品单位</th>
-					<th class="th3">供应商</th>
+					
 					<th class="th6">药品数量</th>
-					<th class="th6">入库时间</th>
+					<th class="th6">出库时间</th>
 				</tr>
 			</thead>
 
@@ -57,7 +57,7 @@ body {
 				<tr v-for="i in list">
 					<td>{{i.item.medicines.medicineName}}</td>
 					<td>{{i.item.medicines.medicineType}}</td>
-					<td>{{i.supplier.supplierName}}</td>
+				
 					<td>{{i.item.medicineNum}}</td>
 					<td>{{i.time| dateFormat}}</td>
 
@@ -105,10 +105,6 @@ body {
 			list:[],
 			nums:[]
 		},
-		/*
-			时间格式转换
-			
-		*/
 		filters:{
 		    dateFormat(val){
 		      const dt = new Date(val)
@@ -125,7 +121,7 @@ body {
 		  },
 		mounted : function(){
 			var that=this;
-			axios.get("/st_selin/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
+			axios.get("/st_selout/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
 			.then(function(resp){
 				console.log(resp);
 				that.list=resp.data.list;
@@ -135,7 +131,7 @@ body {
 		methods:{
 			sel:function(){
 				var th=this;
-				axios.get("/st_selin/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
+				axios.get("/st_selout/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
 				.then(function(resp){
 					console.log(resp);
 					th.list=resp.data.list;
@@ -145,7 +141,7 @@ body {
 			jump:function(e){
 				var th=this;
 				this.pageindex=e;
-				axios.get("/st_selin/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
+				axios.get("/st_selout/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
 				.then(function(resp){
 					console.log(resp);
 					th.list=resp.data.list;
@@ -155,7 +151,7 @@ body {
 			left:function(){
 				var th=this;
 				this.pageindex--;
-				axios.get("/st_selin/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
+				axios.get("/st_selout/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
 				.then(function(resp){
 					console.log(resp);
 					th.list=resp.data.list;
@@ -165,7 +161,7 @@ body {
 			right:function(){
 				var th=this;
 				this.pageindex++;
-				axios.get("/st_selin/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
+				axios.get("/st_selout/"+this.pageindex+"/"+this.pagesize+"/"+this.mname)
 				.then(function(resp){
 					console.log(resp);
 					th.list=resp.data.list;

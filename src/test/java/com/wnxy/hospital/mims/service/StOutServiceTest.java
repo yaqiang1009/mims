@@ -107,7 +107,7 @@ public class StOutServiceTest {
 	public void testAdd5() {
 		StMedicinesService stMedicinesService = 
 				(StMedicinesService) ac.getBean("stMedicinesServiceImpl");
-		System.out.println(stMedicinesService.selectAll());
+		System.out.println(stMedicinesService.selectByName("西瓜"));
 	}
 
 	

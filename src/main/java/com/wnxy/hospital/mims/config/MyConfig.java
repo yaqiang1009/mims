@@ -26,8 +26,9 @@ public class MyConfig {
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
 
-				
+				registry.addViewController("/st_selout").setViewName("/st_selout.html");
 				registry.addViewController("/st_selin").setViewName("/st_selin.html");
+				registry.addViewController("/st_baobiao").setViewName("/st_baobiao.html");
 				//
 
 				//
