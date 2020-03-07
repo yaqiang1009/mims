@@ -9,26 +9,16 @@
 body {
 	padding: 15px;
 }
-
-
-
-
 </style>
 <script type="text/javascript">
 	
 </script>
 </head>
 <body>
-	<!-- 录入病人基本信息发卡页面 -->
-	<a href="/op_newCard.html">办就诊卡</a><br/>
-	
-	<a href="/op_rebondCard.html">就诊卡挂失</a><br/>
-	
 	<!-- 有卡挂号直接请求controller,将卡号存到session域中 -->
 	<!-- 暂时用同步提交 -->
 	<form th:action="@{/op_cardIdTosession}">
-		就诊卡号:<input type="text" name="cardId"
-			placeholder="请输入就诊卡号">
+		就诊卡号:<input type="text" name="cardId" placeholder="请输入就诊卡号">
 		<button type="submit">挂号</button>
 	</form>
 

@@ -20,6 +20,28 @@ body {
 	input[type="number"]{
         -moz-appearance: textfield;
     }
+    
+table{
+
+margin:0 auto;
+}    
+td {
+width:100%;	
+font-weight:bold;
+text-align-last:justify;
+} 
+
+input{
+width:200px;
+}
+#but{
+text-align-last: right;
+
+}
+
+div{
+font-weight:bold;
+}
 </style>
 <script>
 	//生成当前日期给表单中的date
@@ -33,54 +55,57 @@ body {
 </script>
 </head>
 <body>
+<div>就诊卡办理</div>
 	<!-- 录入患者基本信息 -->
 	<!-- 暂时用同步提交 -->
 	<form th:action="@{/op_newCard}">
 		<table>
 			<tr>
-				<td>患者姓名:<input th:text name="ptName" placeholder="请输入患者姓名">
+				<td>患者姓名<input th:text name="ptName" placeholder="" required>
 				</td>
 			</tr>
 			<tr>
-				<td>身份证号:<input type="number" name="ptId" placeholder="请输入身份证号">
-				</td>
-			</tr>
-
-			<tr>
-				<td>患者年龄:<input type="number" name="age" placeholder="请输入患者年龄"></td>
-			</tr>
-			<tr>
-				<td>患者性别:<input th:text name="sex" placeholder="请输入患者性别"></td>
-			</tr>
-
-			<tr>
-				<td>患者生日:<input type="date" name="birthday" placeholder="请输入患者生日">
-				</td>
-			</tr>
-			<tr>
-				<td>患者手机号:<input type="number" name="phone" placeholder="请输入患者手机号">
+				<td>身份证号<input type="text" name="ptId" placeholder=""required>
 				</td>
 			</tr>
 
 			<tr>
-				<td>家属姓名:<input th:text name="familyperson"
-					placeholder="请输入患者家属姓名">
+				<td>患者年龄<input type="number" name="age" placeholder=""required></td>
+			</tr>
+			<tr>
+				<td>患者性别<input th:text name="sex" placeholder=""required></td>
+			</tr>
+
+			<tr>
+				<td>患者生日<input type="date" name="birthday"required>
 				</td>
 			</tr>
 			<tr>
-				<td>家属手机号:<input type="number" name="familyphone"
-					placeholder="请输入患者家属手机号"></td>
-			</tr>
-			<tr>
-				<td>联系地址:<input th:text name="address" placeholder="请输入患者联系地址">
+				<td>患者手机号<input type="number" name="phone" placeholder=""required>
 				</td>
 			</tr>
 
+			<tr>
+				<td>家属姓名<input th:text name="familyperson"
+					placeholder=""required>
+				</td>
+			</tr>
+			<tr>
+				<td>家属手机号<input type="number" name="familyphone"
+					placeholder=""required></td>
+			</tr>
+			<tr>
+				<td>联系地址<input th:text name="address" placeholder=""required>
+				</td>
+			</tr>
+			<tr >
+			<td id="but"><button type="submit">办卡</button></td>
+			</tr>
 		</table>
 		<input type="hidden" id="date" name="date">
 		<!-- 隐藏字段，通过js给日期赋值 -->
 
-		<button type="submit">办卡</button>
+		
 	</form>
 
 

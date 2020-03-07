@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示所有有效挂号单</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+
+td {
+	width: 300px;
+	word-break: break-all;
+	text-align: center;
+	margin-left: 10px;
+	border: 1px solid gray;
+	text-align-last: center;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td>挂号单号</td>
+			<td>患者身份证号</td>
+			<td>挂号日期</td>
+			<td>医生工号</td>
+			<td>挂号费</td>
+
+
+		</tr>
+		<tr th:each="op_avareg:${availableOpRegistrys}">
+			<td>[[${op_avareg.rsId}]]</td>
+			<td>[[${op_avareg.ptId}]]</td>
+			<td>[[${op_avareg.date}]]</td>
+			<td>[[${op_avareg.empId}]]</td>
+			<td>[[${op_avareg.regprice}]]</td>
+			
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

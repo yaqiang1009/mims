@@ -34,6 +34,11 @@ public interface Op_RegistryService {// 诊卡，挂号
 
 	OpRegistry newOpRegistry(String empId, String cardId);// 新建挂号单
 
-	List<OpRegistry> availableOpRegistry(String empId, String pt_id, Date date,Integer state);// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
+	List<OpRegistry> availableOpRegistry(String empId, String pt_id, Date date, Integer state);// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
+
+	List<OpRegistry> AllAvailableOpRegistry(Integer state);// 查全部有效挂号单
+
+	List<OpRegistry> selectOpRegistryByCondition(String rsId, String ptId, String dlId, Integer state, Date date,
+			float regprice, String empId);// 按条件查挂号单
 
 }

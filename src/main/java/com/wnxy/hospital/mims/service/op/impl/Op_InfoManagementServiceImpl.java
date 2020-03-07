@@ -8,8 +8,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.EmpExample;
+import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OfficeExample;
 import com.wnxy.hospital.mims.entity.OfficeExample.Criteria;
@@ -107,7 +110,19 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 		criteria.andDepIdEqualTo(depId);
 		return empMapper.selectByExample(example);
 
-	}// 查询指定科室depId下的员工
+	}// 查询指定科室depId下的员工,未加分页
+
+//	@Override
+//	public PageInfo<Emp> queryEmpByDepId(String depId, int index) {
+//		//设置分页
+//		PageHelper.startPage(index, 6);
+//		EmpExample example = new EmpExample();
+//		com.wnxy.hospital.mims.entity.EmpExample.Criteria criteria = example.createCriteria();
+//		criteria.andDepIdEqualTo(depId);
+//		List<Emp> emps= empMapper.selectByExample(example);
+//		PageInfo<Emp> op_pageInfo=new PageInfo<>(emps);
+//		return op_pageInfo;
+//	}// 查询指定科室depId下的员工，加分页
 
 	@Override
 	public List<Emp> queryEmpByOfficeId(String officeId) {

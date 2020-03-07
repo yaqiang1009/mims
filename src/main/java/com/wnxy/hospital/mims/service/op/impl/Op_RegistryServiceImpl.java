@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.wnxy.hospital.mims.entity.OpCard;
 import com.wnxy.hospital.mims.entity.OpCardExample;
@@ -262,4 +263,77 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 
 	}
 
+	@Override
+	public List<OpRegistry> AllAvailableOpRegistry(Integer state) {// 查全部有效挂号单
+		OpRegistryExample example = new OpRegistryExample();
+		com.wnxy.hospital.mims.entity.OpRegistryExample.Criteria criteria = example.createCriteria();
+		criteria.andStateEqualTo(state);
+		return opRegistryMapper.selectByExample(example);
+
+	}
+
+	@Override
+	public List<OpRegistry> selectOpRegistryByCondition(String rsId, String ptId, String dlId, Integer state, Date date,
+			float regprice, String empId) {// 多条件模糊查询挂号单
+		OpRegistryExample example = new OpRegistryExample();
+		com.wnxy.hospital.mims.entity.OpRegistryExample.Criteria criteria = example.createCriteria();
+		if (rsId != null) {
+			criteria.andRsIdLike("%" + rsId + "%");
+		}
+
+		if (ptId != null) {
+			criteria.andPtIdLike("%" + ptId + "%");
+		}
+
+		if (dlId != null) {
+			criteria.andDlIdLike("%" + dlId + "%");
+		}
+
+		if (state != null) {
+			criteria.andStateEqualTo(state);
+		}
+
+		if (date != null) {
+			criteria.andDateEqualTo(date);
+		}
+
+		if (regprice != 0.0f) {
+			criteria.andRegpriceEqualTo(regprice);
+		}
+
+		if (empId != null) {
+			criteria.andEmpIdLike("%" + empId + "%");
+		}
+
+		return opRegistryMapper.selectByExample(example);
+	}
+
 }
+
+//if (!rsId.equals("") && rsId != null) {
+//criteria.andRsIdLike("%" + rsId + "%");
+//}
+//
+//if (!ptId.equals("") && ptId != null) {
+//criteria.andPtIdLike("%" + ptId + "%");
+//}
+//
+//if (!dlId.equals("") && dlId != null) {
+//criteria.andDlIdLike("%" + dlId + "%");
+//}
+//
+//if (!state.equals("") && state != null) {
+//criteria.andStateEqualTo(state);
+//}
+//
+//if (!date.equals("") && date != null) {
+//criteria.andDateEqualTo(date);
+//}
+//
+//if (regprice != 0.0f) {
+//criteria.andRegpriceEqualTo(regprice);
+//}
+//
+//if (!empId.equals("") && empId != null) {
+//criteria.andEmpIdLike("%" + empId + "%");
+//}

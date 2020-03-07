@@ -1,5 +1,7 @@
 package com.wnxy.hospital.mims.entity;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,11 @@ public class UserPsd {
     private String userId;
 
     private String empId;
+    private Emp emp;
 
     private String userAccount;
-
+    
+    private List<Role> roles;
     private String userPassword;
 
     public String getUserId() {

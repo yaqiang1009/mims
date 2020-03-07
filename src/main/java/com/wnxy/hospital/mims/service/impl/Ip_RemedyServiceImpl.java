@@ -130,7 +130,7 @@ public class Ip_RemedyServiceImpl implements Ip_RemedyService{
 			List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(examplept);
 			//获取病人id集合
 			List<String> values=new ArrayList<String>();
-			//values.add("");
+			values.add("");
 			for(OpPatientinfo pt:pts) {
 				values.add(pt.getPtId());
 			}
@@ -176,6 +176,7 @@ public class Ip_RemedyServiceImpl implements Ip_RemedyService{
 				List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(examplePt);
 				//条件，集合中病人的医疗单
 				List<String> values=new ArrayList<String>();
+				values.add("");
 				for(OpPatientinfo opPatientinfo:pts) {
 					values.add(opPatientinfo.getPtId());
 				}

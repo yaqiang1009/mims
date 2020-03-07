@@ -2,12 +2,13 @@ package com.wnxy.hospital.mims.service.op;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpDep;
 import com.wnxy.hospital.mims.entity.OpDoclevel;
 
-public interface Op_InfoManagementService  {
+public interface Op_InfoManagementService {
 	// Emp员工表操作
 	public void addEmp(Emp emp);// 添加员工信息
 
@@ -15,9 +16,10 @@ public interface Op_InfoManagementService  {
 
 	public Emp queryEmpByEmpId(String empId);// 根据员工编号查询指定员工
 
-	public List<Emp> queryEmpByDepId(String depId);// 查询指定身份证的员工
+	public List<Emp> queryEmpByDepId(String depId);// 查询指定科室编号的员工，没加分页
+	//public PageInfo<Emp> queryEmpByDepId(String depId, int index);// 查询指定科室编号的员工，加分页
 
-	public List<Emp> queryEmpByEmpIdentity(String empIdentity);// 查询指定科室depId下的员工
+	public List<Emp> queryEmpByEmpIdentity(String empIdentity);// 查询指定身份证的员工
 
 	public List<Emp> queryEmpByOfficeId(String officeId);// 查询指定部门officeId下的员工
 

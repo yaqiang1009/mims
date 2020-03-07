@@ -6,6 +6,9 @@
     <result column="item_id" property="itemId" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="DATE" />
   </resultMap>
+  <select id="selectYueBaoBiao" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from st_out where  left(time,7) =#{yue}
+  </select>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
