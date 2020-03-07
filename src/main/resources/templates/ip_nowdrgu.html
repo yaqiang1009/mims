@@ -40,12 +40,22 @@ text-align:center;
 #numberdiv ul{
 margin: auto;
 }
+/* 空图片 */
+#vacancy{
+text-align: center;
+}
+#vacancy img{
+height: 500px;
+}
 </style>
 <style type="text/css">
 
 </style>
 </head>
 <body>
+<!-- 无数据提醒 -->
+<div id="vacancy" th:if="${ipDrugs.list.total==0}"><img th:src="@{/img/vacancy.jpg}"></div>
+<!-- 有数据进行展示 -->
 <table th:each="ipDrug:${ipDrugs.list}" id="main_table" class="table table-bordered">
 	<caption>药单:</caption>
 	<tbody>
@@ -89,7 +99,7 @@ margin: auto;
 </table>
 
 <!-- 分页 -->
-<div id="numberdiv">
+<div th:if="${ipDrugs.list.total!=0}" id="numberdiv">
 	<ul class="pagination">
 		<!-- 上一页 -->
 		<li th:if="${!ipDrugs.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>

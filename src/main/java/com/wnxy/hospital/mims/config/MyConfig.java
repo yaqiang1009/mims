@@ -5,14 +5,16 @@ import java.util.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.github.pagehelper.PageHelper;
 
-//配置类
+//配置类(本地路径映射，新增继承)
 @Configuration
-public class MyConfig {
+public class MyConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public WebMvcConfigurer WebMvcConfigurer() {
 		return new WebMvcConfigurer() {
@@ -26,8 +28,9 @@ public class MyConfig {
 				registry.addViewController("/menu.html").setViewName("/index/menu.html");
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
-				//
-
+				//后台相关
+				registry.addViewController("/login").setViewName("/backstage/login.html");
+								
 				// 门诊入口
 				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
 				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
@@ -43,6 +46,13 @@ public class MyConfig {
 			 */
 		};
 	}
+	
+	//照片路径映射D:/img/empphoto/
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/img/empphoto/**").addResourceLocations("file:D:/img/empphoto/");
+    }
+	
 	//PageHelper配置bean
 	@Bean
 	public PageHelper getPageHelper() {

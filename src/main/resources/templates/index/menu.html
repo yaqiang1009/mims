@@ -146,29 +146,20 @@
 					<!-- 角色一 -->
 					<li>
 						<a href="#systemSetting40" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
-							<i class="glyphicon glyphicon-yen"></i>
-							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<i class="glyphicon glyphicon-cog"></i>
+							<span style="display: inline-block;margin-left: 20px;">系统管理</span>
 							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 						</a>
 						<ul id="systemSetting40" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+								<a th:href="@{/sys_user_control/1?name=}" onclick="menuCss(this)" target="content" style="padding-left:25px;">用户管理</a>
 							</li>
-						</ul>
-					</li>
-					<!-- 角色二 -->
-					<li>
-						<a href="#systemSetting41" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
-							<i class="glyphicon glyphicon-yen"></i>
-							<span style="display: inline-block;margin-left: 20px;">角色</span>
-							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
-						</a>
-						<ul id="systemSetting41" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+								<a th:href="@{/sys_insert_user}" onclick="menuCss(this)" target="content" style="padding-left:25px;">新增用户</a>
 							</li>
 						</ul>
 					</li>
+
 				</ul>
 			</div>
 		</div>
