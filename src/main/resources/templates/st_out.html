@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>药库出库信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+padding:4px;
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+.th7{
+width: 10%;
+}
+</style>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<form th:action="@{/st_doOut/}+${stock.medicineId}">
+<table id="main_table" class="table table-bordered">
+	<caption>药库信息</caption>
+	<thead>
+		<tr>
+			<th class="th2">药品名</th>
+			<th class="th3">药品剩余数量</th>
+			<th class="th3">药品单位</th>
+			<th class="th3">出库数量</th>
+			<th class="th6">操作</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+ 	<tr>
+			<td>[[${stock.medicines.medicineName}]]</td>
+			<td >[[${stock.medicineNum}]]</td>
+			<td>[[${stock.medicineDanwei}]]</td>
+			
+			<td><input type="number" name="num" id="num" onblur="out()"/>
+				<input type="hidden" id="hid" name="hid" th:value="${stock.medicineNum}"/>
+			</td>
+			<td>
+				<button type="submit" class="btn btn-primary">确认出库</button>
+			</td>
+	</tr>
+	</tbody>
+
+	
+</table>
+</form>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<script>
+	function out(){
+		/* 
+			分别是jquery写法，和原声js写法
+		*/
+		 var num = $("#num").val();
+		 var hid = document.getElementById("hid").value;
+		 
+		if(parseInt(num)<=0){
+			alert("出库数据不符合要求");
+		}
+		if(parseInt(num)>parseInt(hid)){
+			 alert("该药品库存不足，请修改出库数量");
+		
+		}
+		
+	}
+	
+
+</script>
+</html>
