@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示多条件模糊查询挂号单</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+
+td {
+	margin: 5px;
+	font-weight: bold;
+	text-align-last: justify;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+input {
+	width: 200px;
+}
+
+.tab {
+	width: 300px;
+	word-break: break-all;
+	text-align: center;
+	margin-left: 10px;
+	border: 1px solid gray;
+	text-align-last: center;
+}
+
+#but{
+text-align-last: right;
+}
+/* 去掉number控件的加减 */
+/* google、safari */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0;
+}
+/* firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+</style>
+
+</head>
+<body>
+	<!-- 多条件模糊查询挂号单 -->
+	<!-- 暂时用同步提交 -->
+	<form th:action="@{/selectOpRegistryByCondition}">
+		<table>
+			<tr>
+				<td>挂号单号<input th:text name="rsId" placeholder="">
+				</td>
+			</tr>
+			<tr>
+				<td>患者身份证号<input th:text name="ptId" placeholder="">
+				</td>
+			</tr>
+
+			<tr>
+				<td>挂号收费等级编号<input th:text name="dlId" placeholder=""></td>
+			</tr>
+			<tr>
+				<td>挂号单状态<input type="number" name="state" placeholder=""></td>
+			</tr>
+
+			<tr>
+				<td>挂号日期<input type="date" name="date" placeholder="">
+				</td>
+			</tr>
+			<tr>
+				<td>挂号费<input type="number" name="regprice" placeholder="">
+				</td>
+			</tr>
+
+			<tr>
+				<td>医生工号<input th:text name="empId" placeholder="">
+				</td>
+			</tr>
+			<td id="but">
+				<button type="submit">查询</button>
+			</td>
+
+		</table>
+
+
+	</form>
+
+
+	<table>
+		<tr>
+			<td class="tab">挂号单号</td>&nbsp&nbsp&nbsp&nbsp&nbsp
+			<td class="tab">患者身份证号</td>
+			<td class="tab">挂号收费等级编号</td>
+			<td class="tab">挂号单状态</td>
+			<td class="tab">挂号日期</td>
+			<td class="tab">医生工号</td>
+			<td class="tab">挂号费</td>
+
+
+		</tr>
+		<tr th:each="opRegistry:${opRegistrys}">
+			<td class="tab">[[${opRegistry.rsId}]]</td>
+			<td class="tab">[[${opRegistry.ptId}]]</td>
+			<td class="tab">[[${opRegistry.dlId}]]</td>
+			<td class="tab">[[${opRegistry.state}]]</td>
+			<td class="tab">[[${opRegistry.date}]]</td>
+			<td class="tab">[[${opRegistry.empId}]]</td>
+			<td class="tab">[[${opRegistry.regprice}]]</td>
+
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>
