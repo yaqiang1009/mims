@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -26,13 +25,23 @@ public class MyConfig {
 				registry.addViewController("/menu.html").setViewName("/index/menu.html");
 				registry.addViewController("/content.html").setViewName("/index/content.html");
 				registry.addViewController("/password.html").setViewName("/index/password.html");
+
+				registry.addViewController("/st_selout").setViewName("/st_selout.html");
+				registry.addViewController("/st_selin").setViewName("/st_selin.html");
+				registry.addViewController("/st_baobiao").setViewName("/st_baobiao.html");
+				//
+
 				//
 
 				// 门诊入口
 				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
 				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
 				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
+
 				registry.addViewController("/op_selectOpRegistryByCondition.html").setViewName("/op_selectOpRegistryByCondition.html");// 多条件模糊查挂号单
+
+
+
 
 			}
 			// 拦截器，暂无使用
@@ -44,6 +53,9 @@ public class MyConfig {
 			 */
 		};
 	}
+	/*
+	 * 注册MyBatis分页插件PageHelper
+	 */
 	//PageHelper配置bean
 	@Bean
 	public PageHelper getPageHelper() {
@@ -54,6 +66,7 @@ public class MyConfig {
 		properties.setProperty("supportMethodsArguments", "true");
 		properties.setProperty("params", "count=countSql");
 		pageHelper.setProperties(properties);
+
 		return pageHelper;
 	}
 

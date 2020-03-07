@@ -9,6 +9,15 @@
 body {
 	padding: 15px;
 }
+
+td {
+	width: 300px;
+	word-break: break-all;
+	text-align: center;
+	margin-left: 10px;
+	border: 1px solid gray;
+	text-align-last: center;
+}
 </style>
 
 </head>
@@ -29,8 +38,7 @@ body {
 			<td>[[${op_avareg.date}]]</td>
 			<td>[[${op_avareg.empId}]]</td>
 			<td>[[${op_avareg.regprice}]]</td>
-			<td><a th:href="@{/op_showRegDetail/}+${op_avareg.rsId}">
-					查看详情</a></td>
+			
 		</tr>
 	</table>
 </body>

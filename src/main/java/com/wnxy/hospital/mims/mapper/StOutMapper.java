@@ -11,11 +11,11 @@ public interface StOutMapper {
     int deleteByExample(StOutExample example);
 
     int deleteByPrimaryKey(String outId);
-
+    
     int insert(StOut record);
 
     int insertSelective(StOut record);
-
+    List<StOut> selectYueBaoBiao(String yue);
     List<StOut> selectByExample(StOutExample example);
 
     StOut selectByPrimaryKey(String outId);

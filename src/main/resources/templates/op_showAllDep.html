@@ -5,26 +5,37 @@
 <title>展示所有门诊科室</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-paginator.js}"></script>
 <style type="text/css">
 body {
 	padding: 15px;
 }
+
+#title{
+font-weight:bold;
+}
 </style>
+
 
 </head>
 <body>
-	<table>
-		<tr>
-			<td>科室</td>
 
-		</tr>
+	<tr>
+		<div id="title">门诊科室</div>
+
+	</tr>
+	<div>
 		<tr th:each="opDep:${opDeps}">
-			<td><a th:href="@{/op_showDocInDep/}+${opDep.depId}"> [[${opDep.depName}]] </a>
-			</td> 
-		
-
+			<ul>
+				<li><a th:href="@{/op_showDocInDep/}+${opDep.depId}">
+						[[${opDep.depName}]] </a></li>
+			</ul>
 		</tr>
-	</table>
+	</div>
+
+
+
+
 </body>
 
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>

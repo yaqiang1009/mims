@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.OpDep;
@@ -96,7 +97,6 @@ public class OpRegController {
 			opRegistry.setRegprice(regprice);
 		}
 
-
 		List<OpRegistry> opRegistrys = op_RegistryService.selectOpRegistryByCondition(opRegistry.getRsId(),
 				opRegistry.getPtId(), opRegistry.getDlId(), opRegistry.getState(), opRegistry.getDate(),
 				opRegistry.getRegprice(), opRegistry.getEmpId());
@@ -114,6 +114,8 @@ public class OpRegController {
 		return "op_showAllDep";
 	}
 
+
+
 	// 查科室编号对应的全部医生,未加分页
 	@RequestMapping("/op_showDocInDep/{depId}")
 	public String op_showDocInDep(@PathVariable("depId") String depId, Model model) {
@@ -124,15 +126,6 @@ public class OpRegController {
 		return "op_showDocInDep";
 	}
 
-//	// 查科室编号对应的全部医生,加分页
-//	@RequestMapping("/op_showDocInDep/{depId}/{index}")
-//	public String op_showDocInDep(@PathVariable("depId")String depId,@PathVariable("index")int index, Model model) {
-//		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
-//				.getBean("op_InfoManagementServiceImpl");
-//		PageInfo<Emp> emps = op_InfoManagementService.queryEmpByDepId(depId, index);// 根据页面传过来的部门编号查对应部门的医生
-//		model.addAttribute("emps", emps);
-//		return "op_showDocInDep";
-//	}
 
 	// 查对应员工编号的医生详细信息
 	@RequestMapping("/op_showDocDetail/{empId}")

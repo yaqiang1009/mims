@@ -1,105 +1,458 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
+import com.wnxy.hospital.mims.entity.StIn;
+import com.wnxy.hospital.mims.entity.StItem;
+import com.wnxy.hospital.mims.entity.StMedicines;
+import com.wnxy.hospital.mims.entity.StOut;
+import com.wnxy.hospital.mims.entity.Stock;
+import com.wnxy.hospital.mims.entity.Supplier;
+import com.wnxy.hospital.mims.exception.StException;
+import com.wnxy.hospital.mims.service.stock.StInService;
+import com.wnxy.hospital.mims.service.stock.StItemService;
+import com.wnxy.hospital.mims.service.stock.StMedicinesService;
+import com.wnxy.hospital.mims.service.stock.StOutService;
 import com.wnxy.hospital.mims.service.stock.StockService;
+import com.wnxy.hospital.mims.service.stock.SupplierService;
 
 import lombok.extern.slf4j.Slf4j;
+
 //处理器
 @Slf4j
 @Controller
 public class StockController {
 	@Autowired
 	StockService stockService;
+	@Autowired
+	StMedicinesService stMedicinesService;
+	@Autowired
+	StOutService stOutService;
+	@Autowired
+	StInService stInService;
+	@Autowired
+	StItemService stItemService;
+	@Autowired
+	SupplierService supplierService;
 
-	@RequestMapping("/st_")
-	public String st_selectStockAll(Model model,HttpServletRequest request) {
-		//stockService.
-		
-		return "aaa";
+	/**
+	 * 
+	 * @param pageindex 页码
+	 * @param pagesize  页大小 分页查找
+	 */
+	@RequestMapping("/st_stock/{pageindex}/{pagesize}")
+	public String st_selectStockAll(Model model, @PathVariable("pageindex") int pageindex,
+			@PathVariable("pagesize") int pagesize) {
+		try {
+			PageInfo<Stock> pageinfo = stockService.selectPageStock(pageindex, pagesize);
+			List<Stock> stocks = pageinfo.getList();
+			StMedicines foundMedicine = null;
+			for (Stock s : stocks) {
+				foundMedicine = stMedicinesService.selectById(s.getMedicineId());
+				s.setMedicines(foundMedicine);
+			}
+
+			model.addAttribute("pageinfo", pageinfo);
+			return "st_stock";
+		} catch (StException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "st_msg";
+		}
 	}
 
-//	public void insertStock(StIn stIn,StItem stItem) {
-//		StockExample example=new StockExample();
-//		Criteria criteria = example.createCriteria();
-//		//查出此入库单对应的条目
-//		//查找新增单的药品,药库当中是否存在
-//		criteria.andMedicineIdEqualTo(stItem.getMedicineId());
-//		List<Stock> list = stockMapper.selectByExample(example);
-//		if(list.size()==0){
-//			//药库没有此药时，添加此药
-//			//把条目信息添加到库中
-//			stItemMapper.insert(stItem);
-//			//把入库单信息存到库中
-//			stInMapper.insert(stIn);
-//			stockMapper.insert(list.get(0));
-//		}else {
-//			//药库当中有此药时,数量增加
-//			//把条目信息添加到库中
-//			stItemMapper.insert(stItem);
-//			//把入库单信息存到域中
-//			stInMapper.insert(stIn);
-//			//修改数量
-//			list.get(0).setMedicineNum(list.get(0).getMedicineNum()+stItem.getMedicineNum());
-//			stockMapper.updateByPrimaryKey(list.get(0));
-//		}
-//		
-//	}
+	/**
+	 * 
+	 * @param model
+	 * @param id    stock_id，仓库编号 通过库存编号查询对应药品并进行装配，并返回给页面
+	 */
 
-//	public void lessStock(StOut stOut, StItem stItem) {
-//		// 减少库存
-//		//先查询库存当中是否有这个药
-//		StockExample example=new StockExample();
-//		Criteria criteria = example.createCriteria();
-//		
-//		//查找出库单的药品,药库当中是否存在
-//		criteria.andMedicineIdEqualTo(stItem.getMedicineId());
-//		List<Stock> list = stockMapper.selectByExample(example);
-//		if(list.size()==0) {
-//			//表示没有这个药
-//		}else {
-//			//把条目信息添加到库中
-//			stItemMapper.insert(stItem);
-//			//把入库单信息存到域中
-//			stOutMapper.insert(stOut);
-//			//修改库存当中数量
-//			list.get(0).setMedicineNum(list.get(0).getMedicineNum()-stItem.getMedicineNum());
-//			
-//			stockMapper.updateByPrimaryKey(list.get(0));
-//			//判断修改后的药品库存是否低于警戒数量
-//			if(list.get(0).getMedicineNum()<50) {
-//				StMedicines foundMedicine = stMedicinesMapper.selectByPrimaryKey(list.get(0).getMedicineId());
-//				//发出警戒消息
-//				System.out.println("已出库,"+foundMedicine.getMedicineName()+"需要补充");
-//			}
-//		}
-//	}
+	@RequestMapping("/st_out/{id}")
+	public String st_out(Model model, @PathVariable("id") String id) {
+		try {
+			Stock stock = stockService.selectById(id);
+			StMedicines medicine = stMedicinesService.selectById(stock.getMedicineId());
 
-	
+			stock.setMedicines(medicine);
+			model.addAttribute("stock", stock);
 
-	
-	
-	
-	/*同步请求模板
-	@RequestMapping("/mycont1")
-	public String mycont1(Model model,HttpServletRequest request) {
-		
-		return "aaa";
+			return "st_out";
+		} catch (StException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "st_msg";
+		}
 	}
-	*/
-	
-	/*异步请求模板
+
+	@RequestMapping("/st_in/{id}")
+	public String st_in(Model model, @PathVariable("id") String id) {
+		try {
+			Stock stock = stockService.selectById(id);
+			StMedicines medicine = stMedicinesService.selectById(stock.getMedicineId());
+
+			stock.setMedicines(medicine);
+			model.addAttribute("stock", stock);
+
+			return "st_in";
+		} catch (StException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "st_msg";
+		}
+	}
+
+	/**
+	 * 根据搜索框输入名字查询
+	 */
+	@RequestMapping("/st_out")
+	public String st_outByName(Model model, HttpServletRequest request) {
+		try {
+			Stock foundStock = null;
+			// 参数
+			String mname = request.getParameter("mname");
+			// 先通过药名查询药id
+			List<StMedicines> stMedicines = stMedicinesService.selectByName(mname);
+			List<Stock> stocks = new ArrayList<Stock>();
+			// 通过药id，查询对应的仓库信息
+			for (StMedicines s : stMedicines) {
+				foundStock = stockService.selectByMid(s.getMedicineId());
+				foundStock.setMedicines(s);
+				stocks.add(foundStock);
+			}
+			model.addAttribute("stocks", stocks);
+			model.addAttribute("mname", mname);
+			return "st_stock2";
+		} catch (StException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "st_msg";
+		}
+	}
+
+	/**
+	 * 
+	 * @param mid 药品的id 进行出库操作，主要修改数据库数量 出库时，要生产出库订单
+	 */
+	@Transactional
+	@RequestMapping("/st_doOut/{mid}")
+	public String st_doOut(Model model, @PathVariable("mid") String mid, HttpServletRequest request) {
+		try {
+
+			Integer num = Integer.parseInt(request.getParameter("num"));
+
+			Stock lessStock = stockService.selectByMid(mid);
+			StItem stItem = new StItem(UUID.randomUUID().toString(), lessStock.getStockId(), null,
+					lessStock.getMedicineId(), null, num);
+			stItemService.insertStItem(stItem);
+			StOut stOut = new StOut(UUID.randomUUID().toString(), stItem.getItemId(), stItem, new Date());
+			stOutService.insertStOut(stOut);
+			lessStock.setMedicineNum(num);
+			stockService.lessStock(lessStock);
+			if (stockService.selectByMid(mid).getMedicineNum() < 10) {
+				model.addAttribute("msg", "出库成功，库存数量已小于最低标准，请及时添加");
+				return "st_msg";
+			}
+			model.addAttribute("msg", "出库成功，点击返回主页");
+			return "st_msg";
+		} catch (StException e) {
+			model.addAttribute("msg", "出库异常");
+			return "st_msg";
+		}
+	}
+
+	/**
+	 * 入库方法，
+	 */
+	@Transactional
+	@RequestMapping("/st_doIn/{mid}")
+	public String st_doIn(Model model, @PathVariable("mid") String mid, HttpServletRequest request) {
+		try {
+
+			Integer num = Integer.parseInt(request.getParameter("num"));
+
+			Stock addStock = stockService.selectByMid(mid);
+			StItem stItem = new StItem(UUID.randomUUID().toString(), addStock.getStockId(), null,
+					addStock.getMedicineId(), null, num);
+			// 把条目信息添加到库中
+			stItemService.insertStItem(stItem);
+			// 把入库单信息存到库中
+			StIn stIn = new StIn(UUID.randomUUID().toString(), "1", null, stItem.getItemId(), stItem, new Date());
+			stInService.insertStIn(stIn);
+			// 修改库存数量
+			addStock.setMedicineNum(num);
+			stockService.addStock(addStock);
+			// 回到页面
+			model.addAttribute("msg", "入库成功，点击返回主页");
+			return "st_msg";
+		} catch (StException e) {
+			model.addAttribute("msg", "入库异常");
+			return "st_msg";
+		}
+	}
+
+	/**
+	 * 
+	 * 异步响应入库页面，并分页
+	 */
 	@ResponseBody
-	@RequestMapping("/mycont1")
-	public String mycont1(HttpServletRequest request) {
-		
-		return "aaa";
+	@RequestMapping("/st_selin/{pageindex}/{pagesize}/{mname}")
+	public PageInfo<StIn> st_selin(@PathVariable("pageindex") int pageindex, @PathVariable("pagesize") int pagesize,
+			@PathVariable("mname") String mname) {
+		try {
+			System.out.println(pageindex + "---" + pagesize + "---" + mname);
+			List<StMedicines> stMedicines = new ArrayList<StMedicines>();
+			if (!"输入药品名查询".equals(mname)) {
+				stMedicines = stMedicinesService.selectByName(mname);
+			} else {
+				stMedicines = stMedicinesService.selectAll();
+			}
+			if (stMedicines == null) {
+				return null;
+			}
+			// 通过药品名得到主键
+			// 通过药品主键查询条目
+			List<StItem> stItems = new ArrayList<StItem>();
+
+			List<StItem> list = new ArrayList<StItem>();
+			for (StMedicines s : stMedicines) {
+				list = stItemService.selectByMid(s.getMedicineId());
+
+				for (StItem st : list) {
+					stItems.add(st);
+				}
+			}
+			// 装配stItems集合
+			// System.out.println("control:"+stItems);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+
+			PageHelper.startPage(pageindex, pagesize);
+			List<StIn> stIns = stInService.selectByItems(stItems);
+			PageInfo<StIn> pageinfo = new PageInfo<StIn>(stIns);
+			// 新集合用来储存满足条件的数据
+			// 以实现分页
+			List<StIn> stIns2 = new ArrayList<StIn>();
+			stIns = pageinfo.getList();
+			System.out.println(stIns.size());
+			// 这里数组需要初始化长度
+			int[] nums = new int[pageinfo.getSize() / pagesize + 1];
+			for (int j = 1; j <= pageinfo.getSize() / pagesize + 1; j++) {
+				nums[j - 1] = j;
+			}
+			for (int i = 0; i < stIns.size(); i++) {
+				if (i >= (pageindex - 1) * pagesize && i < pageindex * pagesize) {
+					stIns2.add(stIns.get(i));
+				}
+			}
+			// 设置返回对象的参数
+			pageinfo.setNavigatepageNums(nums);
+			pageinfo.setList(stIns2);
+
+			for (StIn s : stIns2) {
+				// 装配供应商
+				supplier = supplierService.selectBySid(s.getSupplierId());
+				s.setSupplier(supplier);
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+
+			return pageinfo;
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	*/
-	
+
+	/**
+	 * 
+	 * 异步响应出库页面，并分页
+	 */
+	@ResponseBody
+	@RequestMapping("/st_selout/{pageindex}/{pagesize}/{mname}")
+	public PageInfo<StOut> st_selout(@PathVariable("pageindex") int pageindex, @PathVariable("pagesize") int pagesize,
+			@PathVariable("mname") String mname) {
+		try {
+
+			List<StMedicines> stMedicines = new ArrayList<StMedicines>();
+			if (!"输入药品名查询".equals(mname)) {
+				stMedicines = stMedicinesService.selectByName(mname);
+			} else {
+				stMedicines = stMedicinesService.selectAll();
+			}
+			if (stMedicines == null) {
+				return null;
+			}
+			// 通过药品名得到主键
+			// 通过药品主键查询条目
+			List<StItem> stItems = new ArrayList<StItem>();
+
+			List<StItem> list = new ArrayList<StItem>();
+			for (StMedicines s : stMedicines) {
+				list = stItemService.selectByMid(s.getMedicineId());
+
+				for (StItem st : list) {
+					stItems.add(st);
+				}
+			}
+			// 装配stItems集合
+			// System.out.println("control:"+stItems);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+
+			PageHelper.startPage(pageindex, pagesize);
+			List<StOut> stOuts = stOutService.selectByItems(stItems);
+			PageInfo<StOut> pageinfo = new PageInfo<StOut>(stOuts);
+			// 新集合用来储存满足条件的数据
+			// 以实现分页
+			List<StOut> stOut2 = new ArrayList<StOut>();
+			stOuts = pageinfo.getList();
+			System.out.println(stOuts.size());
+			// 这里数组需要初始化长度
+			int[] nums = new int[pageinfo.getSize() / pagesize + 1];
+			for (int j = 1; j <= pageinfo.getSize() / pagesize + 1; j++) {
+				nums[j - 1] = j;
+			}
+			for (int i = 0; i < stOuts.size(); i++) {
+				if (i >= (pageindex - 1) * pagesize && i < pageindex * pagesize) {
+					stOut2.add(stOuts.get(i));
+				}
+			}
+			// 设置返回对象的参数
+			pageinfo.setNavigatepageNums(nums);
+			pageinfo.setList(stOut2);
+
+			for (StOut s : stOut2) {
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+
+			return pageinfo;
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping("/st_baobiao/in/{year}/{month}/{pageindex}")
+	public PageInfo<StIn> st_baobiao(
+
+			@PathVariable("year") String year, @PathVariable("month") String month,
+			@PathVariable("pageindex") int pageindex) {
+		
+		try {
+			
+			if (StringUtil.isEmpty(year)) {
+				year="2020";
+			}
+			if (StringUtil.isEmpty(month)) {
+				month="03";
+			}
+
+			PageHelper.startPage(pageindex, 5);
+			List<StIn> stIns = stInService.selectYueBaoBiao(year + "-" + month);
+			PageInfo<StIn> pageinfo = new PageInfo<StIn>(stIns);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+			for (StIn s : pageinfo.getList()) {
+				// 装配供应商
+				supplier = supplierService.selectBySid(s.getSupplierId());
+				s.setSupplier(supplier);
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+			return pageinfo;
+
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@ResponseBody
+	@RequestMapping("/st_baobiao/out/{year}/{month}/{pageindex}")
+	public PageInfo<StOut> st_baobiaoOut(
+			@PathVariable("year") String year, @PathVariable("month") String month,
+			@PathVariable("pageindex") int pageindex) {
+		try {
+			
+			if (StringUtil.isEmpty(year)) {
+				year="2020";
+			}
+			if (StringUtil.isEmpty(month)) {
+				month="03";
+			}
+
+			PageHelper.startPage(pageindex, 5);
+			List<StOut> stOuts = stOutService.selectYueBaoBiao(year + "-" + month);
+			PageInfo<StOut> pageinfo = new PageInfo<StOut>(stOuts);
+			Supplier supplier;
+			StItem stItem;
+			StMedicines stMedicine;
+			for (StOut s : pageinfo.getList()) {
+				// 条目
+				stItem = stItemService.selectBySid(s.getItemId());
+				stMedicine = stMedicinesService.selectById(stItem.getMedicineId());
+				// 条目中的药
+				stItem.setMedicines(stMedicine);
+				s.setItem(stItem);
+
+			}
+			return pageinfo;
+
+		} catch (StException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/*
+	 * 同步请求模板
+	 * 
+	 * @RequestMapping("/mycont1") public String mycont1(Model
+	 * model,HttpServletRequest request) {
+	 * 
+	 * return "aaa"; }
+	 */
+
+	/*
+	 * 异步请求模板
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/mycont1") public String mycont1(HttpServletRequest request)
+	 * {
+	 * 
+	 * return "aaa"; }
+	 */
+
 }
