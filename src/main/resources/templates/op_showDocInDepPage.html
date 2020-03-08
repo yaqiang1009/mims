@@ -13,16 +13,28 @@ img {
 	height: 100px;
 }
 
+ul {
+	/* border: 1px solid red; */
+}
+
 li {
-	width: 300px; list-style-type : none;
+	width: 300px;
+	list-style-type: none;
 	padding: 10px;
 	border-radio: 25%;
 	box-shadow: 10px 10px 5px #888888;
 	list-style-type: none;
+	
 }
 
 div {
 	margin: 0 auto;
+}
+
+#pageNavi {
+	width: 300px;
+
+	text-align: center;
 }
 
 #title {
@@ -33,9 +45,7 @@ div {
 <style type="text/css">
 </style>
 <script type="text/javascript">
-	/* window.onload=function(){
-	 $("#depId").html();
-	 }    */
+	
 </script>
 </head>
 <body>
@@ -55,28 +65,30 @@ div {
 						<div>
 							<a th:href="@{/op_showDocDetail/}+${emp.empId}">
 								[[${emp.empName}]]</a> <a
-								th:href="@{/op_showDocDetail/}+${emp.empId}"> 
-								<img
+								th:href="@{/op_showDocDetail/}+${emp.empId}"> <img
 								th:src="@{${emp.empPhoto}}" alt="图片">
 							</a>
-
-
 						</div>
 
 					</li>
-				</ul>
 
+				</ul>
+				<div id="pageNavi">
+					<tr th:each="enablePageNum:${empsPage.navigatepageNums}">
+						<a
+							th:href="@{/op_showDocInDepPage/}+${empsPage.list[0].depId}+${'/'+enablePageNum}">[[${enablePageNum}]]</a>
+					</tr>
+
+				</div>
 			</div>
 
+
+
+
 		</div>
+
 	</div>
 
-
-
-	<tr th:each="currentPage:${empsPage.navigatepageNums}">
-		<a
-			th:href="@{/op_showDocInDepPage/}+${empsPage.list[0].depId}+${'/'+currentPage}">[[${currentPage}]]</a>
-	</tr>
 
 
 
