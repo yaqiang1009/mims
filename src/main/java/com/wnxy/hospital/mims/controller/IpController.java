@@ -311,7 +311,6 @@ public class IpController {
 		Ip_DrService ip_DrService = (Ip_DrService)ac.getBean("ip_DrServiceImpl");
 		PageInfo<IpIllness> IpIllnessp = ip_DrService.selectIpIllnesss(id, index);
 		model.addAttribute("IpIllnessp", IpIllnessp);
-		System.out.println(IpIllnessp.getList().size());
 		//查找医疗单信息
 		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
 		IpRemedy remedy = ip_RemedyService.selectRemedy(id);

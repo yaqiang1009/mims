@@ -140,6 +140,7 @@
 								target="content" style="padding-left: 25px;">药品信息</a></li>
 						</ul></li>
 					<!-- 角色二 -->
+
 					<li><a href="#systemSetting31" onclick="menuCss(this)"
 						class="nav-header collapsed" data-toggle="collapse"> <i
 							class="glyphicon glyphicon-yen"></i> <span
@@ -152,7 +153,23 @@
 								target="content" style="padding-left: 25px;">功能</a></li>
 						</ul></li>
 					<!-- ****后台**** -->
+
+					<li>
+						<a href="#systemSetting31" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting31" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- ****药库**** -->
+
 					<!-- 角色一 -->
+
 					<li><a href="#systemSetting40" onclick="menuCss(this)"
 						class="nav-header collapsed" data-toggle="collapse"> <i
 							class="glyphicon glyphicon-yen"></i> <span
@@ -182,6 +199,61 @@
 							<li><a th:href="@{st_baobiao}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查看月报表</a></li>
 						</ul></li>
+
+					<li>
+						<a href="#systemSetting40" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">药库管理</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting40" class="nav nav-list collapse secondmenu" style="height: 0px;">
+
+							<li>
+								<a th:href="@{/st_stock/1/5}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查询库存</a>
+							</li>
+							<li>
+								<a th:href="@{/st_selout}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查询出库单</a>
+							</li>
+							<li>
+								<a th:href="@{/st_selin}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查询入库单</a>
+							</li>
+							<li>
+								<a th:href="@{st_baobiao}" onclick="menuCss(this)" target="content" style="padding-left:25px;">查看月报表</a>
+							</li>
+						</ul>
+					</li>
+					<!-- 角色二 -->
+					<li>
+						<a href="#systemSetting41" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-yen"></i>
+							<span style="display: inline-block;margin-left: 20px;">角色</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting41" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">功能</a>
+							</li>
+						</ul>
+					</li>
+					<!-- ****后台**** -->
+					<!-- 角色一 -->
+					<li>
+						<a href="#systemSetting50" onclick="menuCss(this)" class="nav-header collapsed" data-toggle="collapse">
+							<i class="glyphicon glyphicon-cog"></i>
+							<span style="display: inline-block;margin-left: 20px;">系统管理</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul id="systemSetting50" class="nav nav-list collapse secondmenu" style="height: 0px;">
+							<li>
+								<a th:href="@{/sys_user_control/1?name=}" onclick="menuCss(this)" target="content" style="padding-left:25px;">用户管理</a>
+							</li>
+							<li>
+								<a th:href="@{/sys_insert_user}" onclick="menuCss(this)" target="content" style="padding-left:25px;">新增用户</a>
+							</li>
+						</ul>
+					</li>
+
+
 				</ul>
 			</div>
 		</div>

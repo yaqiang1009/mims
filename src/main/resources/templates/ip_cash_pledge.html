@@ -40,7 +40,12 @@ text-align:center;
 #numberdiv ul{
 margin: auto;
 }
-
+/* 数值输入去掉加减 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+	-webkit-appearance: none !important;
+	margin: 0;
+}
 
 .td4{
 width: 15%;
@@ -67,8 +72,8 @@ $(function(){
 </script>
 </head>
 <body>
-<table id="main_table" class="table table-bordered">
-	<caption>押金信息</caption>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption><label for="name">押金信息</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">姓名</th>

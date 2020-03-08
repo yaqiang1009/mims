@@ -22,6 +22,10 @@ input {
 	width: 200px;
 }
 
+#selectTab {
+	width: 400px;
+}
+
 .tab {
 	width: 300px;
 	word-break: break-all;
@@ -31,8 +35,9 @@ input {
 	text-align-last: center;
 }
 
-#but{
-text-align-last: right;
+#but {
+	width: 400px;
+	text-align-last: right;
 }
 /* 去掉number控件的加减 */
 /* google、safari */
@@ -48,58 +53,67 @@ input[type="number"] {
 
 </head>
 <body>
+<caption><label for="name">多条件模糊查询挂号单 </label></caption>
 	<!-- 多条件模糊查询挂号单 -->
 	<!-- 暂时用同步提交 -->
 	<form th:action="@{/selectOpRegistryByCondition}">
-		<table>
+		<table id="selectTab">
 			<tr>
-				<td>挂号单号<input th:text name="rsId" placeholder="">
-				</td>
+				<td>挂号单号:</td>
+				<td><input th:text name="rsId" placeholder=""
+					class="inserdata form-control"></td>
 			</tr>
 			<tr>
-				<td>患者身份证号<input th:text name="ptId" placeholder="">
-				</td>
-			</tr>
-
-			<tr>
-				<td>挂号收费等级编号<input th:text name="dlId" placeholder=""></td>
-			</tr>
-			<tr>
-				<td>挂号单状态<input type="number" name="state" placeholder=""></td>
+				<td>患者身份证号:</td>
+				<td><input th:text name="ptId" placeholder=""
+					class="inserdata form-control"></td>
 			</tr>
 
 			<tr>
-				<td>挂号日期<input type="date" name="date" placeholder="">
-				</td>
+				<td>挂号收费等级编号:</td>
+				<td><input th:text name="dlId" placeholder=""
+					class="inserdata form-control"></td>
 			</tr>
 			<tr>
-				<td>挂号费<input type="number" name="regprice" placeholder="">
-				</td>
+				<td>挂号单状态:</td>
+				<td><input type="number" name="state" placeholder=""
+					class="inserdata form-control"></td>
 			</tr>
 
 			<tr>
-				<td>医生工号<input th:text name="empId" placeholder="">
-				</td>
+				<td>挂号日期:</td>
+				<td><input type="date" name="date" placeholder=""
+					class="inserdata form-control"></td>
 			</tr>
-			<td id="but">
-				<button type="submit">查询</button>
-			</td>
+			<tr>
+				<td>挂号费:</td>
+				<td><input type="number" name="regprice" placeholder=""
+					class="inserdata form-control"></td>
+			</tr>
+
+			<tr>
+				<td>医生工号:</td>
+				<td><input th:text name="empId" placeholder=""
+					class="inserdata form-control"></td>
+			</tr>
+
 
 		</table>
-
+		<div id="but">
+			<button type="submit" class="btn btn-default">查询</button>
+		</div>
 
 	</form>
-
-
-	<table>
+	<hr />
+	<table class="table table-bordered table-striped">
 		<tr>
-			<td class="tab">挂号单号</td>&nbsp&nbsp&nbsp&nbsp&nbsp
-			<td class="tab">患者身份证号</td>
-			<td class="tab">挂号收费等级编号</td>
-			<td class="tab">挂号单状态</td>
-			<td class="tab">挂号日期</td>
-			<td class="tab">医生工号</td>
-			<td class="tab">挂号费</td>
+			<th class="tab">挂号单号</th>
+			<th class="tab">患者身份证号</th>
+			<th class="tab">挂号收费等级编号</th>
+			<th class="tab">挂号单状态</th>
+			<th class="tab">挂号日期</th>
+			<th class="tab">医生工号</th>
+			<th class="tab">挂号费</th>
 
 
 		</tr>
@@ -110,7 +124,7 @@ input[type="number"] {
 			<td class="tab">[[${opRegistry.state}]]</td>
 			<td class="tab">[[${#dates.format(opRegistry.date,"yyyy-MM-dd")}]]</td>
 			<td class="tab">[[${opRegistry.empId}]]</td>
-			<td class="tab">[[${opRegistry.regprice}]]</td>
+			<td class="tab">[[${opRegistry.regprice}]]元</td>
 
 		</tr>
 	</table>

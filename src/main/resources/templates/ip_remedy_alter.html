@@ -22,6 +22,9 @@ vertical-align: middle;
 .form-group{
 margin: 0px;
 }
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -66,7 +69,7 @@ function check(){
 <body>
 <form onsubmit="return check()" role="form" th:action="@{/remedy_alter_sub}" method="post">
 <table id="maintable"  class="table table-bordered">
-	<caption>修改医疗单</caption>
+	<caption><label for="name">修改医疗单</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">订单编号：</th>

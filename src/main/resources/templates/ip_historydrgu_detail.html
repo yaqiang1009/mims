@@ -33,6 +33,12 @@ right: 0px;
 	width: 200px;
 	float: left;
 }
+#main_table{
+border: 2px solid black;
+}
+#main_table .bor{
+ border-top: 3px solid rgb(200,200,200);
+}
 /* 分页设置 */
 #numberdiv{
 
@@ -49,7 +55,7 @@ margin: auto;
 </head>
 <body>
 <table id="main_table" class="table table-bordered">
-	<caption>住院医疗信息</caption>
+	<caption><label for="name">历史药单</label></caption>
 	<tbody>
 		<tr>
 			<td colspan="4"><label for="name">住院信息</label></td>
@@ -68,7 +74,7 @@ margin: auto;
 		</tr>
 	</tbody>
 	<!-- 遍历药史 -->
-	<tbody th:each="IpIllness:${IpIllnessp.list}">
+	<tbody class="bor" th:each="IpIllness:${IpIllnessp.list}">
 		<tr>
 			<td colspan="4"><label for="name">药单</label></td>
 		</tr> 

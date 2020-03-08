@@ -19,6 +19,10 @@ vertical-align: middle;
 .form-group{
 margin: 0px;
 }
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
+
 </style>
 <script type="text/javascript">
 $(function(){
@@ -75,7 +79,7 @@ function check(){
 <body>
 <form onsubmit="return check()" role="form" th:action="@{/Hos_pass_sub}" method="post">
 <table id="maintable" class="table table-bordered">
-	<caption>生成医疗单</caption>
+	<caption><label for="name">生成医疗单</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">住院订单编号：</th>

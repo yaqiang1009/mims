@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>用户详情</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+.th1,.th3,.td1,.td3{
+width: 20%;
+}
+td,th{
+text-align: center;
+}
+#maintable{
+width: 
+}
+#maintable td,#maintable th{
+text-align: center;
+vertical-align: middle;
+}
+.form-group{
+margin: 0px;
+}
+img{
+width: 100%;
+min-width: 220px;
+}
+.td1,.td3,.td5{
+width: 100px;
+}
+.td7{
+width:250px;
+}
+tr{
+height: 40px;
+}
+</style>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<form role="form" th:action="@{/bed_alter_sub}" method="post">
+<table id="maintable"  class="table table-bordered">
+	<caption><label for="name">用户详情</label></caption>
+	<thead>
+		<tr>
+			<th>用户ID：</th>
+			<th colspan="2">[[${user.emp.empId}]]</th>
+			<th>入职日期：</th>
+			<th colspan="3">[[${#dates.format(user.emp.empHireday,"yyyy-MM-dd")}]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td  colspan="7"><label for="name">用户基本信息</label></td>
+		</tr>
+		<tr>
+			<td class="td1">姓名：</td>
+			<td class="td2">[[${user.emp.empName}]]</td>
+			<td class="td3">性别：</td>
+			<td class="td4">[[${user.emp.empSex}]]</td>
+			<td class="td5">民族：</td>
+			<td class="td6">[[${user.emp.empNation}]]</td>
+			<td class="td7" rowspan="4"><img th:src="${user.emp.empPhoto}"></td>
+		</tr>
+		<tr>
+			<td>电话：</td>
+			<td>[[${user.emp.empPhone}]]</td>
+			<td>Email：</td>
+			<td>[[${user.emp.empEmail}]]</td>
+			<td>身份证号：</td>
+			<td>[[${user.emp.empIdentity}]]</td>
+		</tr>
+		<tr>
+			<td>生日：</td>
+			<td>[[${#dates.format(user.emp.empBirth,"yyyy-MM-dd")}]]</td>
+			<td>院部：</td>
+			<td>[[${user.emp.office.officeName}]]</td>
+			<td>科室：</td>
+			<td>[[${user.emp.opDep.depName}]]</td>
+		</tr>
+		
+		<tr>
+			<td>住址：</td>
+			<td  colspan="5">[[${user.emp.empAddress}]]</td>
+		</tr>
+
+		<tr>
+			<td  colspan="7"><label for="name">角色信息</label></td>
+		</tr>
+		<tr th:each="role:${user.roles}">
+			<td colspan="2">角色名：</td>
+			<td  colspan="5">[[${role.roleName}]]</td>
+		</tr>
+	</tbody>
+</table>
+	<button type="submit" class="btn btn-default">修改</button>
+</form>
+<br>
+
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

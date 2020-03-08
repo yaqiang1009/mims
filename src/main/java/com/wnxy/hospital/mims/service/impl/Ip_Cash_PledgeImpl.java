@@ -46,6 +46,7 @@ public class Ip_Cash_PledgeImpl implements Ip_Cash_Pledge {
 			List<OpPatientinfo> pts = opPatientinfoMapper.selectByExample(examplePt);
 			//获取id集合
 			List<String> values=new ArrayList<String>();
+			values.add("");
 			for(OpPatientinfo opPatientinfo:pts) {
 				values.add(opPatientinfo.getPtId());
 			}

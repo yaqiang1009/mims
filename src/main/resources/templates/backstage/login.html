@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+background-color: black;
+}
+#mainDiv{
+margin:auto;
+width:85%;
+min-width: 1000px;
+position: relative;
+}
+#mainDiv img{
+width:100%;
+}
+#log{
+position: absolute;
+top: 45%;
+left: 38%;
+width: 25%;
+height: 28%;
+
+}
+#log input{
+width: 80%;
+}
+#log .in{
+padding:0px;
+line-height: 200%;
+}
+#log button{
+    width: 30%;
+    height:25%;
+    background: url("img/LOGIN_button.png") no-repeat;
+    border-style: none;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 57%;
+    left: 32%;
+}
+#log{
+color: white;
+}
+#buttonlog:hover{
+border: 2px solid rgb(47,133,182);
+border-radius: 10px;
+}
+#buttonlog:link {
+border: 0px solid white;
+}
+</style>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<div id="mainDiv">
+<img th:src="@{/img/login.jpg}">
+	<div id="log">
+<form th:action="@{/loginsubmit}" class="form-horizontal" role="form">
+	<div class="form-group">
+		<label for="firstname" class="in col-sm-2 control-label">用户名:</label>
+		<div class="col-sm-10">
+			<input name="user" type="text" class="form-control" id="firstname" 
+				   placeholder="请输入用户名">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="lastname" class="in col-sm-2 control-label">密码：</label>
+		<div class="col-sm-10">
+			<input name="password" type="text" class="form-control" id="lastname" 
+				   placeholder="请输入密码">
+		</div>
+	</div>
+
+	<button type="submit" id="buttonlog">登录</button>
+
+</form>
+	</div>
+</div>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

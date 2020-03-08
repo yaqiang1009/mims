@@ -10,31 +10,32 @@ body {
 }
 
 img {
-	height: 100px;
-}
 
-ul {
-	/* border: 1px solid red; */
+	width: 150px;
 }
 
 li {
-	width: 300px;
+	width: 200px;
+	height: 200px;
 	list-style-type: none;
-	padding: 10px;
-	border-radio: 25%;
-	box-shadow: 10px 10px 5px #888888;
-	list-style-type: none;
-	
+	box-shadow: 10px 10px 4px #888888;
+	list-style: none;
+	text-align: center;
 }
 
 div {
 	margin: 0 auto;
 }
 
-#pageNavi {
-	width: 300px;
+ul {
+	width: 500px;
+}
 
+#pageNavi {
+	width: 500px;
 	text-align: center;
+	position: absolute;
+	bottom:-30px;
 }
 
 #title {
@@ -50,7 +51,7 @@ div {
 </head>
 <body>
 
-	<div id="title">科室医生</div>
+	<caption><label for="name">科室医生</label></caption>
 
 
 	<div class="container-fluid">
@@ -61,18 +62,22 @@ div {
 
 
 				<ul>
-					<li th:each="emp:${empsPage.list}">
+
+					<li th:each="emp:${empsPage.list}" style="float: left;">
 						<div>
-							<a th:href="@{/op_showDocDetail/}+${emp.empId}">
-								[[${emp.empName}]]</a> <a
-								th:href="@{/op_showDocDetail/}+${emp.empId}"> <img
+
+							<a th:href="@{/op_showDocDetail/}+${emp.empId}"> <img
 								th:src="@{${emp.empPhoto}}" alt="图片">
-							</a>
+
+								<div></a> <a th:href="@{/op_showDocDetail/}+${emp.empId}">
+								[[${emp.empName}]]</a>
 						</div>
+			</div>
 
-					</li>
+			</li>
 
-				</ul>
+			</ul>
+			<tr>
 				<div id="pageNavi">
 					<tr th:each="enablePageNum:${empsPage.navigatepageNums}">
 						<a
@@ -80,12 +85,14 @@ div {
 					</tr>
 
 				</div>
-			</div>
-
-
-
+			</tr>
 
 		</div>
+
+
+
+
+	</div>
 
 	</div>
 
