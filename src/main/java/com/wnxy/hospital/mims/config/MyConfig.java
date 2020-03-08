@@ -41,8 +41,11 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
 				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
 				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
-
 				registry.addViewController("/op_selectOpRegistryByCondition.html").setViewName("/op_selectOpRegistryByCondition.html");// 多条件模糊查挂号单
+				registry.addViewController("/op_newOffice.html").setViewName("/op_newOffice.html");//添加部门
+				registry.addViewController("/op_newDep.html").setViewName("/op_newDep.html");//添加科室
+		
+				
 
 
 

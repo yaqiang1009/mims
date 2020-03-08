@@ -78,10 +78,9 @@
 					<!-- ****门诊部**** -->
 					<!-- 角色一 -->
 					<li><a href="#systemSetting20" onclick="menuCss(this)"
-						 data-toggle="collapse"> <i
-							class="glyphicon glyphicon-home"></i> <span
-							style="display: inline-block; margin-left: 20px;">门诊部业务</span> <span
-							class="pull-right glyphicon glyphicon-chevron-down"></span>
+						data-toggle="collapse"> <i class="glyphicon glyphicon-home"></i>
+							<span style="display: inline-block; margin-left: 20px;">门诊部业务</span>
+							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul id="systemSetting20" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
@@ -108,16 +107,18 @@
 					</a>
 						<ul id="systemSetting21" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a href="op_newOffice.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加部门</a></li>
 							<li><a href="页面.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改部门</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a href="op_newDep.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加科室</a></li>
 							<li><a href="页面.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改科室</a></li>
+							<li><a th:href="@{/op_newDocLevelPre}" onclick="menuCss(this)"
+								target="content" style="padding-left: 25px;">添加门诊挂号收费等级</a></li>
 							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">添加员工</a></li>
+								target="content" style="padding-left: 25px;">查找修改门诊挂号收费等级</a></li>
 							<li><a href="页面.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改员工</a></li>
 							<li><a href="页面.html" onclick="menuCss(this)"
@@ -136,6 +137,7 @@
 							style="height: 0px;">
 							<li><a href="页面.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">取药处</a></li>
+
 							<li><a href="页面.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">药品信息</a></li>
 						</ul></li>

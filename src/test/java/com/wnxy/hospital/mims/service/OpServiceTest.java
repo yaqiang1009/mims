@@ -153,7 +153,7 @@ public class OpServiceTest {
 
 		Date empBirth = new Date("1999/09/09");// 员工生日
 
-		String empNation = "CN";// 员工国籍
+		String empNation = "CN";// 员工民族
 
 		Date empHireday = new Date();// 员工入职时间
 

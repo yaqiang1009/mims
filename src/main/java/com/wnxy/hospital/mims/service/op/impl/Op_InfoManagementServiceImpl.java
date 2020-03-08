@@ -144,18 +144,14 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 
 	// OpDep门诊科室表操作
 	@Override
-	public void addOpDep(String depName) {
+	public void addOpDep(String depName) throws RuntimeException {
 		List<OpDep> deps = queryOpDepByDepName(depName);
-		try {
-			if (deps.size() == 0) {
-				OpDep tempDep = new OpDep(UUID.randomUUID().toString().replace("-", "").trim().toString(), depName);
-				opDepMapper.insert(tempDep);
-			} else {
-				throw new RuntimeException("添加失败，请勿重复添加科室");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("添加科室失败");
+
+		if (deps.size() == 0) {
+			OpDep tempDep = new OpDep(UUID.randomUUID().toString().replace("-", "").trim().toString(), depName);
+			opDepMapper.insert(tempDep);
+		} else {
+			throw new RuntimeException("添加失败，请勿重复添加科室");
 		}
 
 	}// 添加科室信息
@@ -194,19 +190,14 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 
 	// Office表操作
 	@Override
-	public void addOffice(String officeName) {
+	public void addOffice(String officeName) throws RuntimeException {
 		List<Office> offices = queryOfficeByOfficeName(officeName);
-		try {
-			if (offices.size() == 0) {// 不允许重复添加
-				Office tempOffice = new Office(UUID.randomUUID().toString().replace("-", "").trim().toString(),
-						officeName);
-				officeMapper.insert(tempOffice);
-			} else {
-				throw new RuntimeException("添加部门信息失败，请勿重复添加部门");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("添加部门信息失败");
+
+		if (offices.size() == 0) {// 不允许重复添加
+			Office tempOffice = new Office(UUID.randomUUID().toString().replace("-", "").trim().toString(), officeName);
+			officeMapper.insert(tempOffice);
+		} else {
+			throw new RuntimeException("添加部门信息失败，请勿重复添加部门");
 		}
 
 	}// 添加部门信息
@@ -247,21 +238,17 @@ public class Op_InfoManagementServiceImpl implements Op_InfoManagementService {
 
 	// 医生挂号费等级表OpDoclevel操作
 	@Override
-	public void addOpDoclevel(OpDoclevel opDoclevel) {
+	public void addOpDoclevel(OpDoclevel opDoclevel) throws RuntimeException {
 		List<OpDoclevel> opDoclevels = queryOpDoclevelByEmpId(opDoclevel.getEmpId());// 通过员工编号验证，一个员工只允许有1条收费等级，不允许重复添加
-		try {
-			if (opDoclevels.size() == 0) {
-				OpDoclevel tempOpDoclevel = new OpDoclevel(
-						UUID.randomUUID().toString().replace("-", "").trim().toString(), opDoclevel.getEmpId(),
-						opDoclevel.getLevel(), opDoclevel.getPrice());
-				opDoclevelMapper.insert(tempOpDoclevel);
-			} else {
-				throw new RuntimeException("添加医生挂号收费标准失败，同一医生请勿重复添加");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("添加医生挂号收费标准失败");
+
+		if (opDoclevels.size() == 0) {
+			OpDoclevel tempOpDoclevel = new OpDoclevel(UUID.randomUUID().toString().replace("-", "").trim().toString(),
+					opDoclevel.getEmpId(), opDoclevel.getLevel(), opDoclevel.getPrice());
+			opDoclevelMapper.insert(tempOpDoclevel);
+		} else {
+			throw new RuntimeException("添加医生挂号收费标准失败，同一医生请勿重复添加");
 		}
+
 	}// 添加挂号费等级信息
 
 	@Override
