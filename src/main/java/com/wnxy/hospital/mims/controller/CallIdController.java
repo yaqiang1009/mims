@@ -5,14 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.dto.CallIdItemDTO;
+import com.wnxy.hospital.mims.dto.EmpDTO;
 import com.wnxy.hospital.mims.service.op.CallIdListService;
 
 @Controller
@@ -58,9 +59,10 @@ public class CallIdController {
 	 */
 	@RequestMapping("/setcallList")
 	@ResponseBody
-	public Object setCallIdList(String doctorid) {
+	public Object setCallIdList(@RequestBody EmpDTO empid) {
 		//分页信息
 		PageHelper.startPage(1,5);
+		String doctorid = empid.getEmpid();
 		List<CallIdItemDTO> callIdList = callIdListService.getCallIdList(doctorid);
 		PageInfo<CallIdItemDTO> callidlist = new PageInfo<CallIdItemDTO>(callIdList);
 		return callidlist;

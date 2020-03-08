@@ -42,11 +42,12 @@
 <script th:src="@{/js/jquery-2.1.4.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/vue.js}"></script>
-
+<script th:src="@{/js/axios.min.js}"></script>
 <body>
 
     <div class="row">
         <div class="col-xs-3 left" id="callid">
+        <button type="button" v-on:click="getcallList">开始排号</button>
             <table class="table tb1">
                 <thead>
                     <tr>
@@ -59,19 +60,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>张三</td>
-                        <td><button class="btn btn-default btn-group-sm"><a href="#">叫号</a></button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td v:bind:title="callidlist"></td>
-                        <td><button class="btn btn-default btn-group-sm"><a href="#">叫号</a></button></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>王五</td>
+                    <tr v-for="(callid, index) in list" v-if="callid.state < 1 ">
+                        <td v-text="index + 1"></td>
+                        <td v-text="callid.registrydto.patient.ptName"></td>
                         <td><button class="btn btn-default btn-group-sm"><a href="#">叫号</a></button></td>
                     </tr>
                 </tbody>
@@ -126,9 +117,24 @@
         </div>
         <script>
             var vm = new Vue({
-                el: "#callid",
+                el: '#callid',
                 data: {
-                    callidlist: "hsadf"
+                    message: 'Hello Vue!',
+                    list:[]
+                },
+                methods:{
+                	getcallList: function(){
+                		var that = this
+	                	axios.post('/callid/setcallList', {
+	                	    empid: '6f24ac1b-5d1e-11ea-ba6e-00ffaca66b24' 
+	                	  })
+	                	  .then(function (response) {
+	                	    that.list = response.data.list;
+	                	  })
+	                	  .catch(function (error) {
+	                	    console.log(error);
+	                	  });
+	                	}
                 }
             })
         </script>
