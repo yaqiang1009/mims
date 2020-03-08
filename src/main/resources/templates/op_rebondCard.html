@@ -9,25 +9,21 @@
 body {
 	padding: 15px;
 }
-#input{
-width:200px;
+#table {
+	vertical-align: middle;
 }
-#but{
-width:200px;
-text-align:right;
-}
-/* 去掉number控件的加减 */
-/* google、safari */
-	input::-webkit-outer-spin-button,  
-	input::-webkit-inner-spin-button{  
-    	-webkit-appearance: none !important;  
-    	margin: 0;  
-	}
-	/* firefox */
-	input[type="number"]{
-        -moz-appearance: textfield;
-    }
 
+td {
+	text-align: center;
+}
+
+input {
+	background-color: #d4f2ff8a;
+}
+
+#but {
+	text-align: right;
+}
 </style>
 <script type="text/javascript">
 	
@@ -35,13 +31,26 @@ text-align:right;
 </head>
 <body>
 <caption><label for="name">输入身份证号以挂失就诊卡</label></caption>
-
+		<!-- 挂失就诊卡 -->
 	<!-- 暂时用同步提交 -->
 	<form th:action="@{/op_rebondCard}">
-		<input id="input" type="number" name="ptId" placeholder="请输入身份证号"  class="inserdata form-control">
-		<div id="but">
-		<button type="submit" class="btn btn-default">确认挂失</button>
-		</div>
+		<table class="table table-bordered" id="table">
+
+			<tbody>
+				<tr>
+					<td class="td1">身份证号:</td>
+					<td><input th:text name="ptId" placeholder="" required
+						class="inserdata form-control">
+				</tr>
+
+
+
+				<tr>
+					<td colspan="2" id="but"><button type="submit"
+							class="btn btn-default">挂失</button></td>
+				</tr>
+			</tbody>
+		</table>
 	</form>
 
 
