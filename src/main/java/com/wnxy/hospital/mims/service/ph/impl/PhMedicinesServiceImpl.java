@@ -35,7 +35,7 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 	//根据条件查询药品信息
 	@Override
 	public PhPageBean<PhMedicines> getMedicinesByCondition(PhMedicines pm,
-			int pageIndex, int pageSize) {
+			Integer pageIndex, Integer pageSize) {
 		//将对象属性转换成example
 		PhMedicinesExample pmExample = new PhMedicinesExample();
 		Criteria cc = pmExample.createCriteria();
@@ -44,7 +44,7 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 		//模糊搜索药品名称
 		cc.andMedicineNameLike("%"+pm.getMedicineName()+"%");
 		//根据药品包装类型查询
-		cc.andMedicineTypeEqualTo(pm.getMedicineType());
+		cc.andMedicineTypeLike("%"+pm.getMedicineType()+"%");
 		//小于等于药品价格,逆向工程为空时不好实现啊
 		//cc.andPriceEqualTo(pm.getPrice());
 		//模糊搜索批次号
@@ -70,7 +70,8 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 			PageInfo<PhMedicines> pages = new PageInfo<>(pms);
 			PhPageBean<PhMedicines> phpb = new PhPageBean<>();
 			phpb.setBeanlist(pages.getList());
-			phpb.setTotalCount(count);
+			phpb.setTotalCount(count);//有个totalCount，就有了totalPage
+			phpb.setBeginPageAndEndPage();//有了totalPage，就有了begin和endpage
 			phpb.setPageIndex(pages.getPageNum());
 			phpb.setPageSize(pages.getPageSize());
 			return phpb;
@@ -95,7 +96,7 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 	}
 	@Override
 	//查询全部信息
-	public PhPageBean<PhMedicines> getAllMedicine(int pageIndex, int pageSize) {
+	public PhPageBean<PhMedicines> getAllMedicine(Integer pageIndex, Integer pageSize) {
 		PhMedicinesExample pme = new PhMedicinesExample();
 		try {
 			PageHelper.startPage(pageIndex, pageSize);

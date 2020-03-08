@@ -21,11 +21,11 @@ public class PhPageBean<T> {
 	//页面索引
 	private int pageIndex;
 	//页大小
-	private int pageSize;
+	private int pageSize=5;
 	//分页展示数量
-	private int indexSize;
+	private int indexSize=5;
 	//总页数
-	private int totalPage;
+	//private int totalPage;
 	//总条数
 	private int totalCount;
 	//开始页
@@ -33,7 +33,7 @@ public class PhPageBean<T> {
 	//结束页
 	private int endPage;
 	//分页链接点击后带查询项参数查询
-	private String url;
+	//private String url;
 	//总页数=总数量/页大小
 	public int getTotalPage() {
 		//totalCount取模pageSize，整除则取值，有余则+1

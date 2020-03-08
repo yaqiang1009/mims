@@ -36,7 +36,7 @@ public class PhMedicines {
     private PhMedicineClass phMedicineClass;
 
     private Date disableDate;
-
+    
     public String getMedicineId() {
         return medicineId;
     }

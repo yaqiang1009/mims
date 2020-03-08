@@ -36,6 +36,7 @@ table{
 	bottom: 5px;
 	left: 38%;
 }
+
 </style>
 </head>
 <body>
@@ -97,14 +98,10 @@ table{
 	</table>
 	<div id="pageing">
 		<ul class="pagination pagination-lg">
-		    <li th:each="" ><a href="#">&laquo;</a></li>
-		    <li><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
-		    <li><a href="#">&raquo;</a></li>
-		</ul>
+		    <li th:if="${phpb.pageIndex}>1"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex}-1'">&laquo;</a></li>
+		    <li th:each="page:${#numbers.sequence(phpb.beginPage,phpb.endPage)}"><a th:href="@{/page?pageIndex=}+${page}">[[${page}]]</a></li>
+		    <!-- <li th:each="pageNo : ${#numbers.sequence(contactsPage.start, contactsPage.end)}" > -->
+		    <li th:if="${phpb.pageIndex}<${phpb.totalPage}"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex+1}'">&raquo;</a></li>
 	</div>
 </body>
 </html>

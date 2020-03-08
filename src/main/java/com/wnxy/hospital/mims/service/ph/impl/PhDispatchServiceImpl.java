@@ -24,6 +24,7 @@ public class PhDispatchServiceImpl implements PhDispatchService {
 			pd.setDispatchId(UUID.randomUUID().toString());
 			//添加默认状态为1--待处理
 			pd.setStatus("1");
+			
 			int num = phDispatchMapper.insertSelective(pd);
 			return num;
 		} catch (Exception e) {
