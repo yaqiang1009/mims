@@ -104,7 +104,7 @@ public class OpRegController {
 		return ("op_selectOpRegistryByCondition");
 	}
 
-	// 查全部科室
+	// 查全部科室，未对应下一级分页
 	@RequestMapping("/op_showAllDep")
 	public String op_showAllDep(Model model, HttpServletRequest request) {
 		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
@@ -113,19 +113,32 @@ public class OpRegController {
 		model.addAttribute("opDeps", opDeps);
 		return "op_showAllDep";
 	}
+	
 
+	
 
+//	// 查科室编号对应的全部医生,未加分页
+//	@RequestMapping("/op_showDocInDep/{depId}")
+//	public String op_showDocInDep(@PathVariable("depId") String depId, Model model) {
+//		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
+//				.getBean("op_InfoManagementServiceImpl");
+//		List<Emp> emps = op_InfoManagementService.queryEmpByDepId(depId);// 根据页面传过来的部门编号查对应部门的医生
+//		model.addAttribute("emps", emps);
+//		return "op_showDocInDep";
+//	}
 
-	// 查科室编号对应的全部医生,未加分页
-	@RequestMapping("/op_showDocInDep/{depId}")
-	public String op_showDocInDep(@PathVariable("depId") String depId, Model model) {
+	// 查科室编号对应的全部医生,加分页
+	@RequestMapping("/op_showDocInDepPage/{depId}/{pageNum}")
+	public String op_showDocInDepPage(@PathVariable("depId") String depId,@PathVariable("pageNum") int pageNum,Model model) {
 		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
 				.getBean("op_InfoManagementServiceImpl");
+		PageHelper.startPage(pageNum, 2);// 配置分页页码和页大小
 		List<Emp> emps = op_InfoManagementService.queryEmpByDepId(depId);// 根据页面传过来的部门编号查对应部门的医生
-		model.addAttribute("emps", emps);
-		return "op_showDocInDep";
+		PageInfo<Emp> empsPage = new PageInfo<Emp>(emps);
+		model.addAttribute("empsPage", empsPage);
+		System.out.println(empsPage);
+		return "op_showDocInDepPage";
 	}
-
 
 	// 查对应员工编号的医生详细信息
 	@RequestMapping("/op_showDocDetail/{empId}")

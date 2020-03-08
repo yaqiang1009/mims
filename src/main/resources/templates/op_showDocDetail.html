@@ -47,7 +47,7 @@ img {
 
 			<td>[[${emp.empName}]]</td>
 			<td>[[${emp.empSex}]]</td>
-			<td>[[${emp.empHireday}]]</td>
+			<td>[[${#dates.format(emp.empHireday,"yyyy-MM-dd")}]]</td>
 			<td>[[${opDoclevel.level}]]</td>
 			<td>[[${opDoclevel.price}]]</td>
 			<!-- 挂号时调用挂号方法，需要将session里的就诊卡号和当前医生的员工编号传过去 -->

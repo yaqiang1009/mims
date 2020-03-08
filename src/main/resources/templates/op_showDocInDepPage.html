@@ -2,13 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>展示科室下所有医生</title>
+<title>展示科室下所有医生分页</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
-<script type="text/javascript" th:src="@{/js/bootstrap-paginator.js}"></script>
 <style type="text/css">
 body {
-	padding: 15px;
+	padding: 10px;
 }
 
 img {
@@ -32,7 +30,13 @@ div {
 	text-align: left;
 }
 </style>
-
+<style type="text/css">
+</style>
+<script type="text/javascript">
+	/* window.onload=function(){
+	 $("#depId").html();
+	 }    */
+</script>
 </head>
 <body>
 
@@ -47,11 +51,12 @@ div {
 
 
 				<ul>
-					<li th:each="emp:${emps}">
+					<li th:each="emp:${empsPage.list}">
 						<div>
 							<a th:href="@{/op_showDocDetail/}+${emp.empId}">
 								[[${emp.empName}]]</a> <a
-								th:href="@{/op_showDocDetail/}+${emp.empId}"> <img
+								th:href="@{/op_showDocDetail/}+${emp.empId}"> 
+								<img
 								th:src="@{${emp.empPhoto}}" alt="图片">
 							</a>
 
@@ -61,16 +66,22 @@ div {
 					</li>
 				</ul>
 
-
-
-
 			</div>
 
 		</div>
 	</div>
-	
-	
-</body>
 
+
+
+	<tr th:each="currentPage:${empsPage.navigatepageNums}">
+		<a
+			th:href="@{/op_showDocInDepPage/}+${empsPage.list[0].depId}+${'/'+currentPage}">[[${currentPage}]]</a>
+	</tr>
+
+
+
+
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </html>

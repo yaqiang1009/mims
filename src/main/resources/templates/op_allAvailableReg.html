@@ -35,7 +35,7 @@ td {
 		<tr th:each="op_avareg:${availableOpRegistrys}">
 			<td>[[${op_avareg.rsId}]]</td>
 			<td>[[${op_avareg.ptId}]]</td>
-			<td>[[${op_avareg.date}]]</td>
+			<td>[[${#dates.format(op_avareg.date,"yyyy-MM-dd")}]]</td>
 			<td>[[${op_avareg.empId}]]</td>
 			<td>[[${op_avareg.regprice}]]</td>
 			

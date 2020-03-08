@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.Office;
 import com.wnxy.hospital.mims.entity.OpCard;
@@ -79,10 +81,11 @@ public class OpServiceTest {
 
 	@Test
 	public void test041() {// 新建挂号单
-		
+
 		Op_RegistryServiceImpl op_RegistryServiceImpl = (Op_RegistryServiceImpl) ac.getBean("op_RegistryServiceImpl");
-		
-		OpRegistry opRegistry=op_RegistryServiceImpl.newOpRegistry("f96f2fb706e4452cb038806763b2af2c", "a4f7396991df478daefd75052e288538");
+
+		OpRegistry opRegistry = op_RegistryServiceImpl.newOpRegistry("f96f2fb706e4452cb038806763b2af2c",
+				"a4f7396991df478daefd75052e288538");
 		System.out.println(opRegistry);
 	}
 
@@ -143,7 +146,7 @@ public class OpServiceTest {
 		String depId = "31beb833020e49f2918df3d5d986b90b";// 科室编号
 		OpDep opDep = null;// 科室域属性
 		String empName = "zs";// 员工名字
-		String empIdentity = "513411111111111114";// 员工身份证号
+		String empIdentity = "513411111111111115";// 员工身份证号
 		String empSex = "男";// 员工性别
 		String empAddress = "chenadu";// 员工住址
 		String empEmail = "1111@kjdf.com";// 员工电邮
@@ -173,21 +176,31 @@ public class OpServiceTest {
 	}
 
 	@Test
-	public void test072() {// 查指定科室编号的员工，不带分页
+	public void test072() {// 查指定科室编号的员工，不分页
+
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 				.getBean("op_InfoManagementServiceImpl");
-		System.out.println(op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b"));
+		List<Emp> emps = op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b");
+		System.out.println("查到的员工:" + emps);
 
 	}
-	
+
 //	@Test
-//	public void test072() {// 查指定科室编号的员工，带分页
+//	public void test072() {// 查指定科室编号的员工，测试类单独分页
+//		PageHelper.startPage(1, 3);
 //		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 //				.getBean("op_InfoManagementServiceImpl");
-//		System.out.println(op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b",1));
+//
+//		List<Emp> emps = op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b");
+//		System.out.println("查到的员工:" + emps);
+//		PageInfo<Emp> pageInfo = new PageInfo<Emp>(emps);
+//		for (Emp emp : pageInfo.getList()) {
+//			System.out.println("分页结果:" + emp);
+//		}
 //
 //	}
-	
+
+
 	@Test
 	public void test073() {// 查指定员工编号的员工
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
@@ -201,7 +214,7 @@ public class OpServiceTest {
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 				.getBean("op_InfoManagementServiceImpl");
 		String dlId = null;
-		String empId = "f96f2fb706e4452cb038806763b2af2c";
+		String empId = "472aeed6854a468aa19cfa06fabdaa11";
 		Integer level = 2;
 		float price = 10.00f;
 		OpDoclevel tempOpDoclevel = new OpDoclevel(dlId, empId, level, price);
@@ -223,7 +236,7 @@ public class OpServiceTest {
 		System.out.println(op_InfoManagementServiceImpl.queryEmpIdByLevel(1));
 
 	}
-	
+
 	@Test
 	public void test083() {// 根据医生员工编号查收费等级信息
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
