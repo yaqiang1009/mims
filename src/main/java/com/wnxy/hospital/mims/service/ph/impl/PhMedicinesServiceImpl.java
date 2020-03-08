@@ -5,16 +5,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wnxy.hospital.mims.entity.PhMedicineClass;
 import com.wnxy.hospital.mims.entity.PhMedicines;
 import com.wnxy.hospital.mims.entity.PhMedicinesExample;
 import com.wnxy.hospital.mims.entity.PhMedicinesExample.Criteria;
+import com.wnxy.hospital.mims.entity.ph.page.PhPageBean;
 import com.wnxy.hospital.mims.exception.PhMedicineException;
+import com.wnxy.hospital.mims.mapper.PhMedicineClassMapper;
 import com.wnxy.hospital.mims.mapper.PhMedicinesMapper;
 import com.wnxy.hospital.mims.service.ph.PhMedicinesService;
 @Service
 public class PhMedicinesServiceImpl implements PhMedicinesService{
 	@Autowired
 	private PhMedicinesMapper phMedicinesMapper;
+	@Autowired
+	private PhMedicineClassMapper phMedicineClassMapper;
 	@Override
 	//根据药品id查询药品信息
 	public PhMedicines getMedicineById(String medicineId) {
@@ -27,7 +34,8 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 	}
 	//根据条件查询药品信息
 	@Override
-	public List<PhMedicines> getMedicinesByCondition(PhMedicines pm) {
+	public PhPageBean<PhMedicines> getMedicinesByCondition(PhMedicines pm,
+			Integer pageIndex, Integer pageSize) {
 		//将对象属性转换成example
 		PhMedicinesExample pmExample = new PhMedicinesExample();
 		Criteria cc = pmExample.createCriteria();
@@ -36,18 +44,37 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 		//模糊搜索药品名称
 		cc.andMedicineNameLike("%"+pm.getMedicineName()+"%");
 		//根据药品包装类型查询
-		cc.andMedicineTypeEqualTo(pm.getMedicineType());
-		//小于等于药品价格
-		cc.andPriceLessThanOrEqualTo(pm.getPrice());
+		cc.andMedicineTypeLike("%"+pm.getMedicineType()+"%");
+		//小于等于药品价格,逆向工程为空时不好实现啊
+		//cc.andPriceEqualTo(pm.getPrice());
 		//模糊搜索批次号
 		cc.andBatchNoLike("%"+pm.getBatchNo()+"%");
-		//小于等于生产日期
-		cc.andProduceDateLessThanOrEqualTo(pm.getProduceDate());
+		//小于等于生产日期,为空时不好实现
+		//cc.andProduceDateLessThanOrEqualTo(pm.getProduceDate());
 		//小于等于药品数量
-		cc.andNumberLessThanOrEqualTo(pm.getNumber());
+		//cc.andNumberLessThanOrEqualTo(pm.getNumber());
 		try {
+			PageHelper.startPage(pageIndex, pageSize);
 			List<PhMedicines> pms = phMedicinesMapper.selectByExample(pmExample);
-			return pms;
+			int count = phMedicinesMapper.countByExample(pmExample);
+			//根据classId查询className
+			for(PhMedicines pmm : pms) {
+				try {
+					PhMedicineClass pmClass = 
+							phMedicineClassMapper.selectByPrimaryKey(pmm.getClassId());
+					pmm.setPhMedicineClass(pmClass);
+				} catch (Exception e) {
+					throw new PhMedicineException(e);
+				}
+			}
+			PageInfo<PhMedicines> pages = new PageInfo<>(pms);
+			PhPageBean<PhMedicines> phpb = new PhPageBean<>();
+			phpb.setBeanlist(pages.getList());
+			phpb.setTotalCount(count);//有个totalCount，就有了totalPage
+			phpb.setBeginPageAndEndPage();//有了totalPage，就有了begin和endpage
+			phpb.setPageIndex(pages.getPageNum());
+			phpb.setPageSize(pages.getPageSize());
+			return phpb;
 		} catch (Exception e) {
 			throw new PhMedicineException(e);
 		}
@@ -67,5 +94,33 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 		List<PhMedicines> pms = phMedicinesMapper.selectByExample(example);
 		return pms.get(0);
 	}
-
+	@Override
+	//查询全部信息
+	public PhPageBean<PhMedicines> getAllMedicine(Integer pageIndex, Integer pageSize) {
+		PhMedicinesExample pme = new PhMedicinesExample();
+		try {
+			PageHelper.startPage(pageIndex, pageSize);
+			List<PhMedicines> pms = phMedicinesMapper.selectByExample(pme);
+			int count = phMedicinesMapper.countByExample(pme);
+			//根据classId查询className
+			for(PhMedicines pm : pms) {
+				try {
+					PhMedicineClass pmClass = 
+							phMedicineClassMapper.selectByPrimaryKey(pm.getClassId());
+					pm.setPhMedicineClass(pmClass);
+				} catch (Exception e) {
+					throw new PhMedicineException(e);
+				}
+			}
+			PageInfo<PhMedicines> pages = new PageInfo<>(pms);
+			PhPageBean<PhMedicines> phpb = new PhPageBean<>();
+			phpb.setBeanlist(pages.getList());
+			phpb.setTotalCount(count);
+			phpb.setPageIndex(pages.getPageNum());
+			phpb.setPageSize(pages.getPageSize());
+			return phpb;
+		} catch (Exception e) {
+			throw new PhMedicineException(e);
+		}
+	}
 }
