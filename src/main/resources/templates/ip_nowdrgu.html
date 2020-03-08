@@ -7,7 +7,7 @@
 <script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <style type="text/css">
 body{
-padding: 10px;
+padding: 15px;
 }
 #main_table thead tr th{
 height: 30px;
@@ -30,10 +30,14 @@ right: 0px;
 	width: 200px;
 	float: left;
 }
+#main_table{
+border:2px solid black;
+box-shadow:  10px 10px 5px #b1edff8a;
+}
 /* 分页设置 */
 #numberdiv{
-position: absolute;
-bottom: 0px;
+/* position: absolute;
+bottom: 0px; */
 width: 100%;
 text-align:center;
 }
@@ -57,7 +61,7 @@ height: 500px;
 <div id="vacancy" th:if="${ipDrugs.list.total==0}"><img th:src="@{/img/vacancy.jpg}"></div>
 <!-- 有数据进行展示 -->
 <table th:each="ipDrug:${ipDrugs.list}" id="main_table" class="table table-bordered">
-	<caption>药单:</caption>
+	<caption><label for="name">药单:</label></caption>
 	<tbody>
 		<!-- 药单简介 -->
  		<tr>

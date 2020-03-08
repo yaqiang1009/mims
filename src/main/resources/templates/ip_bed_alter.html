@@ -22,6 +22,12 @@ vertical-align: middle;
 .form-group{
 margin: 0px;
 }
+.color1{
+
+}
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -122,7 +128,7 @@ $(function(){
 <body>
 <form onsubmit="return alertCheck()" role="form" th:action="@{/bed_alter_sub}" method="post">
 <table id="maintable"  class="table table-bordered">
-	<caption>更改病床</caption>
+	<caption><label for="name">更改病床</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">病床总数量：</th>
@@ -135,7 +141,7 @@ $(function(){
 		<tr>
 			<td  colspan="4"><label for="name">需修改的病床</label></td>
 		</tr>
-		<tr>
+		<tr class="color1">
 			<td>病房：</td>
 			<td>
 				<div class="form-group">
@@ -157,7 +163,7 @@ $(function(){
 		<tr>
 			<td  colspan="4"><label for="name">病床修改为</label></td>
 		</tr>
-		<tr>
+		<tr class="color1">
 			<td>病房：</td>
 			<td>
 				<div class="form-group">
@@ -186,7 +192,7 @@ $(function(){
 <table id="maintable"  class="table table-bordered">
 	<caption><label for="name">新增病床</label></caption>
 	<tbody>
-		<tr>
+		<tr class="color1">
 			<td class="td1">病房：</td>
 			<td>
 				<div class="form-group">
