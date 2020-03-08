@@ -14,12 +14,15 @@ width: 30%;
 td,th{
 text-align: center;
 }
+.table textarea{
+background-color:#d4f2ff8a;
+}
 </style>
 </head>
 <body>
 <form role="form" th:action="@{/leave_reject_sub}" method="post">
 <table class="table table-bordered">
-	<caption>出院审核</caption>
+	<caption><label for="name">出院审核</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">订单编号：</th>

@@ -173,12 +173,20 @@ public class OpServiceTest {
 	}
 
 	@Test
-	public void test072() {// 查指定科室编号的员工
+	public void test072() {// 查指定科室编号的员工，不带分页
 		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
 				.getBean("op_InfoManagementServiceImpl");
 		System.out.println(op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b"));
 
 	}
+	
+//	@Test
+//	public void test072() {// 查指定科室编号的员工，带分页
+//		Op_InfoManagementServiceImpl op_InfoManagementServiceImpl = (Op_InfoManagementServiceImpl) ac
+//				.getBean("op_InfoManagementServiceImpl");
+//		System.out.println(op_InfoManagementServiceImpl.queryEmpByDepId("31beb833020e49f2918df3d5d986b90b",1));
+//
+//	}
 	
 	@Test
 	public void test073() {// 查指定员工编号的员工
