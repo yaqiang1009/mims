@@ -23,6 +23,15 @@ span{
 margin: 5px;
 margin-left: 20px;
 }
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
+/* 数值输入去掉加减 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+	-webkit-appearance: none !important;
+	margin: 0;
+}
 </style>
 <script type="text/javascript">
 
@@ -65,19 +74,19 @@ margin-left: 20px;
 <body>
 <form onsubmit="return createCheck()" enctype="multipart/form-data" role="form" th:action="@{/sys_insert_sub}" method="post">
 <table id="maintable"  class="table table-bordered">
-	<caption>新增用户</caption>
+	<caption><label for="name">新增用户</label></caption>
 	<tbody>
 		<tr>
-			<td>姓名：</td>
+			<td class="td1">姓名：</td>
 			<td><input id="name" type="text" name="emp.empName" class="inserdata form-control"/></td>
-			<td>性别：</td>
+			<td class="td3">性别：</td>
 			<td>
 				<select name="emp.empSex" class="form-control">
 					<option value="男">男</option>
 					<option value="女">女</option>
 				</select>
 			</td>
-			<td>民族：</td>
+			<td class="td5">民族：</td>
 			<td><input id="empNation" type="text" name="emp.empNation" class="inserdata form-control"/></td>
 		</tr>
 		<tr>
