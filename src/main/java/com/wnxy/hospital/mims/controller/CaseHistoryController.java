@@ -1,5 +1,7 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +64,7 @@ public class CaseHistoryController {
 	@RequestMapping("/getCaseHistory")
 	public String getCaseHistory(String patientid) {
 		try {
-			caseHistoryService.getCaseHistory(patientid);
+			List<OpCasehistory> caseHistory = caseHistoryService.getCaseHistory(patientid);
 			return "";
 		}catch (Exception e) {
 			e.printStackTrace();

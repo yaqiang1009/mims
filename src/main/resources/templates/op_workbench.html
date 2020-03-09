@@ -35,7 +35,7 @@
     }
     
     .left {
-        height: 830px;
+        height: 850px;
         border-right: 2px #4CD5FF solid;
     }
 </style>
@@ -43,11 +43,13 @@
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/vue.js}"></script>
 <script th:src="@{/js/axios.min.js}"></script>
+
 <body>
 
-    <div class="row">
-        <div class="col-xs-3 left" id="callid">
-        <button type="button" v-on:click="getcallList">开始排号</button>
+    <div class="row" id="callid">
+        <div class="col-xs-3 left">
+            <br/>
+            <button type="button" class="btn btn-group-xs btn-primary" @click="getcallList">开始排号</button>
             <table class="table tb1">
                 <thead>
                     <tr>
@@ -60,24 +62,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(callid, index) in list" v-if="callid.state < 1 ">
+                    <template v-for="(callid, index) in waitlist">
+                    <tr v-if="callid.state < 1 ">
                         <td v-text="index + 1"></td>
                         <td v-text="callid.registrydto.patient.ptName"></td>
-                        <td><button class="btn btn-default btn-group-sm"><a href="#">叫号</a></button></td>
+                        <td><button class="btn btn-default btn-group-sm" @click="call(index)">叫号</button></td>
                     </tr>
+                </template>
                 </tbody>
             </table>
             <!-- 分页 -->
             <div class="col-xs-12 page">
                 <ul class="pagination pagination-sm">
                     <li>
-                        <a href="#">Prev</a>
+                        <a href="#" @click="prepage">Prev</a>
                     </li>
+                    <template v-for="num in pages">
+	                    <li v-if="num == pageIndex" class="active">
+	                        <a href="#" v-text="num" @click="dopage(num)"></a>
+	                    </li>
+	                    <li v-else>
+	                        <a href="#" v-text="num" @click="dopage(num)"></a>
+	                    </li>
+                   	</template>
                     <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">Next</a>
+                        <a href="#" @click="nextpage">Next</a>
                     </li>
                 </ul>
             </div>
@@ -93,56 +102,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-if="activelist[0]!=null">
                         <td>1</td>
-                        <td>李二</td>
-                        <td><button class="btn btn-default btn-group-sm"><a href="#">诊毕</a></button></td>
+                        <td v-text="activelist[0].registrydto.patient.ptName"></td>
+                        <td><button class="btn btn-default btn-group-sm" @click="wait(activelist[0].callistid)"><a href="#">等待</a></button>
+                            <button class="btn btn-default btn-group-sm" @click="finish(activelist[0].callistid)"><a href="#">诊毕</a></button></td>
                     </tr>
                 </tbody>
             </table>
-            <!-- 分页 -->
-            <div class="col-xs-12 page">
-                <ul class="pagination pagination-sm">
-                    <li>
-                        <a href="#">Prev</a>
-                    </li>
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li>
-                        <a href="#">Next</a>
-                    </li>
-                </ul>
-            </div>
         </div>
-        <script>
-            var vm = new Vue({
-                el: '#callid',
-                data: {
-                    message: 'Hello Vue!',
-                    list:[]
-                },
-                methods:{
-                	getcallList: function(){
-                		var that = this
-	                	axios.post('/callid/setcallList', {
-	                	    empid: '6f24ac1b-5d1e-11ea-ba6e-00ffaca66b24' 
-	                	  })
-	                	  .then(function (response) {
-	                	    that.list = response.data.list;
-	                	  })
-	                	  .catch(function (error) {
-	                	    console.log(error);
-	                	  });
-	                	}
-                }
-            })
-        </script>
         <div class="col-xs-8">
             <!-- 工作台 -->
 
             <div class="row" style="padding: 20px 50px 10px;">
-                <span>当前病人</span> <br/> 姓名： 李二<br/> 就诊号: 6c200ed412974d14aebe6fb174d03c60<br/>性别: 男<br/>
+                <template v-if="activelist[0] != null">
+                     <span>当前病人</span> <br/> 
+                     <div style="font-size:18px;">
+				                        挂号单号:{{activelist[0].registrydto.registryid}}<br/>
+				                        姓名： {{activelist[0].registrydto.patient.ptName}}<br/> 
+				                        性别: {{activelist[0].registrydto.patient.sex}}<br/>
+				                        年龄: {{activelist[0].registrydto.patient.age}}<br/>
+				                        电话: {{activelist[0].registrydto.patient.phone}}<br/>
+                     </div>
+            	</template>
+                <template v-else>
+            		 <span>当前病人</span> <br/> 
+                	<div style="font-size:18px;">
+				                        挂号单号:<br/>
+				                        姓名： <br/> 
+				                        性别: <br/>
+				                        年龄: <br/>
+				                        电话: <br/>
+                     </div>
+            	</template>
+
             </div>
             <div class="tabbable" id="tabs-25799" style="padding: 20px 50px 10px;">
                 <ul class="nav nav-tabs">
@@ -185,22 +178,12 @@
                     </div>
                     <div class="tab-pane" id="panel-treatment" style="padding: 50px 50px 10px;">
                         <!--治疗方案-->
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-info">
-								<input  type="radio" name="options"> 住院
-							</label>
-                            <br/>
-                            <br/>
-                            <label class="btn btn-info">
-								<input  type="radio" name="options"> 门诊治疗
-							</label>
-                            <br/>
-                            <br/>
-                            <label class="btn btn-info">
-								<input  type="radio" name="options"> 检测
-							</label>
-                        </div>
-
+                        <button class="btn btn-primary btn-lg" type="button" @click="gotooutpatient">门诊治疗</button>
+                        <br/>
+                        <br/>
+                        <button class="btn btn-primary btn-lg" type="button" @click="gotoinpatient">住院</button>
+                        <br/>
+                        <br/>
                     </div>
 
                     <div class="tab-pane" id="panel-prescription" style="padding: 5px 50px 10px;">
@@ -281,7 +264,147 @@
             </div>
         </div>
     </div>
-
+    <script>
+        var vm = new Vue({
+            el: '#callid',
+            data: {
+                message: 'Hello Vue!',
+                waitlist: [],
+                activelist: [],
+                pageIndex: 1,
+                pages: 0,
+                description: '',
+                empid: '8e75f225-5d1e-11ea-ba6e-00ffaca66b24'
+            },
+            methods: {
+                readcasehistory: function() { //读取病历
+                    alert(1)
+                },
+                gotooutpatient: function() { //门诊治疗跳转
+                    if (confirm("确认门诊治疗")) {
+                        this.waitlist[0]
+                    }
+                },
+                gotoinpatient: function() { //住院治疗跳转
+                    if (confirm("确认住院治疗")) {
+                        var that = this
+                        axios.post('/callid/inpatientorder', {
+                                patientid: this.activelist[0].registrydto.patient.ptId,
+                                empid: this.activelist[0].doctor.empid,
+                                description: this.description
+                            })
+                            .then(function(response) {
+                                alert(response);
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                getcallList: function() { //读取叫号表
+                    var that = this
+                    axios.post('/callid/getcallList', {
+                            empid: this.empid,
+                            pageIndex: this.pageIndex
+                        })
+                        .then(function(response) {
+                            that.waitlist = response.data.list //记录当前排队病人
+                            for (let i = 0; i < that.waitlist.length; i++) {
+                                if (that.waitlist[i].state == 1 && that.activelist.length < 1) { //是否存在正在就诊的人
+                                    that.activelist.push(that.waitlist[i]) //记录当前病人信息
+                                }
+                            }
+                            that.pages = response.data.pages
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                call: function(index) { //叫号操作
+                    var cont = 0
+                    for (let i = 0; i < this.waitlist.length; i++) { //是否存在第二个正在就诊的人
+                        if (this.waitlist[i].state == 1) {
+                            cont += 1
+                        }
+                    }
+                    if (this.activelist.length != 0) { //判断当前是否有病人就诊
+                        cont += 1
+                    }
+                    if (cont < 1) { //每次只能叫一个人就诊
+                        var callistid = this.waitlist[index].callistid
+                        this.activelist.push(this.waitlist[index]) //记录当前病人信息
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 1
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    } else {
+                        alert("请先完成当前病人就诊")
+                    }
+                    //加载当前病人的病历
+                    this.readcasehistory();
+                },
+                wait: function(callistid) { //等待操作
+                    if (confirm("请确认该病人等待")) {
+                        this.activelist.pop() //删除当前病人信息
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 0
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    }
+                },
+                finish: function(callistid) { //完成就诊
+                    if (confirm("请确认该病人完成就诊 ")) {
+                        alert(this.activelist.length)
+                        this.activelist.pop() //删除当前病人信息
+                        alert(this.activelist.length)
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 2
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    }
+                },
+                prepage: function() { //前一页
+                    if (this.pageIndex - 1 >= 1) {
+                        this.pageIndex -= 1
+                        this.getcallList()
+                    }
+                },
+                nextpage: function() { //后一页
+                    if (this.pageIndex + 1 <= this.pages) {
+                        this.pageIndex += 1
+                        this.getcallList()
+                    }
+                },
+                dopage: function(num) { //跳转页
+                    if (this.pageIndex != num) {
+                        this.pageIndex = num
+                        this.getcallList()
+                    }
+                }
+            }
+        })
+    </script>
 
 
 </body>

@@ -136,4 +136,16 @@ public class CallIdListServiceImpl implements CallIdListService {
 		}
 	}
 
+	@Override
+	public Integer getdatanum(String doctorid) {
+		try {
+			OpCallidlistExample example = new OpCallidlistExample();
+			example.createCriteria().andStateBetween(0, 1).andEmpIdEqualTo(doctorid);
+			return opcmapper.countByExample(example);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

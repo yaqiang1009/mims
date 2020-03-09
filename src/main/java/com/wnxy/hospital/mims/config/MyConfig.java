@@ -72,7 +72,6 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 		properties.setProperty("supportMethodsArguments", "true");
 		properties.setProperty("params", "count=countSql");
 		pageHelper.setProperties(properties);
-
 		return pageHelper;
 	}
 

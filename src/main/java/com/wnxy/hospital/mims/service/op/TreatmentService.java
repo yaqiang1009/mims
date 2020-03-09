@@ -6,5 +6,5 @@ public interface TreatmentService {
 	
 	String generateTreatment(OpTreatment treatment); 
 	
-	OpTreatment getTreatment(String treatmentid);
+	OpTreatment getTreatment(Integer scheme);
 }

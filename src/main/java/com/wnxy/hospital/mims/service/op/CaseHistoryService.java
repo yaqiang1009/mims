@@ -6,9 +6,9 @@ import com.wnxy.hospital.mims.entity.OpCasehistory;
 
 public interface CaseHistoryService {
 
-	public void createCaseHistory(OpCasehistory casehistory);
-	
-	public List<OpCasehistory> getCaseHistory(String patientid);
-	
-	public void modifyCaseHistoryState(String caseid,Integer state);
+	String createCaseHistory(OpCasehistory casehistory);
+
+	List<OpCasehistory> getCaseHistory(String patientid);
+
+	void modifyCaseHistoryState(String caseid, Integer state);
 }

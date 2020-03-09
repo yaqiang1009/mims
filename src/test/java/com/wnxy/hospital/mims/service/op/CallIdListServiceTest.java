@@ -28,11 +28,8 @@ public class CallIdListServiceTest {
 	
 	@Test
 	public void testgetCallIdList() {
-		String doctorid = "6f24ac1b-5d1e-11ea-ba6e-00ffaca66b24";
-		List<CallIdItemDTO> callIdList = callIdListService.getCallIdList(doctorid);
-		for(CallIdItemDTO s:callIdList) {
-			log.info(s.toString());
-		}
+		String doctorid = "8e75f225-5d1e-11ea-ba6e-00ffaca66b24";
+		callIdListService.getCallIdList(doctorid);
 	}
 	
 	@Test

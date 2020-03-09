@@ -8,4 +8,5 @@ public interface CallIdListService {
 	void generiteCallIdList(String doctorid);
 	List<CallIdItemDTO> getCallIdList(String doctorid);
 	void modifiyCallIdList(String calllistid, Integer state);
+	Integer getdatanum(String doctorid);
 }
