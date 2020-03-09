@@ -1,11 +1,9 @@
 package com.wnxy.hospital.mims.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.wnxy.hospital.mims.entity.PhMedicineInventory;
 import com.wnxy.hospital.mims.entity.PhMedicineInventoryExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface PhMedicineInventoryMapper {
     int countByExample(PhMedicineInventoryExample example);

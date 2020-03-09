@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wnxy.hospital.mims.entity.PhDispatch;
 import com.wnxy.hospital.mims.entity.PhMedicineInventory;
 import com.wnxy.hospital.mims.entity.PhMedicineInventoryExample;
+import com.wnxy.hospital.mims.entity.PhMedicineInventoryExample.Criteria;
 import com.wnxy.hospital.mims.exception.PhMedicineException;
 import com.wnxy.hospital.mims.mapper.PhMedicineInventoryMapper;
 import com.wnxy.hospital.mims.service.ph.PhDispatchService;
@@ -120,6 +121,22 @@ public class PhInventoryServiceImpl implements PhInventoryService {
 		PhMedicineInventoryExample pie = new PhMedicineInventoryExample();
 		int num = phMedicineInventoryMapper.updateByExampleSelective(pi, pie);
 		return num;
+	}
+	//条件查询仓库信息
+	@Override
+	public List<PhMedicineInventory> getInventory(PhMedicineInventory pmi) {
+		try {
+			PhMedicineInventoryExample pmie = new PhMedicineInventoryExample();
+			Criteria cc = pmie.createCriteria();
+			cc.andMedicineNameLike("%"+pmi.getMedicineName()+"%");
+			cc.andCalssNameLike("%"+pmi.getCalssName()+"%");
+			cc.andTypeLike("%"+pmi.getType()+"%");
+			cc.andBatchNoLike("%"+pmi.getBatchNo()+"%");
+			List<PhMedicineInventory> pmis = phMedicineInventoryMapper.selectByExample(pmie);
+			return pmis;
+		} catch (Exception e) {
+			throw new PhMedicineException(e);
+		}
 	}
 
 }

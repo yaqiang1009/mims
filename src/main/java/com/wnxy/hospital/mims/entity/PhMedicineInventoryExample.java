@@ -272,6 +272,216 @@ public class PhMedicineInventoryExample {
             return (Criteria) this;
         }
 
+        public Criteria andMedicineNameIsNull() {
+            addCriterion("medicine_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameIsNotNull() {
+            addCriterion("medicine_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameEqualTo(String value) {
+            addCriterion("medicine_name =", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotEqualTo(String value) {
+            addCriterion("medicine_name <>", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameGreaterThan(String value) {
+            addCriterion("medicine_name >", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameGreaterThanOrEqualTo(String value) {
+            addCriterion("medicine_name >=", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLessThan(String value) {
+            addCriterion("medicine_name <", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLessThanOrEqualTo(String value) {
+            addCriterion("medicine_name <=", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameLike(String value) {
+            addCriterion("medicine_name like", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotLike(String value) {
+            addCriterion("medicine_name not like", value, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameIn(List<String> values) {
+            addCriterion("medicine_name in", values, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotIn(List<String> values) {
+            addCriterion("medicine_name not in", values, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameBetween(String value1, String value2) {
+            addCriterion("medicine_name between", value1, value2, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMedicineNameNotBetween(String value1, String value2) {
+            addCriterion("medicine_name not between", value1, value2, "medicineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdIsNull() {
+            addCriterion("class_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdIsNotNull() {
+            addCriterion("class_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdEqualTo(String value) {
+            addCriterion("class_id =", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdNotEqualTo(String value) {
+            addCriterion("class_id <>", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdGreaterThan(String value) {
+            addCriterion("class_id >", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdGreaterThanOrEqualTo(String value) {
+            addCriterion("class_id >=", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdLessThan(String value) {
+            addCriterion("class_id <", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdLessThanOrEqualTo(String value) {
+            addCriterion("class_id <=", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdLike(String value) {
+            addCriterion("class_id like", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdNotLike(String value) {
+            addCriterion("class_id not like", value, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdIn(List<String> values) {
+            addCriterion("class_id in", values, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdNotIn(List<String> values) {
+            addCriterion("class_id not in", values, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdBetween(String value1, String value2) {
+            addCriterion("class_id between", value1, value2, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andClassIdNotBetween(String value1, String value2) {
+            addCriterion("class_id not between", value1, value2, "classId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameIsNull() {
+            addCriterion("calss_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameIsNotNull() {
+            addCriterion("calss_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameEqualTo(String value) {
+            addCriterion("calss_name =", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameNotEqualTo(String value) {
+            addCriterion("calss_name <>", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameGreaterThan(String value) {
+            addCriterion("calss_name >", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameGreaterThanOrEqualTo(String value) {
+            addCriterion("calss_name >=", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameLessThan(String value) {
+            addCriterion("calss_name <", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameLessThanOrEqualTo(String value) {
+            addCriterion("calss_name <=", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameLike(String value) {
+            addCriterion("calss_name like", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameNotLike(String value) {
+            addCriterion("calss_name not like", value, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameIn(List<String> values) {
+            addCriterion("calss_name in", values, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameNotIn(List<String> values) {
+            addCriterion("calss_name not in", values, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameBetween(String value1, String value2) {
+            addCriterion("calss_name between", value1, value2, "calssName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalssNameNotBetween(String value1, String value2) {
+            addCriterion("calss_name not between", value1, value2, "calssName");
+            return (Criteria) this;
+        }
+
         public Criteria andNumberIsNull() {
             addCriterion("number is null");
             return (Criteria) this;
@@ -462,6 +672,136 @@ public class PhMedicineInventoryExample {
             return (Criteria) this;
         }
 
+        public Criteria andBatchNoIsNull() {
+            addCriterion("batch_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIsNotNull() {
+            addCriterion("batch_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoEqualTo(String value) {
+            addCriterion("batch_no =", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotEqualTo(String value) {
+            addCriterion("batch_no <>", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThan(String value) {
+            addCriterion("batch_no >", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoGreaterThanOrEqualTo(String value) {
+            addCriterion("batch_no >=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThan(String value) {
+            addCriterion("batch_no <", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLessThanOrEqualTo(String value) {
+            addCriterion("batch_no <=", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoLike(String value) {
+            addCriterion("batch_no like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotLike(String value) {
+            addCriterion("batch_no not like", value, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoIn(List<String> values) {
+            addCriterion("batch_no in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotIn(List<String> values) {
+            addCriterion("batch_no not in", values, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoBetween(String value1, String value2) {
+            addCriterion("batch_no between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNoNotBetween(String value1, String value2) {
+            addCriterion("batch_no not between", value1, value2, "batchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueIsNull() {
+            addCriterion("warn_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueIsNotNull() {
+            addCriterion("warn_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueEqualTo(Integer value) {
+            addCriterion("warn_value =", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueNotEqualTo(Integer value) {
+            addCriterion("warn_value <>", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueGreaterThan(Integer value) {
+            addCriterion("warn_value >", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueGreaterThanOrEqualTo(Integer value) {
+            addCriterion("warn_value >=", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueLessThan(Integer value) {
+            addCriterion("warn_value <", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueLessThanOrEqualTo(Integer value) {
+            addCriterion("warn_value <=", value, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueIn(List<Integer> values) {
+            addCriterion("warn_value in", values, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueNotIn(List<Integer> values) {
+            addCriterion("warn_value not in", values, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueBetween(Integer value1, Integer value2) {
+            addCriterion("warn_value between", value1, value2, "warnValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andWarnValueNotBetween(Integer value1, Integer value2) {
+            addCriterion("warn_value not between", value1, value2, "warnValue");
+            return (Criteria) this;
+        }
+
         public Criteria andDamageIdIsNull() {
             addCriterion("damage_id is null");
             return (Criteria) this;
@@ -589,76 +929,6 @@ public class PhMedicineInventoryExample {
 
         public Criteria andDamageCountNotBetween(Integer value1, Integer value2) {
             addCriterion("damage_count not between", value1, value2, "damageCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoIsNull() {
-            addCriterion("batch_no is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoIsNotNull() {
-            addCriterion("batch_no is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoEqualTo(String value) {
-            addCriterion("batch_no =", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoNotEqualTo(String value) {
-            addCriterion("batch_no <>", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoGreaterThan(String value) {
-            addCriterion("batch_no >", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoGreaterThanOrEqualTo(String value) {
-            addCriterion("batch_no >=", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoLessThan(String value) {
-            addCriterion("batch_no <", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoLessThanOrEqualTo(String value) {
-            addCriterion("batch_no <=", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoLike(String value) {
-            addCriterion("batch_no like", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoNotLike(String value) {
-            addCriterion("batch_no not like", value, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoIn(List<String> values) {
-            addCriterion("batch_no in", values, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoNotIn(List<String> values) {
-            addCriterion("batch_no not in", values, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoBetween(String value1, String value2) {
-            addCriterion("batch_no between", value1, value2, "batchNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andBatchNoNotBetween(String value1, String value2) {
-            addCriterion("batch_no not between", value1, value2, "batchNo");
             return (Criteria) this;
         }
 
@@ -839,136 +1109,6 @@ public class PhMedicineInventoryExample {
 
         public Criteria andDisableDateNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("disable_date not between", value1, value2, "disableDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueIsNull() {
-            addCriterion("warn_value is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueIsNotNull() {
-            addCriterion("warn_value is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueEqualTo(Integer value) {
-            addCriterion("warn_value =", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueNotEqualTo(Integer value) {
-            addCriterion("warn_value <>", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueGreaterThan(Integer value) {
-            addCriterion("warn_value >", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueGreaterThanOrEqualTo(Integer value) {
-            addCriterion("warn_value >=", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueLessThan(Integer value) {
-            addCriterion("warn_value <", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueLessThanOrEqualTo(Integer value) {
-            addCriterion("warn_value <=", value, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueIn(List<Integer> values) {
-            addCriterion("warn_value in", values, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueNotIn(List<Integer> values) {
-            addCriterion("warn_value not in", values, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueBetween(Integer value1, Integer value2) {
-            addCriterion("warn_value between", value1, value2, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andWarnValueNotBetween(Integer value1, Integer value2) {
-            addCriterion("warn_value not between", value1, value2, "warnValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameIsNull() {
-            addCriterion("medicine_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameIsNotNull() {
-            addCriterion("medicine_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameEqualTo(String value) {
-            addCriterion("medicine_name =", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameNotEqualTo(String value) {
-            addCriterion("medicine_name <>", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameGreaterThan(String value) {
-            addCriterion("medicine_name >", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameGreaterThanOrEqualTo(String value) {
-            addCriterion("medicine_name >=", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameLessThan(String value) {
-            addCriterion("medicine_name <", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameLessThanOrEqualTo(String value) {
-            addCriterion("medicine_name <=", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameLike(String value) {
-            addCriterion("medicine_name like", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameNotLike(String value) {
-            addCriterion("medicine_name not like", value, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameIn(List<String> values) {
-            addCriterion("medicine_name in", values, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameNotIn(List<String> values) {
-            addCriterion("medicine_name not in", values, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameBetween(String value1, String value2) {
-            addCriterion("medicine_name between", value1, value2, "medicineName");
-            return (Criteria) this;
-        }
-
-        public Criteria andMedicineNameNotBetween(String value1, String value2) {
-            addCriterion("medicine_name not between", value1, value2, "medicineName");
             return (Criteria) this;
         }
     }
