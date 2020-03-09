@@ -114,7 +114,7 @@ public class CallIdController {
 			System.out.println(pt_id);
 			System.out.println(emp_id);
 			System.out.println(illness);
-			return "住院请求发送成功";
+			return "住院单申请成功";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
