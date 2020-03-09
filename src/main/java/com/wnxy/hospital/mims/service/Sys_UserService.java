@@ -19,4 +19,5 @@ public interface Sys_UserService {
 	List<Office> selectOffice();
 	List<Role> selectRole();
 	String insertUser(UserPsd userPsd,MultipartFile img,String[] roleIds,HttpServletRequest request);
+	void alterPwd(String user,String pwd);
 }

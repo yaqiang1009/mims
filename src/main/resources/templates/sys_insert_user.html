@@ -26,14 +26,49 @@ margin-left: 20px;
 #maintable input,#maintable select{
 background-color:#d4f2ff8a;
 }
+#userAccount{
+width: 30%;
+min-width: 200px;
+float: left;
+}
+#userchec{
+float: left;
+line-height: 25px;
+}
 /* 数值输入去掉加减 */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
 	-webkit-appearance: none !important;
 	margin: 0;
 }
+input[type="number"] {
+	-moz-appearance: textfield;
+}
 </style>
 <script type="text/javascript">
+var cont=true;
+$(function(){
+	//异步检查用户名
+ 	$("#userAccount").blur(function(){
+  		$.post(
+			'[[@{/check_user}]]',	
+			{user:$("#userAccount").val()},
+			function(data){
+				if(data=="1"){
+					/* 用户已存在 */
+					cont=true;
+					$("#userchec").html("用户已存在");
+					$("#userchec").css("color","red");
+				}else{
+					/* 用户不存在 */
+					cont=false;
+					$("#userchec").html("用户名可用");
+					$("#userchec").css("color","green");
+				}
+			}
+		);  
+	}); 
+});
 
  /* 新增检查 */
   function createCheck(){
@@ -61,6 +96,9 @@ input::-webkit-inner-spin-button{
 		}else if($("#userAccount").val().length<8){
 			alert("用户名过短（8-16位）");
 			return false;
+		}else if(cont){
+			alert("用户名已存在");
+			return false;
 		}else{
 			if(confirm("确认提交吗？")){
 				return true;
@@ -69,6 +107,7 @@ input::-webkit-inner-spin-button{
 			}
 		} 
 	} 
+ 
 </script>
 </head>
 <body>
@@ -133,7 +172,10 @@ input::-webkit-inner-spin-button{
 		</tr>
 		<tr>
 			<td>用户名：</td>
-			<td colspan="5"><input id="userAccount" type="text" name="userAccount" class="inserdata form-control"/></td>
+			<td colspan="5">
+				<input id="userAccount" type="text" name="userAccount" class="inserdata form-control"/>
+				<span id="userchec"></span>
+			</td>
 		<tr/>
 	</tbody>
 </table>

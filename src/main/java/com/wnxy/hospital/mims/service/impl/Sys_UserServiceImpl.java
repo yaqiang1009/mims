@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -153,11 +154,11 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 				fileName="10.jpg";
 			}else {
 				fileName=uuid+img.getOriginalFilename();
+				//创建文件
+				File file=new File(path, fileName);
+				//保存
+				img.transferTo(file);
 			}
-			//创建文件
-			File file=new File(path, fileName);
-			//保存
-			img.transferTo(file);
 			//创建emp
 			Emp emp=userPsd.getEmp();
 			String uuidEmp = UUID.randomUUID().toString().trim().replaceAll("-", "");
@@ -170,7 +171,8 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 			String uuidUser = UUID.randomUUID().toString().trim().replaceAll("-", "");
 			userPsd.setUserId(uuidUser);
 			userPsd.setEmpId(uuidEmp);
-			String passward=DigestUtils.md5DigestAsHex("123456".getBytes());;
+			//密码加密
+			String passward= new SimpleHash("MD5","123456","m",2).toString();
 			userPsd.setUserPassword(passward);
 			userPsdMapper.insert(userPsd);
 			//创建角色用户表
@@ -183,6 +185,24 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	//修改密码
+	@Override
+	public void alterPwd(String user, String pwd) {
+		//获取当前用户
+		UserPsdExample example=new UserPsdExample();
+		example.createCriteria().andUserAccountEqualTo(user);
+		List<UserPsd> users = userPsdMapper.selectByExample(example);
+		UserPsd use=users.get(0);
+		//密码加密
+		pwd= new SimpleHash("MD5",pwd,"m",2).toString();
+		//修改密码
+		use.setUserPassword(pwd);
+		try {
+			userPsdMapper.updateByPrimaryKey(use);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
