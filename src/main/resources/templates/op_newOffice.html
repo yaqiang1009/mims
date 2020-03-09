@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>就诊卡挂失</title>
+<title>添加新部门</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <style type="text/css">
 body {
 	padding: 15px;
 }
+
 #table {
 	vertical-align: middle;
 }
@@ -25,32 +26,35 @@ input {
 	text-align: right;
 }
 </style>
-<script type="text/javascript">
-	
-</script>
+
 </head>
 <body>
-<caption><label for="name">输入身份证号以挂失就诊卡</label></caption>
-		<!-- 挂失就诊卡 -->
-	<!-- 暂时用同步提交 -->
-	<form th:action="@{/op_rebondCard}">
-		<table class="table table-bordered" id="table">
 
+	<!-- 添加新部门 -->
+	<!-- 暂时用同步提交 -->
+	<form th:action="@{/op_newOffice}">
+		<table class="table table-bordered" id="table">
+			<caption>
+				<label for="name">添加新部门</label>
+			</caption>
 			<tbody>
 				<tr>
-					<td class="td1">身份证号:</td>
-					<td><input th:text name="ptId" placeholder="" required
-						class="inserdata form-control">
+					<td class="td1">部门名称:</td>
+					<td><input th:text name="officeName" placeholder=""
+						required class="inserdata form-control">
 				</tr>
 
 
 
 				<tr>
 					<td colspan="2" id="but"><button type="submit"
-							class="btn btn-default">挂失</button></td>
+							class="btn btn-default">添加</button></td>
 				</tr>
 			</tbody>
 		</table>
+
+
+
 	</form>
 
 

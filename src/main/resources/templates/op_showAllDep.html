@@ -11,8 +11,8 @@ body {
 	padding: 15px;
 }
 
-#title{
-font-weight:bold;
+#title {
+	font-weight: bold;
 }
 </style>
 
@@ -27,7 +27,10 @@ font-weight:bold;
 	<div>
 		<tr th:each="opDep:${opDeps}">
 			<ul>
-				<li><a th:href="@{/op_showDocInDep/}+${opDep.depId}">
+				<!-- <li><a th:href="@{/op_showDocInDep/}+${opDep.depId}">
+						[[${opDep.depName}]] </a></li> -->
+				<!-- 对应下级分页 -->
+				<li><a th:href="@{/op_showDocInDepPage/}+${opDep.depId}+${'/'+1}">
 						[[${opDep.depName}]] </a></li>
 			</ul>
 		</tr>

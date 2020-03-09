@@ -2,6 +2,14 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class PhMedicines {
     private String medicineId;
 
@@ -24,9 +32,11 @@ public class PhMedicines {
     private Integer number;
 
     private String classId;
+    
+    private PhMedicineClass phMedicineClass;
 
     private Date disableDate;
-
+    
     public String getMedicineId() {
         return medicineId;
     }
