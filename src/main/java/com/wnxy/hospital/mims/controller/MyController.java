@@ -100,10 +100,50 @@ public class MyController {
 		String uuidUser = userService.insertUser(userPsd, img, roleIds, request);
 		return "redirect:/sys_user_details/"+uuidUser;
 	}
+	//修改用户检索信息
+	@RequestMapping("/sys_alert_user/{userId}")
+	public String sysAlertUser(@PathVariable("userId") String userId,Model model) {
+		//检索 角色 科室 院部
+		Sys_UserService userService = (Sys_UserService)ac.getBean("sys_UserServiceImpl");
+		List<OpDep> opDeps = userService.selectDep();
+		List<Office> offices = userService.selectOffice();
+		List<Role> roles = userService.selectRole();
+		model.addAttribute("opDeps", opDeps);
+		model.addAttribute("offices", offices);
+		model.addAttribute("roles", roles);
+		//检索用户信息
+		UserPsd userPsd = userService.selUserDet(userId);
+		model.addAttribute("userPsd", userPsd);
+		return "sys_alert_user";
+	}
+	//修改用户提交信息
+	@RequestMapping("/sys_alert_user_sub")
+	public String sysAlertUserSub(UserPsd userPsd,MultipartFile img,Model model,HttpServletRequest request) {
+		String[] roleIds = request.getParameterValues("roleIds");	
+		System.out.println("ro"+roleIds);
+		Sys_UserService userService = (Sys_UserService)ac.getBean("sys_UserServiceImpl");
+		String uuidUser = userService.alertUser(userPsd, img, roleIds);
+		return "redirect:/sys_user_details/"+uuidUser;
+	}
 	//异步请求检查用户名是否存在
 		@ResponseBody
 		@RequestMapping("/check_user")
 		public String checkUser(String user,HttpServletRequest request) {
+			Sys_LogService sys_LogService = (Sys_LogService)ac.getBean("sys_LogServiceImpl");
+			try {
+				sys_LogService.selectUser(user);
+				//用户存在
+				return "1";
+			} catch (Exception e) {
+				//用户不存在
+				e.printStackTrace();
+				return "0";
+			}
+		}
+		//修改用户信息异步请求检查用户名是否存在（不包括自身）
+		@ResponseBody
+		@RequestMapping("/alcheck_user")
+		public String alCheckUser(String user,HttpServletRequest request) {
 			Sys_LogService sys_LogService = (Sys_LogService)ac.getBean("sys_LogServiceImpl");
 			try {
 				sys_LogService.selectUser(user);

@@ -360,7 +360,7 @@ public class IpController {
 		model.addAttribute("pt", pt);
 		return "ip_cashuse_his";
 	}
-	
+
 	/*同步请求模板
 	@RequestMapping("/mycont1")
 	public String mycont1(Model model,HttpServletRequest request) {
