@@ -8,7 +8,7 @@ import com.wnxy.hospital.mims.entity.PhOutMedicine;
 public interface OutMedicinesService {
 
 	//新增出药单,写入取药表，供门诊和住院使用
-	int insertOutMedicine(PhOutMedicine pom);
+	void insertOutMedicineList(List<PhOutMedicine> poms);
 	//根据门诊药单编号查询药品信息
 	List<PhMedicines> queryByDlid(String dlid);
 	//根据住院药单编号查询药品信息
