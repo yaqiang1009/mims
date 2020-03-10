@@ -51,14 +51,17 @@ public class MyController {
 			//securityManager.login(subject, token);
 			subject.login(token);
 			System.out.println("登录成功");
-			return "/index/index.html";
+			return "redirect:/";
 		} catch (IncorrectCredentialsException e) {
+			model.addAttribute("mes", "2");
 			System.out.println("密码错误");
 		} catch (UnknownAccountException e) {
+			model.addAttribute("mes", "1");
 			System.out.println("用户不存在");
 		}catch (AuthenticationException e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("user", user);
 		return "/backstage/login.html";
 	}
 	//用户管理
