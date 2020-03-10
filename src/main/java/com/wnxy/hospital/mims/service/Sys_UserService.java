@@ -20,4 +20,6 @@ public interface Sys_UserService {
 	List<Role> selectRole();
 	String insertUser(UserPsd userPsd,MultipartFile img,String[] roleIds,HttpServletRequest request);
 	void alterPwd(String user,String pwd);
+	String alertUser(UserPsd userPsd,MultipartFile img, String[] roleIds);
+
 }
