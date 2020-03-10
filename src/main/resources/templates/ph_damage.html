@@ -40,13 +40,21 @@ table {
 	left: 38%;
 }
 </style>
+<script type="text/javascript">
+	function insertdata(){
+		var message=$("#addsucess").val;
+		if(message != null){
+			alert(message);
+		}
+	}
+</script>
 </head>
 <body>
 	<h3 align="center">报损管理</h3>
 	<h4>
 		<span>&nbsp;&nbsp;新增报损单</span>
 	</h4>
-	<form action="@{/add/damage}">
+	<form th:action="@{/add/damage}">
 		<table id="mcondition">
 			<thead>
 				<tr>
@@ -64,7 +72,7 @@ table {
 					<td><input type="text" name="damageReason" value=""></td>
 				</tr>
 				<td colspan="4" align="center">
-					<input class="btn btn-info"	type="submit" value="新增">
+					<input th:onclick="" class="btn btn-info"	type="submit" value="新增">
 				</td>
 			</tbody>
 		</table>
@@ -73,14 +81,13 @@ table {
 	<h4>
 		<span>&nbsp;&nbsp;查询报损单</span>
 	</h4>
-	<form th:action="@{query/damage}">
+	<form th:action="@{/query/damage}">
 		<table id="mcondition">
 			<tbody>
 				<tr>
 					<td>药品编号<input type="text" name="medicineId" value=""></td>
 					<td>药品名称<input type="text" name="medicineName" value=""></td>
-					<td>报损数量<input type="number" name="medicineCount" value=""></td>
-					<td>报损部门<input type="number" name="source" value=""></td>
+					<td>报损部门<input type="text" name="source" value=""></td>
 				</tr>
 				<tr>
 					<td colspan="4" align="center">
@@ -93,23 +100,30 @@ table {
 	<table id="mdetail">
 		<thead>
 			<tr>
-				<th>药品编号</th>
+				<th width="30px">行号</th>
 				<!-- <th>药品编号</th> -->
 				<th>药品名称</th>
 				<th>报损数量</th>
 				<th>损坏原因</th>
+				<th>报损部门</th>
 				<th>状态</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="damge:${damages}">
-				<td></td>
+			<tr th:each="damge,iterate:${damages}">
+				<td th:text="${iterate.count}" ></td>
 				<td th:text="${damge.medicineName}"></td>
 				<td th:text="${damge.medicineCount}"></td>
 				<td th:text="${damge.damageReason}"></td>
-				<td th:switch="${damge.status}"><span th:case="1" th:text="待审批"></span>
-					<span th:case="2" th:text="审批通过"></span> <span th:case="3"
-					th:text="审批退回"></span></td>
+				<td th:switch="${damge.source}">
+					<span th:case="ph" th:text="药房"></span>
+					<span th:case="st" th:text="药库"></span>
+				</td>
+				<td th:switch="${damge.status}">
+					<span th:case="1" th:text="待审批"></span>
+					<span th:case="2" th:text="审批通过"></span>
+					<span th:case="3" th:text="审批退回"></span>
+				</td>
 			</tr>
 		</tbody>
 	</table>

@@ -48,17 +48,26 @@ public class MyController {
 		UsernamePasswordToken token=new UsernamePasswordToken(user,password);
 		//匹配验证
 		try {
-			//securityManager.login(subject, token);
 			subject.login(token);
+			//保存用户数据
+			Sys_LogService sys_LogService = (Sys_LogService)ac.getBean("sys_LogServiceImpl");
+			UserPsd userPsd = sys_LogService.selectUser(user);
+			Sys_UserService userService = (Sys_UserService)ac.getBean("sys_UserServiceImpl");
+			UserPsd nowUser = userService.selUserDet(userPsd.getUserId());
+			request.getSession().setAttribute("nowUser", nowUser);
+			System.out.println(nowUser);
 			System.out.println("登录成功");
-			return "/index/index.html";
+			return "redirect:/";
 		} catch (IncorrectCredentialsException e) {
+			model.addAttribute("mes", "2");
 			System.out.println("密码错误");
 		} catch (UnknownAccountException e) {
+			model.addAttribute("mes", "1");
 			System.out.println("用户不存在");
 		}catch (AuthenticationException e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("user", user);
 		return "/backstage/login.html";
 	}
 	//用户管理
@@ -164,7 +173,8 @@ public class MyController {
 			try {
 				//获取当前用户数据库密码
 				Subject subject = SecurityUtils.getSubject();
-				String pwd = sys_LogService.selectUser(subject.getPrincipal().toString());
+				UserPsd userPsd = sys_LogService.selectUser(subject.getPrincipal().toString());
+				String pwd =userPsd.getUserPassword();
 				//密码加密判断
 				oldpwd= new SimpleHash("MD5",oldpwd,"m",2).toString();
 				if(pwd.equals(oldpwd)) {

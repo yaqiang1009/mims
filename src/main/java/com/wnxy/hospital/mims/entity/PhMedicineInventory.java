@@ -2,10 +2,22 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class PhMedicineInventory {
     private String id;
 
     private String medicineId;
+
+    private String medicineName;
+
+    private String classId;
+
+    private String calssName;
 
     private Integer number;
 
@@ -13,21 +25,19 @@ public class PhMedicineInventory {
 
     private String type;
 
+    private String batchNo;
+
+    private Integer warnValue;
+
     private String damageId;
 
     private Integer damageCount;
-
-    private String batchNo;
 
     private Date produceDate;
 
     private Date enterDate;
 
     private Date disableDate;
-
-    private Integer warnValue;
-
-    private String medicineName;
 
     public String getId() {
         return id;
@@ -43,6 +53,30 @@ public class PhMedicineInventory {
 
     public void setMedicineId(String medicineId) {
         this.medicineId = medicineId == null ? null : medicineId.trim();
+    }
+
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String medicineName) {
+        this.medicineName = medicineName == null ? null : medicineName.trim();
+    }
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId == null ? null : classId.trim();
+    }
+
+    public String getCalssName() {
+        return calssName;
+    }
+
+    public void setCalssName(String calssName) {
+        this.calssName = calssName == null ? null : calssName.trim();
     }
 
     public Integer getNumber() {
@@ -69,6 +103,22 @@ public class PhMedicineInventory {
         this.type = type == null ? null : type.trim();
     }
 
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo == null ? null : batchNo.trim();
+    }
+
+    public Integer getWarnValue() {
+        return warnValue;
+    }
+
+    public void setWarnValue(Integer warnValue) {
+        this.warnValue = warnValue;
+    }
+
     public String getDamageId() {
         return damageId;
     }
@@ -83,14 +133,6 @@ public class PhMedicineInventory {
 
     public void setDamageCount(Integer damageCount) {
         this.damageCount = damageCount;
-    }
-
-    public String getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo == null ? null : batchNo.trim();
     }
 
     public Date getProduceDate() {
@@ -115,21 +157,5 @@ public class PhMedicineInventory {
 
     public void setDisableDate(Date disableDate) {
         this.disableDate = disableDate;
-    }
-
-    public Integer getWarnValue() {
-        return warnValue;
-    }
-
-    public void setWarnValue(Integer warnValue) {
-        this.warnValue = warnValue;
-    }
-
-    public String getMedicineName() {
-        return medicineName;
-    }
-
-    public void setMedicineName(String medicineName) {
-        this.medicineName = medicineName == null ? null : medicineName.trim();
     }
 }

@@ -156,7 +156,7 @@
 						</a>
 						<ul id="systemSetting30" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">取药处</a>
+								<a th:href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">取药处</a>
 							</li>
 							<li> 
 								<a th:href="@{/queryall}" onclick="menuCss(this)" target="content" style="padding-left:25px;">药品信息</a>
@@ -165,10 +165,10 @@
 								<a th:href="@{/query/damage}" onclick="menuCss(this)" target="content" style="padding-left:25px;">报损管理</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">调拨管理</a>
+								<a th:href="@{/query/dispatch}" onclick="menuCss(this)" target="content" style="padding-left:25px;">调拨管理</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">药房库存</a>
+								<a th:href="@{/query/inventory}" onclick="menuCss(this)" target="content" style="padding-left:25px;">药房库存</a>
 							</li>
 						</ul>
 					</li>

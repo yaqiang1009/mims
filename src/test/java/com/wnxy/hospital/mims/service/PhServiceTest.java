@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.DoubleStream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.wnxy.hospital.mims.entity.PhMedicineClass;
 import com.wnxy.hospital.mims.entity.PhMedicineClassExample;
+import com.wnxy.hospital.mims.entity.PhMedicineInventory;
 import com.wnxy.hospital.mims.entity.PhMedicines;
+import com.wnxy.hospital.mims.entity.PhMedicinesExample;
 import com.wnxy.hospital.mims.mapper.PhMedicineClassMapper;
+import com.wnxy.hospital.mims.mapper.PhMedicineInventoryMapper;
 import com.wnxy.hospital.mims.mapper.PhMedicinesMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +36,13 @@ public class PhServiceTest {
 	ApplicationContext ac;
 	PhMedicineClassMapper phMedicineClassMapper;
 	PhMedicinesMapper phMedicinesMapper;
-
+	PhMedicineInventoryMapper phMedicineInventoryMapper;
 	@Before
 	public void before() {
 		phMedicineClassMapper = (PhMedicineClassMapper) ac.getBean("phMedicineClassMapper");
 		phMedicinesMapper = (PhMedicinesMapper) ac.getBean("phMedicinesMapper");
+		phMedicineInventoryMapper = 
+				(PhMedicineInventoryMapper) ac.getBean("phMedicineInventoryMapper");
 	}
 
 	@Test
@@ -111,5 +115,31 @@ public class PhServiceTest {
 			phMedicinesMapper.insertSelective(pm);
 		}
 		
+	}
+	@Test
+	//仓库初始化
+	public void inventoryInit(){
+		PhMedicineInventory pmi = new PhMedicineInventory();
+		//先查出药品表
+		PhMedicinesExample pme = new PhMedicinesExample();
+		List<PhMedicines> pms = phMedicinesMapper.selectByExample(pme);
+		for(PhMedicines pm:pms) {
+			//装配PhMedicineClass进入PhMedicine
+			PhMedicineClass phClass = phMedicineClassMapper.selectByPrimaryKey(pm.getClassId());
+			pm.setPhMedicineClass(phClass);
+			pmi.setId(UUID.randomUUID().toString());
+			pmi.setMedicineId(pm.getMedicineId());
+			pmi.setMedicineName(pm.getMedicineName());
+			pmi.setType(pm.getMedicineType());
+			pmi.setClassId(pm.getClassId());
+			pmi.setCalssName(pm.getPhMedicineClass().getClassName());
+			pmi.setNumber(99999);
+			pmi.setBatchNo(pm.getBatchNo());
+			pmi.setPrice(pm.getPrice());
+			pmi.setProduceDate(pm.getProduceDate());
+			pmi.setEnterDate(new Date());
+			pmi.setWarnValue(100);
+			phMedicineInventoryMapper.insertSelective(pmi);
+		}
 	}
 }
