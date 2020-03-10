@@ -49,15 +49,15 @@ public class MyRealm extends AuthorizingRealm{
 		Sys_LogService logService =(Sys_LogService) ac.getBean("sys_LogServiceImpl");
 		try {
 			//检索数据库，判断账号是否存在，不存在抛异常
-			UserPsd userPsd = logService.selectUser(principal.toString());
-			String credentials =userPsd.getUserPassword();
+			//UserPsd userPsd = logService.selectUser(principal.toString());
+			//String credentials =userPsd.getUserPassword();
 			//盐
 			ByteSource salt=ByteSource.Util.bytes("m");
 			//账号存在
 			
 				//屏蔽数据库密码验证，临时使用
-				//String credentials =new String(((UsernamePasswordToken)token).getPassword());
-				//credentials= new SimpleHash("MD5",credentials,"m",2).toString();
+				String credentials =new String(((UsernamePasswordToken)token).getPassword());
+				credentials= new SimpleHash("MD5",credentials,"m",2).toString();
 				
 			SimpleAuthenticationInfo authenticationInfo=
 					new SimpleAuthenticationInfo(principal, credentials,salt, this.getName());
