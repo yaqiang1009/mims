@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>更改用户</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+td,th{
+text-align: center;
+}
+#maintable td,#maintable th{
+text-align: center;
+vertical-align: middle;
+}
+.form-group{
+margin: 0px;
+}
+span{
+margin: 5px;
+margin-left: 20px;
+}
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
+#userAccount{
+width: 30%;
+min-width: 200px;
+float: left;
+}
+#userchec{
+float: left;
+line-height: 25px;
+}
+/* 数值输入去掉加减 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+	-webkit-appearance: none !important;
+	margin: 0;
+}
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+</style>
+<script type="text/javascript">
+var cont=false;
+$(function(){
+	//异步检查用户名
+ 	$("#userAccount").blur(function(){
+ 		if($("#userAccount").attr("olduser")!=$("#userAccount").val()){
+ 			//修改了用户名，开始检查
+	  		$.post(
+				'[[@{/alcheck_user}]]',	
+				{user:$("#userAccount").val()},
+				function(data){
+					if(data=="1"){
+						/* 用户已存在 */
+						cont=true;
+						$("#userchec").html("用户已存在");
+						$("#userchec").css("color","red");
+					}else{
+						/* 用户不存在 */
+						cont=false;
+						$("#userchec").html("用户名可用");
+						$("#userchec").css("color","green");
+					}
+				}
+			); 
+ 		}else{
+ 			//没有修改
+ 			cont=false;
+ 			$("#userchec").html("");
+ 		}
+	}); 
+});
+
+ /* 新增检查 */
+  function createCheck(){
+	 	if($("#empPhone").val().length!=11){
+			alert("手机号应为11位");
+			return false;
+		}else if($("#empAddress").val().length>250){
+			alert("地址过长");
+			return false;
+		}else if($("#userAccount").val().length>16){
+			alert("用户名过长（8-16位）");
+			return false;
+		}else if($("#userAccount").val().length<8){
+			alert("用户名过短（8-16位）");
+			return false;
+		}else if(cont){
+			alert("用户名已存在");
+			return false;
+		}else{
+			if(confirm("确认提交吗？")){
+				return true;
+			}else{
+				return false;
+			}
+		} 
+	} 
+ 
+</script>
+</head>
+<body>
+<form onsubmit="return createCheck()" enctype="multipart/form-data" role="form" th:action="@{/sys_alert_user_sub}" method="post">
+<table id="maintable"  class="table table-bordered">
+	<caption><label for="name">新增用户</label></caption>
+	<tbody>
+		<tr>
+			<td class="td1">姓名：</td><br>
+			<td>[[${userPsd.emp.empName}]]</td>
+			<td class="td3">性别：</td>
+			<td>[[${userPsd.emp.empSex}]]</td>
+			<td class="td5">民族：</td>
+			<td>[[${userPsd.emp.empNation}]]</td>
+		</tr>
+		<tr>
+			<td>电话：</td>
+			<td><input th:value="${userPsd.emp.empPhone}" id="empPhone" type="number" name="emp.empPhone" class="inserdata form-control"/></td>
+			<td>Email：</td>
+			<td><input th:value="${userPsd.emp.empEmail}" type="email" name="emp.empEmail" class="inserdata form-control"/></td>
+			<td>身份证号：</td>
+			<td>[[${userPsd.emp.empIdentity}]]</td>
+		</tr>
+		<tr>
+			<td>出生日期：</td>
+			<td>[[${#dates.format(userPsd.emp.empBirth,"yyyy-MM-dd")}]]</td>
+			<td>院部：</td>
+			<td>
+				<div class="form-group">
+					<select  name="emp.officeId" class="form-control">
+						<option th:selected="${userPsd.emp.officeId==office.officeId}" th:each="office:${offices}" th:value="${office.officeId}">[[${office.officeName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td>科室：</td>
+			<td>
+				<div class="form-group">
+					<select name="emp.depId" class="form-control">
+						<option th:selected="${userPsd.emp.depId==opDep.depId}" th:each="opDep:${opDeps}" th:value="${opDep.depId}">[[${opDep.depName}]]</option>
+					</select>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>照片：</td>
+			<td><input accept="image/*" name="img" type="file"/></td>
+			<td>住址：</td>
+			<td colspan="3"><input th:value="${userPsd.emp.empAddress}" id="empAddress" type="text" name="emp.empAddress" class="inserdata form-control"/></td>
+		<tr/>
+		<tr>
+			<td>用户角色：</td>
+			<td colspan="5">
+				<span th:each="role:${roles}">[[${role.roleName}]]：
+					<input th:value="${role.rolId}" type="checkbox" name="roleIds"/>
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td>用户名：</td>
+			<td colspan="5">
+				<input th:attr="olduser=${userPsd.userAccount}" th:value="${userPsd.userAccount}" id="userAccount" type="text" name="userAccount" class="inserdata form-control"/>
+				<span id="userchec"></span>
+			</td>
+		<tr/>
+	</tbody>
+</table>
+	<input type="hidden" name="userId" th:value="${userPsd.userId}"/>
+	<input type="hidden" name="empId" th:value="${userPsd.emp.empId}"/>
+	<button type="submit" class="btn btn-default">保存</button>
+</form>
+<br>
+
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

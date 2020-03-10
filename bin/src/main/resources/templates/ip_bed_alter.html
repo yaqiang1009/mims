@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>病床修改</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+.th1,.th3,.td1,.td3{
+width: 20%;
+}
+td,th{
+text-align: center;
+}
+#maintable td,#maintable th{
+text-align: center;
+vertical-align: middle;
+}
+.form-group{
+margin: 0px;
+}
+.color1{
+
+}
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	/* 异步请求床位For */
+ 	$("#wardIdFor").change(function(){
+ 		$.post(
+			'[[@{/word_bed}]]',	
+			{wardId:$("#wardIdFor").val()},
+			function(data){
+				var htm='<option value="0">请选择床位</option>';
+				$.each(data,function(){
+						htm=htm+'<option value="'+this.bedId+'">'+this.bedNum+'</option>'
+				})
+				$("#bedIdFor").html(htm); 
+			}
+		); 
+	}); 
+	/* 异步请求床位To */
+ 	$("#wardIdTo").change(function(){
+ 		//保存房间所有床位
+ 		var beds=new Array();
+ 		$.post(
+			'[[@{/word_allbed}]]',	
+			{wardId:$("#wardIdTo").val()},
+			function(data){
+				var htm='<option value="0">请选择床位</option>';
+				$.each(data,function(){
+					beds[beds.length]=this.bedNum;
+				})
+				//获取相反值
+				for(var i=1;i<=8;i++){
+					if(beds.indexOf(i)==-1){
+						htm=htm+'<option value="'+i+'">'+i+'</option>'
+					}
+				}
+				$("#bedIdTo").html(htm);
+			}
+		); 
+	}); 
+	
+	/* 异步请求床位Create */
+ 	$("#createWard").change(function(){
+ 		//保存房间所有床位
+ 		var beds=new Array();
+ 		$.post(
+			'[[@{/word_allbed}]]',	
+			{wardId:$("#createWard").val()},
+			function(data){
+				var htm='<option value="0">请选择床位</option>';
+				$.each(data,function(){
+					beds[beds.length]=this.bedNum;
+				})
+				//获取相反值
+				for(var i=1;i<=8;i++){
+					if(beds.indexOf(i)==-1){
+						htm=htm+'<option value="'+i+'">'+i+'</option>'
+					}
+				}
+				$("#createBedNum").html(htm);
+			}
+		); 
+	}); 
+});
+/* 修改检查 */
+ function alertCheck(){
+ 	if($("#wardIdFor").val()=="0"||$("#wardIdTo").val()=="0"){
+		alert("请选择病房");
+		return false;
+	}else if($("#bedIdFor").val()=="0"||$("#bedIdTo").val()=="0"){
+		alert("请选择床位");
+		return false;
+	}else{
+		if(confirm("确认修改吗？")){
+			return true;
+		}else{
+			return false;
+		}
+	} 
+}
+ /* 新增检查 */
+ function createCheck(){
+	 	if($("#createWard").val()=="0"){
+			alert("请选择病房");
+			return false;
+		}else if($("#createBedNum").val()=="0"){
+			alert("请选择床位");
+			return false;
+		}else{
+			if(confirm("确认提交吗？")){
+				return true;
+			}else{
+				return false;
+			}
+		} 
+	}
+</script>
+</head>
+<body>
+<form onsubmit="return alertCheck()" role="form" th:action="@{/bed_alter_sub}" method="post">
+<table id="maintable"  class="table table-bordered">
+	<caption><label for="name">更改病床</label></caption>
+	<thead>
+		<tr>
+			<th class="th1">病床总数量：</th>
+			<th class="th2">[[${allBedNum}]]</th>
+			<th class="th3">空闲病床数量：</th>
+			<th class="th4">[[${leiBedNum}]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td  colspan="4"><label for="name">需修改的病床</label></td>
+		</tr>
+		<tr class="color1">
+			<td>病房：</td>
+			<td>
+				<div class="form-group">
+					<select id="wardIdFor" name="wardIdFor" class="form-control">
+						<option value="0">请选择病房</option>
+						<option th:value="${ward.wardId}" th:each="ward:${wards}">[[${ward.wardName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td>床位：</td>
+			<td>
+				<div class="form-group">
+					<select id="bedIdFor" name="bedIdFor" class="form-control">
+						<option value="0">请选择床位</option>
+					</select>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td  colspan="4"><label for="name">病床修改为</label></td>
+		</tr>
+		<tr class="color1">
+			<td>病房：</td>
+			<td>
+				<div class="form-group">
+					<select id="wardIdTo" name="wardIdTo" class="form-control">
+						<option value="0">请选择病房</option>
+						<option th:value="${ward.wardId}" th:each="ward:${wards}">[[${ward.wardName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td>床位：</td>
+			<td>
+				<div class="form-group">
+					<select id="bedIdTo" name="bedNum" class="form-control">
+						<option value="0">请选择床位</option>
+					</select>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+	<button type="submit" class="btn btn-default">修改</button>
+</form>
+<br>
+<!-- 新增床位 -->
+<form onsubmit="return createCheck()" role="form" th:action="@{/bed_create_sub}" method="post">
+<table id="maintable"  class="table table-bordered">
+	<caption><label for="name">新增病床</label></caption>
+	<tbody>
+		<tr class="color1">
+			<td class="td1">病房：</td>
+			<td>
+				<div class="form-group">
+					<select id="createWard" name="createWardId" class="form-control">
+						<option value="0">请选择病房</option>
+						<option th:value="${ward.wardId}" th:each="ward:${wards}">[[${ward.wardName}]]</option>
+					</select>
+				</div>
+			</td>
+			<td class="td3">床位：</td>
+			<td>
+				<div class="form-group">
+					<select id="createBedNum" name="createBedNum" class="form-control">
+						<option value="0">请选择床位</option>
+					</select>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+	<button type="submit" class="btn btn-default">新增</button>
+</form>
+
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

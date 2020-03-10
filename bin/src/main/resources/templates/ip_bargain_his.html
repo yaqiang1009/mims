@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>缴费记录</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+height: 35px;
+text-align: center;
+vertical-align: middle;
+}
+.th1,.th2,.th5{
+min-width: 60px;
+}
+.th4,.th3{
+min-width: 200px;
+}
+.th6{
+min-width: 140px;
+}
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	$(".passleave").click(function(){
+		if(confirm("确认通过出院申请吗？")){
+			location.href=$(this).val();
+		}
+	});
+});
+</script>
+</head>
+<body>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption>缴费历史</caption>
+	<thead>
+		<tr>
+			<th class="th1">姓名</th>
+			<th class="th2">[[${pt.ptName}]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td  colspan="2"><label for="name">缴费历史</label></td>
+		</tr>
+ 		<tr>
+			<td>缴费金额</td>
+			<td>时间</td>
+		</tr> 
+ 		<tr th:each="ipPaymentOrder:${IpPaymentOrderp.list}">
+			<td>[[${ipPaymentOrder.payment}]]</td>
+			<td>[[${#dates.format(ipPaymentOrder.paymentDate,"yyyy-MM-dd")}]]</td>
+		</tr> 
+	</tbody>
+</table>
+
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!IpPaymentOrderp.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${IpPaymentOrderp.hasPreviousPage}"><a th:href="@{/ip_bargain_his?index=}+${IpPaymentOrderp.pageNum-1}+@{&ptId=}+${pt.ptId}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${IpPaymentOrderp.pageNum>1}" th:each="inde:${#numbers.sequence(1,IpPaymentOrderp.pageNum-1)}" >
+			<a th:if="${IpPaymentOrderp.pageNum!=inde}" th:href="@{/ip_bargain_his?index=}+${inde}+@{&ptId=}+${pt.ptId}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${IpPaymentOrderp.pageNum}]]</a></li>
+		<li th:if="${IpPaymentOrderp.pageNum<IpPaymentOrderp.pages}" th:each="inde:${#numbers.sequence(IpPaymentOrderp.pageNum+1,IpPaymentOrderp.pages)}" >
+			<a th:if="${IpPaymentOrderp.pageNum!=inde}" th:href="@{/ip_bargain_his?index=}+${inde}+@{&ptId=}+${pt.ptId}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${IpPaymentOrderp.hasNextPage}"><a th:href="@{/ip_bargain_his?index=}+${IpPaymentOrderp.pageNum+1}+@{&ptId=}+${pt.ptId}">&raquo;</a></li>
+		<li th:if="${!IpPaymentOrderp.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

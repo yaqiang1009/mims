@@ -106,7 +106,7 @@
 					<!-- 角色二 -->
 					<li><a href="#systemSetting21" onclick="menuCss(this)"
 						class="nav-header collapsed" data-toggle="collapse"> <i
-							class="glyphicon glyphicon-yen"></i> <span
+							class="glyphicon glyphicon-edit"></i> <span
 							style="display: inline-block; margin-left: 20px;">门诊部信息管理</span>
 							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -114,20 +114,17 @@
 							style="height: 0px;">
 							<li><a href="op_newOffice.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加部门</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{/op_queryAllOffice}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改部门</a></li>
 							<li><a href="op_newDep.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加科室</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{/op_queryAllDepForManage}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改科室</a></li>
 							<li><a th:href="@{/op_newDocLevelPre}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加门诊挂号收费等级</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{op_showAllDocInLevel}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改门诊挂号收费等级</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">查找修改员工</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">患者基本信息修改</a></li>
+							
 
 						</ul></li>
 					<!-- ****药房**** -->

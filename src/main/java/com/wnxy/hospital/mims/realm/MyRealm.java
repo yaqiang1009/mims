@@ -1,11 +1,11 @@
 package com.wnxy.hospital.mims.realm;
 
-import java.util.ArrayList;
+
 import java.util.Collection;
 
 import javax.annotation.Resource;
 
-import org.apache.ibatis.javassist.expr.NewArray;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,9 +19,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.context.ApplicationContext;
 
-import com.wnxy.hospital.mims.entity.UserPsd;
-import com.wnxy.hospital.mims.mapper.AuthorityMapper;
-import com.wnxy.hospital.mims.mapper.UserAuthorityMapper;
 import com.wnxy.hospital.mims.service.Sys_LogService;
 
 import lombok.Setter;

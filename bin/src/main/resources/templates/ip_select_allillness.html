@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>全部病情单信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+padding:4px;
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+.th6{
+width: 20%;
+}
+#main_div{
+width:530px;
+position: absolute;
+top: 5px;
+right: 0px;
+}
+#main_div input {
+	width: 200px;
+	float: left;
+	margin-left: 20px;
+}
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+/* 去掉number控件的加减 */
+/* google、safari */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none !important;
+	margin: 0;
+}
+/* firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+</style>
+</head>
+<body>
+<a th:href="@{/ip_select_myremedy?index=1}">返回上页</a>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption><label for="name">住院病情单信息</label></caption>
+	<thead>
+		<tr>
+			<th class="th1" colspan="2">病人</th>
+			<th class="th1" colspan="3">[[${ptname}]]</th>
+		</tr>
+		<tr>
+			<th class="th2">主治医生</th>
+			<th class="th3">病情状况</th>
+			<th class="th4">叮嘱</th>
+			<th class="th5">开单时间</th>
+			<th class="th6">用药详情</th>
+		</tr>
+	</thead>
+	<tbody>
+ 		<tr th:each="illness:${allillness.list}">
+			<td>[[${illness.ipRemedy.emp.empName}]]</td>
+			<td>[[${illness.illness}]]</td>
+			<td>[[${illness.caution}]]</td>
+			<td>[[${#dates.format(illness.illnessDate,"yyyy-MM-dd")}]]</td>
+			<td>
+				<a th:href="@{/ip_drugdetail/}+${illness.illnessId}">
+					<button type="button" class="btn btn-primary">查看</button>
+				</a>
+			</td>
+		</tr> 
+	</tbody>
+</table>
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!allillness.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${allillness.hasPreviousPage}"><a th:href="@{/ip_select_allillness/}+${illness.ipRemedy.remedyId}+@{?index=}+${allillness.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->									
+		<li th:if="${allillness.pageNum>1}" th:each="inde:${#numbers.sequence(1,allillness.pageNum-1)}" >
+			<a th:if="${allillness.pageNum!=inde}" th:href="@{/ip_select_allillness/}+${illness.ipRemedy.remedyId}+@{?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${allillness.pageNum}]]</a></li>
+		<li th:if="${allillness.pageNum<allillness.pages}" th:each="inde:${#numbers.sequence(allillness.pageNum+1,allillness.pages)}" >
+			<a th:if="${allillness.pageNum!=inde}" th:href="@{/ip_select_allillness/}+${illness.ipRemedy.remedyId}+@{?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${allillness.hasNextPage}"><a th:href="@{/ip_select_allillness/}+${illness.ipRemedy.remedyId}+@{?index=}+${allillness.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!allillness.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

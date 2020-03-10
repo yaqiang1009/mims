@@ -4,11 +4,16 @@
   <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.PhDispatch" >
     <id column="dispatch_id" property="dispatchId" jdbcType="VARCHAR" />
     <result column="medicine_id" property="medicineId" jdbcType="VARCHAR" />
-    <result column="out_id" property="outId" jdbcType="VARCHAR" />
     <result column="dispatch_count" property="dispatchCount" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="out_id" property="outId" jdbcType="VARCHAR" />
     <result column="medicine_type" property="medicineType" jdbcType="CHAR" />
+    <result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="produce_date" property="produceDate" jdbcType="DATE" />
+    <result column="disable_date" property="disableDate" jdbcType="DATE" />
     <result column="enter_date" property="enterDate" jdbcType="DATE" />
+    <result column="medicine_name" property="medicineName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    dispatch_id, medicine_id, out_id, dispatch_count, status, medicine_type, enter_date
+    dispatch_id, medicine_id, dispatch_count, price, out_id, medicine_type, batch_no, 
+    status, produce_date, disable_date, enter_date, medicine_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.PhDispatchExample" >
     select
@@ -102,12 +108,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.PhDispatch" >
-    insert into ph_dispatch (dispatch_id, medicine_id, out_id, 
-      dispatch_count, status, medicine_type, 
-      enter_date)
-    values (#{dispatchId,jdbcType=VARCHAR}, #{medicineId,jdbcType=VARCHAR}, #{outId,jdbcType=VARCHAR}, 
-      #{dispatchCount,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, #{medicineType,jdbcType=CHAR}, 
-      #{enterDate,jdbcType=DATE})
+    insert into ph_dispatch (dispatch_id, medicine_id, dispatch_count, 
+      price, out_id, medicine_type, 
+      batch_no, status, produce_date, 
+      disable_date, enter_date, medicine_name
+      )
+    values (#{dispatchId,jdbcType=VARCHAR}, #{medicineId,jdbcType=VARCHAR}, #{dispatchCount,jdbcType=INTEGER}, 
+      #{price,jdbcType=DOUBLE}, #{outId,jdbcType=VARCHAR}, #{medicineType,jdbcType=CHAR}, 
+      #{batchNo,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{produceDate,jdbcType=DATE}, 
+      #{disableDate,jdbcType=DATE}, #{enterDate,jdbcType=DATE}, #{medicineName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.PhDispatch" >
     insert into ph_dispatch
@@ -118,20 +128,35 @@
       <if test="medicineId != null" >
         medicine_id,
       </if>
-      <if test="outId != null" >
-        out_id,
-      </if>
       <if test="dispatchCount != null" >
         dispatch_count,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="outId != null" >
+        out_id,
       </if>
       <if test="medicineType != null" >
         medicine_type,
       </if>
+      <if test="batchNo != null" >
+        batch_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="produceDate != null" >
+        produce_date,
+      </if>
+      <if test="disableDate != null" >
+        disable_date,
+      </if>
       <if test="enterDate != null" >
         enter_date,
+      </if>
+      <if test="medicineName != null" >
+        medicine_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -141,20 +166,35 @@
       <if test="medicineId != null" >
         #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="outId != null" >
-        #{outId,jdbcType=VARCHAR},
-      </if>
       <if test="dispatchCount != null" >
         #{dispatchCount,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=CHAR},
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="outId != null" >
+        #{outId,jdbcType=VARCHAR},
       </if>
       <if test="medicineType != null" >
         #{medicineType,jdbcType=CHAR},
       </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="produceDate != null" >
+        #{produceDate,jdbcType=DATE},
+      </if>
+      <if test="disableDate != null" >
+        #{disableDate,jdbcType=DATE},
+      </if>
       <if test="enterDate != null" >
         #{enterDate,jdbcType=DATE},
+      </if>
+      <if test="medicineName != null" >
+        #{medicineName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -173,20 +213,35 @@
       <if test="record.medicineId != null" >
         medicine_id = #{record.medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="record.outId != null" >
-        out_id = #{record.outId,jdbcType=VARCHAR},
-      </if>
       <if test="record.dispatchCount != null" >
         dispatch_count = #{record.dispatchCount,jdbcType=INTEGER},
       </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=CHAR},
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.outId != null" >
+        out_id = #{record.outId,jdbcType=VARCHAR},
       </if>
       <if test="record.medicineType != null" >
         medicine_type = #{record.medicineType,jdbcType=CHAR},
       </if>
+      <if test="record.batchNo != null" >
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.produceDate != null" >
+        produce_date = #{record.produceDate,jdbcType=DATE},
+      </if>
+      <if test="record.disableDate != null" >
+        disable_date = #{record.disableDate,jdbcType=DATE},
+      </if>
       <if test="record.enterDate != null" >
         enter_date = #{record.enterDate,jdbcType=DATE},
+      </if>
+      <if test="record.medicineName != null" >
+        medicine_name = #{record.medicineName,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -197,11 +252,16 @@
     update ph_dispatch
     set dispatch_id = #{record.dispatchId,jdbcType=VARCHAR},
       medicine_id = #{record.medicineId,jdbcType=VARCHAR},
-      out_id = #{record.outId,jdbcType=VARCHAR},
       dispatch_count = #{record.dispatchCount,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=CHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      out_id = #{record.outId,jdbcType=VARCHAR},
       medicine_type = #{record.medicineType,jdbcType=CHAR},
-      enter_date = #{record.enterDate,jdbcType=DATE}
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=CHAR},
+      produce_date = #{record.produceDate,jdbcType=DATE},
+      disable_date = #{record.disableDate,jdbcType=DATE},
+      enter_date = #{record.enterDate,jdbcType=DATE},
+      medicine_name = #{record.medicineName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -212,20 +272,35 @@
       <if test="medicineId != null" >
         medicine_id = #{medicineId,jdbcType=VARCHAR},
       </if>
-      <if test="outId != null" >
-        out_id = #{outId,jdbcType=VARCHAR},
-      </if>
       <if test="dispatchCount != null" >
         dispatch_count = #{dispatchCount,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=CHAR},
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="outId != null" >
+        out_id = #{outId,jdbcType=VARCHAR},
       </if>
       <if test="medicineType != null" >
         medicine_type = #{medicineType,jdbcType=CHAR},
       </if>
+      <if test="batchNo != null" >
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="produceDate != null" >
+        produce_date = #{produceDate,jdbcType=DATE},
+      </if>
+      <if test="disableDate != null" >
+        disable_date = #{disableDate,jdbcType=DATE},
+      </if>
       <if test="enterDate != null" >
         enter_date = #{enterDate,jdbcType=DATE},
+      </if>
+      <if test="medicineName != null" >
+        medicine_name = #{medicineName,jdbcType=VARCHAR},
       </if>
     </set>
     where dispatch_id = #{dispatchId,jdbcType=VARCHAR}
@@ -233,11 +308,16 @@
   <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.PhDispatch" >
     update ph_dispatch
     set medicine_id = #{medicineId,jdbcType=VARCHAR},
-      out_id = #{outId,jdbcType=VARCHAR},
       dispatch_count = #{dispatchCount,jdbcType=INTEGER},
-      status = #{status,jdbcType=CHAR},
+      price = #{price,jdbcType=DOUBLE},
+      out_id = #{outId,jdbcType=VARCHAR},
       medicine_type = #{medicineType,jdbcType=CHAR},
-      enter_date = #{enterDate,jdbcType=DATE}
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      produce_date = #{produceDate,jdbcType=DATE},
+      disable_date = #{disableDate,jdbcType=DATE},
+      enter_date = #{enterDate,jdbcType=DATE},
+      medicine_name = #{medicineName,jdbcType=VARCHAR}
     where dispatch_id = #{dispatchId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>药品管理</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery1.11.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<style type="text/css">
+table{
+	border-collapse: collapse;
+	width: 1300px;
+	margin-left: 6px;
+}
+#mcondition td{
+	border: 2px solid #4cd5ff;
+	width:25%;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#mdetail th,td{
+	width:10%;
+	border: 2px solid #4cd5ff;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#modalinsert {
+	
+	border-collapse: collapse;
+	width: 500px;
+}
+#modalinsert th,td{
+	border: 2px solid #4cd5ff;
+}
+#pageing{
+	position: fixed;
+	bottom: 5px;
+	left: 38%;
+}
+
+</style>
+</head>
+<body>
+	<h3 align="center">药品信息</h3>
+	<h5><span>&nbsp;&nbsp;查询条件</span></h5>
+	<form th:action="@{/query/allmedicine}" method="get">
+		<table id="mcondition">
+			<tbody>
+				<tr>
+					<td>药品编号<input type="text" name="medicineId" value=""></td>
+					<td>药品名称<input type="text" name="medicineName" value=""></td>
+					<td>包装分类
+						<select name="medicineType" >
+							<option value="">请选择</option>
+							<option value="包" >包</option>
+							<option value="盒" >盒</option>
+							<option value="瓶" >瓶</option>
+							<option value="片" >片</option>
+						</select></td>
+					<td>批次号<input type="text" name="batchNo" value=""></td>
+				</tr>
+				<tr>
+					<td colspan="4" align="center">
+					<input class="btn btn-info" type="submit" value="查询">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<table id="mdetail">
+		<thead>
+			<tr>
+				<th>药品编号</th>
+				<th>药品名称</th>
+				<th>药品包装</th>
+				<th>单价</th>
+				<th>批次号</th>
+				<th>生产日期</th>
+				<th>药品成分</th>
+				<th>归属类别</th>
+				<th>有效期</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="phm:${phpb.beanlist}">
+				<td th:text="${phm.medicineId}"></td>
+				<td>[[${phm.medicineName}]]</td>
+				<th>[[${phm.medicineType}]]</th>
+				<td>[[${phm.price}]]</td>
+				<td>[[${phm.batchNo}]]</td>
+				<td>[[${phm.produceDate}]]</td>
+				<td>[[${phm.contain}]]</td>
+				<td>[[${phm.phMedicineClass.className}]]</td>
+				<td>[[${phm.usefulDate}]]</td>
+				<td><button class="btn btn-info" data-toggle="modal" data-target="#myModal" style="margin-left: 10px">
+						编辑
+					</button>
+					<!-- 模态框（Modal） -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+										&times;
+									</button>
+									<h4 class="modal-title" id="myModalLabel">
+										药品信息编辑页面
+									</h4>
+								</div>
+								<div class="modal-body">
+									<form action="" id="adddispatch">
+										<table id="modalinsert">
+											<thead>
+												<tr>
+													<th>药品名称</th>
+													<th>包装分类</th>
+													<th>单价</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><input type="text" name="medicineName" th:value="${phm.medicineName}"></td>
+													<td>
+														<select name="medicineType"  th:switch="${phm.medicineType}">
+															<option value="包" th:case="包" th:selected="selected">包</option>
+															<option value="盒" th:case="盒" th:selected="selected">盒</option>
+															<option value="瓶" th:case="瓶" th:selected="selected">瓶</option>
+															<option value="片" th:case="片" th:selected="selected">片</option>
+														</select></td>
+													<td><input type="number" name="price" th:value="${phm.price}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+									<button type="button" class="btn btn-primary" id="submitbtn" onclick="">
+										提交
+									</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal -->
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="pageing">
+		<ul class="pagination pagination-lg">
+		    <li th:if="${phpb.pageIndex}>1"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex}-1'">&laquo;</a></li>
+		    <li th:each="page:${#numbers.sequence(phpb.beginPage,phpb.endPage)}"><a th:href="@{/page?pageIndex=}+${page}">[[${page}]]</a></li>
+		    <!-- <li th:each="pageNo : ${#numbers.sequence(contactsPage.start, contactsPage.end)}" > -->
+		    <li th:if="${phpb.pageIndex}<${phpb.totalPage}"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex+1}'">&raquo;</a></li>
+		</ul>
+	</div>
+</body>
+</html>
