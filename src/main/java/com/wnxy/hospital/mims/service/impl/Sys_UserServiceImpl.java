@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -87,6 +88,7 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 		PageInfo<UserPsd>userp=new PageInfo<UserPsd>(users);
 		return userp;
 	}
+	//查询指定用户
 	@Override
 	public UserPsd selUserDet(String userId) {
 		UserPsd user = userPsdMapper.selectByPrimaryKey(userId);
@@ -153,11 +155,11 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 				fileName="10.jpg";
 			}else {
 				fileName=uuid+img.getOriginalFilename();
+				//创建文件
+				File file=new File(path, fileName);
+				//保存
+				img.transferTo(file);
 			}
-			//创建文件
-			File file=new File(path, fileName);
-			//保存
-			img.transferTo(file);
 			//创建emp
 			Emp emp=userPsd.getEmp();
 			String uuidEmp = UUID.randomUUID().toString().trim().replaceAll("-", "");
@@ -170,14 +172,17 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 			String uuidUser = UUID.randomUUID().toString().trim().replaceAll("-", "");
 			userPsd.setUserId(uuidUser);
 			userPsd.setEmpId(uuidEmp);
-			String passward=DigestUtils.md5DigestAsHex("123456".getBytes());;
+			//密码加密
+			String passward= new SimpleHash("MD5","123456","m",2).toString();
 			userPsd.setUserPassword(passward);
 			userPsdMapper.insert(userPsd);
 			//创建角色用户表
-			for(String roleId:roleIds) {
-				String uuidER = UUID.randomUUID().toString().trim().replaceAll("-", "");
-				EmpRole empRole=new EmpRole(uuidER, roleId, uuidEmp);
-				empRoleMapper.insert(empRole);
+			if(roleIds!=null) {
+				for(String roleId:roleIds) {
+					String uuidER = UUID.randomUUID().toString().trim().replaceAll("-", "");
+					EmpRole empRole=new EmpRole(uuidER, roleId, uuidEmp);
+					empRoleMapper.insert(empRole);
+				}
 			}
 			return uuidUser;
 		} catch (Exception e) {
@@ -185,5 +190,73 @@ public class Sys_UserServiceImpl implements Sys_UserService {
 			return null;
 		}
 	}
-
+	//修改密码
+	@Override
+	public void alterPwd(String user, String pwd) {
+		//获取当前用户
+		UserPsdExample example=new UserPsdExample();
+		example.createCriteria().andUserAccountEqualTo(user);
+		List<UserPsd> users = userPsdMapper.selectByExample(example);
+		UserPsd use=users.get(0);
+		//密码加密
+		pwd= new SimpleHash("MD5",pwd,"m",2).toString();
+		//修改密码
+		use.setUserPassword(pwd);
+		try {
+			userPsdMapper.updateByPrimaryKey(use);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//修改用户信息
+		@Transactional
+		@Override
+		public String alertUser(UserPsd userPsd,MultipartFile img, String[] roleIds) {
+			try {
+				//查询用户原始信息
+				Emp newEmp = empMapper.selectByPrimaryKey(userPsd.getEmpId());
+				Emp emp=userPsd.getEmp();
+				//图片处理
+				if(!img.getOriginalFilename().equals("")) {
+					//用户更新照片
+					String path = "D:/img/empphoto";
+					//文件名
+					String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
+					String fileName=uuid+img.getOriginalFilename();
+					//创建文件
+					File file=new File(path, fileName);
+					//保存
+					img.transferTo(file);
+					newEmp.setEmpPhoto("/img/empphoto/"+fileName);
+				}
+				//更新emp
+				newEmp.setEmpPhone(emp.getEmpPhone());
+				newEmp.setEmpEmail(emp.getEmpEmail());
+				newEmp.setOfficeId(emp.getOfficeId());
+				newEmp.setDepId(emp.getDepId());
+				newEmp.setEmpAddress(emp.getEmpAddress());
+				empMapper.updateByPrimaryKey(newEmp);
+				//更新user
+				UserPsd newUser = userPsdMapper.selectByPrimaryKey(userPsd.getUserId());
+				newUser.setUserAccount(userPsd.getUserAccount());
+				userPsdMapper.updateByPrimaryKey(newUser);
+				//更新角色用户表
+				//删除原有角色
+				EmpRoleExample exampleDel= new EmpRoleExample();
+				exampleDel.createCriteria().andEmpIdEqualTo(newEmp.getEmpId());
+				empRoleMapper.deleteByExample(exampleDel);
+				//添加新角色
+				if(roleIds!=null) {
+					for(String roleId:roleIds) {
+						String uuidER = UUID.randomUUID().toString().trim().replaceAll("-", "");
+						EmpRole empRole=new EmpRole(uuidER, roleId, newEmp.getEmpId());
+						empRoleMapper.insert(empRole);
+					}
+				}
+				return newUser.getUserId();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
 }

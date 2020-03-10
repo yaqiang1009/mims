@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -269,5 +270,11 @@ public class IpServiceTest {
 		Ip_CashPledgeServiceImpl ip_CashPledgeServiceImpl = (Ip_CashPledgeServiceImpl) ac.getBean("ip_CashPledgeServiceImpl");
 		String msg = ip_CashPledgeServiceImpl.changeCashPledgeOrder("2", 200.0);
 		System.out.println(msg);
+	}
+	//加密测试
+	@Test
+	public void MD5Test01() {
+		String passward= new SimpleHash("MD5","aaa","m",2).toString();
+		System.out.println(passward);
 	}
 }

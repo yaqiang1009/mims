@@ -25,18 +25,15 @@ import com.wnxy.hospital.mims.entity.IpPaymentOrder;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
-import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.service.Ip_Cash_Pledge;
 import com.wnxy.hospital.mims.service.Ip_DrService;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
+import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
+import com.wnxy.hospital.mims.service.Ip_Patient;
 import com.wnxy.hospital.mims.service.Ip_RemedyService;
 import com.wnxy.hospital.mims.service.Ip_bedService;
 import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
-import com.wnxy.hospital.mims.service.Ip_LeaveHospService;
-import com.wnxy.hospital.mims.service.Ip_Patient;
-import com.wnxy.hospital.mims.service.impl.Ip_DrServiceImpl;
-import com.wnxy.hospital.mims.service.impl.Ip_HosOrderServiceImpl;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +44,7 @@ public class IpController {
 	@Resource
 	@Setter private ApplicationContext ac;
 	//检索全部住院订单
+	//@RequiresPermissions("dco:all")
 	@RequestMapping("/ip_hosporder")
 	public String ip_HospOrder(int index,Model model,HttpServletRequest request) {
 		Ip_HosOrderService ip_HosOrderService =(Ip_HosOrderService) ac.getBean("ip_HosOrderServiceImpl");
@@ -362,6 +360,7 @@ public class IpController {
 		model.addAttribute("pt", pt);
 		return "ip_cashuse_his";
 	}
+
 	/*同步请求模板
 	@RequestMapping("/mycont1")
 	public String mycont1(Model model,HttpServletRequest request) {

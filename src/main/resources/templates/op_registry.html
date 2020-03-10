@@ -9,18 +9,61 @@
 body {
 	padding: 15px;
 }
+
+#table {
+	vertical-align: middle;
+}
+
+td {
+	text-align: center;
+}
+
+input {
+	background-color: #d4f2ff8a;
+}
+
+#but {
+	text-align: right;
+}
 </style>
 <script type="text/javascript">
 	
 </script>
 </head>
 <body>
+	<caption>
+		<label for="name">挂号入口</label>
+	</caption>
+
+
 	<!-- 有卡挂号直接请求controller,将卡号存到session域中 -->
 	<!-- 暂时用同步提交 -->
 	<form th:action="@{/op_cardIdTosession}">
-		就诊卡号:<input type="text" name="cardId" placeholder="请输入就诊卡号">
-		<button type="submit">挂号</button>
+		<table class="table table-bordered" id="table">
+
+			<tbody>
+				<tr>
+					<td class="td1">就诊卡号:</td>
+					<td><input th:text name="cardId" placeholder="" required
+						class="inserdata form-control">
+				</tr>
+
+
+
+				<tr>
+					<td colspan="2" id="but"><button type="submit"
+							class="btn btn-default">挂号</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+
 	</form>
+
+
+
+
+
 
 
 </body>

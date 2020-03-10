@@ -18,27 +18,34 @@ td {
 	border: 1px solid gray;
 	text-align-last: center;
 }
+
+th {
+	text-align: center;
+}
 </style>
 
 </head>
 <body>
-	<table>
+	<caption>
+		<label for="name">所有有效挂号单</label>
+	</caption>
+	<table class="table table-bordered table-striped">
 		<tr>
-			<td>挂号单号</td>
-			<td>患者身份证号</td>
-			<td>挂号日期</td>
-			<td>医生工号</td>
-			<td>挂号费</td>
+			<th>挂号单号</th>
+			<th>患者身份证号</th>
+			<th>挂号日期</th>
+			<th>医生工号</th>
+			<th>挂号费</th>
 
 
 		</tr>
 		<tr th:each="op_avareg:${availableOpRegistrys}">
 			<td>[[${op_avareg.rsId}]]</td>
 			<td>[[${op_avareg.ptId}]]</td>
-			<td>[[${op_avareg.date}]]</td>
+			<td>[[${#dates.format(op_avareg.date,"yyyy-MM-dd")}]]</td>
 			<td>[[${op_avareg.empId}]]</td>
-			<td>[[${op_avareg.regprice}]]</td>
-			
+			<td>[[${op_avareg.regprice}]]元</td>
+
 		</tr>
 	</table>
 </body>
