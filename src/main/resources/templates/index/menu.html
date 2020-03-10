@@ -51,10 +51,15 @@
 					</a>
 						<ul id="systemSetting11" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">病人状态</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">治疗相关</a></li>
+							<li><a th:href="@{/ip_mypatient?index=1}" 
+								onclick="menuCss(this)" target="content" 
+								style="padding-left: 25px;">我的病人</a></li>
+							<li><a th:href="@{/ip_select_myremedy?index=1}"
+								onclick="menuCss(this)" target="content"
+								style="padding-left: 25px;">医疗详情</a></li>
+							<li><a th:href="@{/ip_doremedy?index=1}" 
+								onclick="menuCss(this)" target="content" 
+								style="padding-left: 25px;">诊断治疗</a></li>
 						</ul></li>
 					<!-- 角色三 -->
 					<li><a href="#systemSetting12" onclick="menuCss(this)"

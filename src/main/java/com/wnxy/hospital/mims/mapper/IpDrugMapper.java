@@ -19,6 +19,8 @@ public interface IpDrugMapper {
     List<IpDrug> selectByExample(IpDrugExample example);
 
     IpDrug selectByPrimaryKey(String drugId);
+    
+    IpDrug selectByIllnessId(String illnessId);
 
     int updateByExampleSelective(@Param("record") IpDrug record, @Param("example") IpDrugExample example);
 

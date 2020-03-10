@@ -6,11 +6,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wnxy.hospital.mims.entity.Emp;
+import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpIllnessExample;
 import com.wnxy.hospital.mims.entity.IpRemedy;
+import com.wnxy.hospital.mims.entity.IpWard;
+import com.wnxy.hospital.mims.entity.OpDep;
+import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.mapper.EmpMapper;
+import com.wnxy.hospital.mims.mapper.IpBedMapper;
 import com.wnxy.hospital.mims.mapper.IpIllnessMapper;
 import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
+import com.wnxy.hospital.mims.mapper.IpWardMapper;
+import com.wnxy.hospital.mims.mapper.OpDepMapper;
+import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.ip.Ip_IllnessService;
 /**
  * 住院就诊病情单相关
@@ -23,6 +35,16 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 	IpIllnessMapper ipIllnessMapper;
 	@Autowired
 	IpRemedyMapper ipRemedyMapper;
+	@Autowired
+	private OpPatientinfoMapper opPatientinfoMapper;
+	@Autowired
+	private EmpMapper empMapper;
+	@Autowired
+	private IpWardMapper ipWardMapper;
+	@Autowired
+	private IpBedMapper ipBedMapper;
+	@Autowired
+	private OpDepMapper opDepMapper;
 	
 	//开具病情单
 	@Override
@@ -64,14 +86,34 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 
 	//查询所有病情单，一张医疗单对应多张病情单
 	@Override
-	public List<IpIllness> selectAllIpIllnessByRemedyId(String remedyId) {
+	public PageInfo<IpIllness> selectAllIpIllnessByRemedyId(String remedyId,int index) {
 		try {
-			List<IpIllness> list = ipIllnessMapper.selectByRemedyId(remedyId);
-			for(IpIllness ipIllness:list) {
+			//设置分页
+			PageHelper.startPage(index, 6);
+			//查询
+			List<IpIllness> allillness = ipIllnessMapper.selectByRemedyId(remedyId);
+			for(IpIllness ipIllness:allillness) {
 				//医疗单对象
-				IpRemedy remedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
-				ipIllness.setIpRemedy(remedy);
+				IpRemedy ipRemedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
+				ipIllness.setIpRemedy(ipRemedy);
+				//对象赋值
+				//病人
+				OpPatientinfo pt = opPatientinfoMapper.selectByPrimaryKey(ipRemedy.getPtId());
+				ipRemedy.setOpPatientinfo(pt);
+				//医生
+				Emp emp = empMapper.selectByPrimaryKey(ipRemedy.getEmpId());
+				ipRemedy.setEmp(emp);
+					//科室赋值
+					OpDep dep = opDepMapper.selectByPrimaryKey(emp.getDepId());
+					emp.setOpDep(dep);
+				//病房
+				IpWard ward = ipWardMapper.selectByPrimaryKey(ipRemedy.getWardId());
+				ipRemedy.setIpWard(ward);
+				//床位
+				IpBed bed = ipBedMapper.selectByPrimaryKey(ipRemedy.getBedId());
+				ipRemedy.setIpBed(bed);
 			}
+			PageInfo<IpIllness> list=new PageInfo<>(allillness);
 			return list;
 		} catch (Exception e) {
 			// 异常处理
@@ -79,15 +121,32 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 			return null;
 		}
 	}
-
+	
 	//查询单张病情单详情
 	@Override
 	public IpIllness selectIpIllnessById(String illnessId) {
 		IpIllness ipIllness = ipIllnessMapper.selectByPrimaryKey(illnessId);
 		//医疗单对象赋值，多表
-		IpRemedy remedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
-		ipIllness.setIpRemedy(remedy);
+		IpRemedy ipRemedy = ipRemedyMapper.selectByPrimaryKey(ipIllness.getRemedyId());
+		ipIllness.setIpRemedy(ipRemedy);
+		//对象赋值
+		//病人
+		OpPatientinfo pt = opPatientinfoMapper.selectByPrimaryKey(ipRemedy.getPtId());
+		ipRemedy.setOpPatientinfo(pt);
+		//医生
+		Emp emp = empMapper.selectByPrimaryKey(ipRemedy.getEmpId());
+		ipRemedy.setEmp(emp);
+			//科室赋值
+			OpDep dep = opDepMapper.selectByPrimaryKey(emp.getDepId());
+			emp.setOpDep(dep);
+		//病房
+		IpWard ward = ipWardMapper.selectByPrimaryKey(ipRemedy.getWardId());
+		ipRemedy.setIpWard(ward);
+		//床位
+		IpBed bed = ipBedMapper.selectByPrimaryKey(ipRemedy.getBedId());
+		ipRemedy.setIpBed(bed);
 		return ipIllness;
 	}
+
 
 }

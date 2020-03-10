@@ -1,5 +1,8 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +21,7 @@ import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpCashPledge;
 import com.wnxy.hospital.mims.entity.IpCashUse;
 import com.wnxy.hospital.mims.entity.IpDrug;
+import com.wnxy.hospital.mims.entity.IpDrugDetail;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
 import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpLeaveapply;
@@ -25,6 +29,7 @@ import com.wnxy.hospital.mims.entity.IpPaymentOrder;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.entity.UserPsd;
 import com.wnxy.hospital.mims.service.Ip_Cash_Pledge;
 import com.wnxy.hospital.mims.service.Ip_DrService;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
@@ -34,6 +39,10 @@ import com.wnxy.hospital.mims.service.Ip_RemedyService;
 import com.wnxy.hospital.mims.service.Ip_bedService;
 import com.wnxy.hospital.mims.service.Ip_empService;
 import com.wnxy.hospital.mims.service.Ip_wardService;
+import com.wnxy.hospital.mims.service.ip.Ip_DrugDetailService;
+import com.wnxy.hospital.mims.service.ip.Ip_DrugService;
+import com.wnxy.hospital.mims.service.ip.Ip_IllnessService;
+import com.wnxy.hospital.mims.service.ip.Ip_LeaveapplyService;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -360,7 +369,102 @@ public class IpController {
 		model.addAttribute("pt", pt);
 		return "ip_cashuse_his";
 	}
-
+	
+	//********************医生相关
+	//住院医生查询我的病人
+	@RequestMapping("/ip_mypatient")
+	public String ip_mypatient(int index,Model model,HttpServletRequest req) {
+		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		//从session中获取当前登录医生对象
+		UserPsd userpsd = (UserPsd) req.getSession().getAttribute("nowUser");
+		//PageInfo<IpRemedy> remedys = remedy.selectAllRemedy(userpsd.getEmpId(),index);
+		PageInfo<IpRemedy> remedys = remedy.selectAllRemedy("1",index);
+		model.addAttribute("remedys", remedys);
+		return "ip_mypatient";
+	}
+	//住院医生填写申请出院单
+	@RequestMapping("/ip_leaveorder/{id}")
+	public String ip_leaveorder(@PathVariable("id") String remedyId,Model model) {
+		//检索医疗单信息
+		Ip_RemedyService remedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		IpRemedy selectRemedy = remedyService.selectRemedy(remedyId);
+		model.addAttribute("selectRemedy", selectRemedy);
+		return "ip_leaveorder";
+	}
+	//住院医生提交申请出院单
+	@RequestMapping("/ip_addleaveorder")
+	public String ip_addleaveorder(HttpServletRequest req,Model model) {
+		//获取参数
+		String remedyId = req.getParameter("id");
+		String illness = req.getParameter("illness");
+		String cause = req.getParameter("cause");
+		//检索医疗单信息
+		Ip_RemedyService remedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		IpRemedy remedy = remedyService.selectRemedy(remedyId);
+		//出院单对象赋值
+		IpLeaveapply leaveapply = new IpLeaveapply();
+		leaveapply.setEmpId(remedy.getEmpId());
+		leaveapply.setRemedyId(remedyId);
+		leaveapply.setIllness(illness);
+		leaveapply.setCause(cause);
+		//插入数据
+		Ip_LeaveapplyService leaveapplyService = (Ip_LeaveapplyService)ac.getBean("ip_LeaveapplyServiceImpl");
+		leaveapplyService.addLeaveapplyOrder(leaveapply);
+		return "redirect:/ip_mypatient?index=1";
+	}
+	//住院医生查询住院医疗单
+	@RequestMapping("/ip_select_myremedy")
+	public String ip_SelectMyRemedy(int index,Model model,HttpServletRequest req) {
+		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		//从session中获取当前登录医生对象
+		UserPsd userpsd = (UserPsd) req.getSession().getAttribute("nowUser");
+		System.out.println(userpsd);
+		//PageInfo<IpRemedy> remedys = remedy.selectAllRemedy(userpsd.getEmpId(),index);
+		PageInfo<IpRemedy> remedys = remedy.selectAllRemedy("1",index);
+		model.addAttribute("remedys", remedys);
+		return "ip_select_myremedy";
+	}
+	//指定医疗单,检索病情单信息
+	@RequestMapping("/ip_select_allillness/{id}")
+	public String ip_SelectAllIllness(@PathVariable("id") String remedyId,int index,Model model) {
+		//检索病情单信息
+		Ip_IllnessService illnessService = (Ip_IllnessService)ac.getBean("ip_IllnessServiceImpl");
+		PageInfo<IpIllness> allillness = illnessService.selectAllIpIllnessByRemedyId(remedyId, index);
+		model.addAttribute("allillness", allillness);
+		//返回姓名
+		Ip_RemedyService remedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		IpRemedy selectRemedy = remedyService.selectRemedy(remedyId);
+		model.addAttribute("ptname", selectRemedy.getOpPatientinfo().getPtName());
+		return "ip_select_allillness";
+	}
+	//查询药单详情
+	@RequestMapping("/ip_drugdetail/{id}")
+	public String ip_drugdetail(@PathVariable("id") String illnessId,Model model) {
+		Ip_DrugService drugService = (Ip_DrugService)ac.getBean("ip_DrugServiceImpl");
+		IpDrug drug = drugService.selectDrugByIllnessId(illnessId);
+		Ip_DrugDetailService drugDetailService = (Ip_DrugDetailService)ac.getBean("ip_DrugDetailServiceImpl");
+		List<IpDrugDetail> drugDetails = drugDetailService.selectAllDrugDetailsByDrugId(drug.getDrugId());
+		model.addAttribute("drug", drug);
+		model.addAttribute("drugDetails", drugDetails);
+		//提供返回上一步的参数--医疗单ID
+		Ip_IllnessService illnessService = (Ip_IllnessService)ac.getBean("ip_IllnessServiceImpl");
+		IpIllness selectIpIllness = illnessService.selectIpIllnessById(illnessId);
+		String remedyId = selectIpIllness.getRemedyId();
+		model.addAttribute("remedyId", remedyId);
+		return "ip_drugdetail";
+	}
+	//住院医生医疗单跳转医疗单
+	@RequestMapping("/ip_doremedy")
+	public String ip_doremedy(int index,Model model,HttpServletRequest req) {
+		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		//从session中获取当前登录医生对象
+		UserPsd userpsd = (UserPsd) req.getSession().getAttribute("nowUser");
+		System.out.println(userpsd);
+		//PageInfo<IpRemedy> remedys = remedy.selectAllRemedy(userpsd.getEmpId(),index);
+		PageInfo<IpRemedy> remedys = remedy.selectAllRemedy("1",index);
+		model.addAttribute("remedys", remedys);
+		return "ip_doremedy";
+	}
 	/*同步请求模板
 	@RequestMapping("/mycont1")
 	public String mycont1(Model model,HttpServletRequest request) {
