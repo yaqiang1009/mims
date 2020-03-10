@@ -106,7 +106,7 @@
                         <td>1</td>
                         <td v-text="activelist[0].registrydto.patient.ptName"></td>
                         <td><button class="btn btn-default btn-group-sm" @click="wait(activelist[0].callistid)"><a href="#">等待</a></button>
-                            <button class="btn btn-default btn-group-sm" @click="finish(activelist[0].callistid)"><a href="#">诊毕</a></button></td>
+                            <button class="btn btn-default btn-group-sm" @click="finish(activelist[0].callistid,1)"><a href="#">诊毕</a></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -297,15 +297,24 @@
                 ch_history: '', //既往史
                 ch_allergy: '', //过敏史
                 empid: '8e75f225-5d1e-11ea-ba6e-00ffaca66b24', //门诊医生id（登录读取）
-                treatmentid: '', //治疗方案编号
+                caseid: '', //病历编号
+                prescriptionid: '', //处方编号
                 showtcasehistory: 1, //显示病历选项卡标题
                 showtcasehistory_content: 1, //显示病历选项卡内容
                 showtreatment: 0, //显示治疗方案选项卡标题
                 showtreatment_contet: 0, //显示治疗方案选项卡内容
                 showprescripment: 0, //显示处方选项卡标题
-                showprescripment_content: 0 //显示处方选项卡内容
+                showprescripment_content: 0, //显示处方选项卡内容
+                drugtypelist: [], // 药品类别表
+                drugslist: [] //药品详情表
             },
             methods: {
+                getdrugslist: function() {
+
+                },
+                getdrugtyplist: function() {
+
+                },
                 createdescription: function() { //生成病历
                     this.description = "主述：" + this.ch_description + ",发病时间：" + this.ch_date + ",既往史：" + this.ch_history + ",过敏史：" + this.ch_allergy
                     if (confirm("请确认信息正确，如要修改信息点击取消")) {
@@ -315,12 +324,12 @@
                                 description: this.description
                             })
                             .then(function(response) {
-                                that.treatmentid = response.data //生成的病历id
+                                that.caseid = response.data //生成的病历id
                                 alert("病历生成成功")
                                     // 跳转到治疗方案选择
-                                that.showtreatment = 1
                                 that.showtcasehistory = 0
                                 that.showtcasehistory_content = 0
+                                that.showtreatment = 1
                                 that.showtreatment_contet = 1
                             })
                             .catch(function(error) {
@@ -329,22 +338,41 @@
                     }
                 },
                 gotooutpatient: function() { //门诊治疗跳转
-                    if (confirm("确认门诊治疗开药")) {
+                    if (confirm("确认门诊治疗并且前往开药")) {
                         //创建处方
-                        //跳转添加药单
-                    }
-                },
-                gotoinpatient: function() { //住院治疗跳转
-                    if (confirm("确认住院治疗")) {
                         var that = this
-                        axios.post('/callid/inpatientorder', {
-                                patientid: this.activelist[0].registrydto.patient.ptId,
+                        axios.post('/prescription/setsetPrescription', {
                                 empid: this.activelist[0].doctor.empid,
                                 description: this.description
                             })
                             .then(function(response) {
+                                that.prescriptionid = response.data
+                                    //跳转添加药单
+                                that.showtreatment = 0
+                                that.showtreatment_contet = 0
+                                that.showprescripment = 1
+                                that.showprescripment_content = 1
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        // 加载药品类别
+
+                    }
+                },
+                gotoinpatient: function() { //住院治疗跳转
+                    if (confirm("确认住院治疗")) {
+                        // 发送住院申请单
+                        var that = this
+                        axios.post('/callid/inpatientorder', {
+                                patientid: this.activelist[0].registrydto.patient.ptId,
+                                empid: this.activelist[0].doctor.empid,
+                                description: this.description,
+                                caseid: this.caseid
+                            })
+                            .then(function(response) {
                                 alert(response.data + "完成任务交接，请叫号")
-                                that.finish(that.activelist[0].callistid)
+                                that.finish(that.activelist[0].callistid, 0)
                             })
                             .catch(function(error) {
                                 console.log(error);
@@ -414,8 +442,23 @@
                         this.getcallList()
                     }
                 },
-                finish: function(callistid) { //完成就诊
-                    if (confirm("请确认该病人完成就诊 ")) {
+                finish: function(callistid, isNotice) { //完成就诊
+                    if (isNotice == 1) { //需要提示
+                        if (confirm("请确认该病人完成就诊 ")) {
+                            this.activelist.pop() //删除当前病人信息
+                            axios.post('/callid/setcallId', {
+                                    calllistid: callistid,
+                                    state: 2
+                                })
+                                .then(function(response) {
+                                    // alert(response.data)
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                });
+                            this.getcallList()
+                        }
+                    } else if (isNotice == 0) { //不需要提示
                         this.activelist.pop() //删除当前病人信息
                         axios.post('/callid/setcallId', {
                                 calllistid: callistid,
@@ -429,6 +472,7 @@
                             });
                         this.getcallList()
                     }
+                    this.description = ''
                 },
                 prepage: function() { //前一页
                     if (this.pt_pageIndex - 1 >= 1) {

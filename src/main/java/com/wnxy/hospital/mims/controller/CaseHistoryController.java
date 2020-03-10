@@ -42,8 +42,8 @@ public class CaseHistoryController {
 			String description = map.get("description");
 			OpCasehistory opcase = new OpCasehistory(MyUuid.getMyUuid(), patientid, treatment.getTmId(), description,
 					new Date(), 0);
-			/* String caseid = caseHistoryService.createCaseHistory(opcase); */
-			return opcase.getCaseId();
+			String caseid = caseHistoryService.createCaseHistory(opcase); 
+			return caseid;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "写入失败";
@@ -58,7 +58,7 @@ public class CaseHistoryController {
 	 * @param state
 	 * @return
 	 */
-	@RequestMapping("/setCaseHistoryState")
+	@RequestMapping("/")
 	public String setCaseHistoryState(Model model, String caseid, Integer state) {
 		try {
 			// 判断State数值是否正确

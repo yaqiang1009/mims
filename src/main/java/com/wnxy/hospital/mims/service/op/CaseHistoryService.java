@@ -11,4 +11,6 @@ public interface CaseHistoryService {
 	List<OpCasehistory> getCaseHistory(String patientid);
 
 	void modifyCaseHistoryState(String caseid, Integer state);
+	
+	void modifyCaseHistoryTreatment(String caseid,Integer scheme);
 }

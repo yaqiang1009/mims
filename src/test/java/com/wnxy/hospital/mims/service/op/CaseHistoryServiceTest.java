@@ -44,4 +44,9 @@ public class CaseHistoryServiceTest {
 		String caseid = "0b145f944cf340fd9b971767e42c4a13";
 		caseHistoryServiceImple.modifyCaseHistoryState(caseid, 1);
 	}
+	
+	@Test
+	public void testmodifyCaseHistoryTreatment() {
+		caseHistoryServiceImple.modifyCaseHistoryTreatment("0b145f944cf340fd9b971767e42c4a13", 0);
+	}
 }

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.wnxy.hospital.mims.entity.OpCasehistory;
 import com.wnxy.hospital.mims.entity.OpCasehistoryExample;
+import com.wnxy.hospital.mims.entity.OpTreatment;
+import com.wnxy.hospital.mims.entity.OpTreatmentExample;
 import com.wnxy.hospital.mims.mapper.OpCasehistoryMapper;
+import com.wnxy.hospital.mims.mapper.OpTreatmentMapper;
 import com.wnxy.hospital.mims.service.op.CaseHistoryService;
 
 @Service
@@ -17,6 +20,9 @@ public class CaseHistoryServiceImple implements CaseHistoryService {
 	@Autowired
 	OpCasehistoryMapper chmapper;
 
+	@Autowired
+	OpTreatmentMapper tmmapper;
+	
 	@Override
 	public String createCaseHistory(OpCasehistory casehistory) {
 		// 生辰新病历
@@ -49,6 +55,20 @@ public class CaseHistoryServiceImple implements CaseHistoryService {
 			// 查询病历编号，修改状态
 			OpCasehistory casehistory = chmapper.selectByPrimaryKey(caseid);
 			casehistory.setState(state);
+			chmapper.updateByPrimaryKey(casehistory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void modifyCaseHistoryTreatment(String caseid, Integer scheme) {
+		try {
+			OpCasehistory casehistory = chmapper.selectByPrimaryKey(caseid);
+			OpTreatmentExample example = new OpTreatmentExample();
+			example.createCriteria().andSchemeEqualTo(scheme);
+			List<OpTreatment> treatment = tmmapper.selectByExample(example);
+			casehistory.setTmId(treatment.get(0).getTmId());
 			chmapper.updateByPrimaryKey(casehistory);
 		} catch (Exception e) {
 			e.printStackTrace();

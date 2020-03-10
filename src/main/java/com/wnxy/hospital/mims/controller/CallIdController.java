@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.dto.CallIdItemDTO;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
 import com.wnxy.hospital.mims.service.op.CallIdListService;
+import com.wnxy.hospital.mims.service.op.impl.CaseHistoryServiceImple;
 
 @Controller
 @RequestMapping("/callid")
@@ -27,6 +28,8 @@ public class CallIdController {
 	@Autowired
 	Op_Ip_OrderImpl iporderService;
 	
+	@Autowired
+	CaseHistoryServiceImple casehistoryservice;
 	/**
 	 * 修改排号状态
 	 * 
@@ -108,12 +111,13 @@ public class CallIdController {
 	public String setInpatientOrder(@RequestBody Map<String, String> map) {
 		String pt_id = map.get("patientid");
 		String emp_id = map.get("empid");
-		String illness = map.get("desciption");
+		String illness = map.get("description");
+		String caseid = map.get("caseid");
 		try {
-			/* iporderService.addOrder(pt_id , emp_id , illness); */
-			System.out.println(pt_id);
-			System.out.println(emp_id);
-			System.out.println(illness);
+			//修改病历治疗方案
+			 casehistoryservice.modifyCaseHistoryTreatment(caseid, 1); 
+			//住院单信息写入数据库
+			 iporderService.addOrder(pt_id , emp_id , illness); 
 			return "住院单申请成功";
 		} catch (Exception e) {
 			e.printStackTrace();
