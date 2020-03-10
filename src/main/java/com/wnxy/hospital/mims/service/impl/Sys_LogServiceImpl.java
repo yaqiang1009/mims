@@ -39,7 +39,7 @@ public class Sys_LogServiceImpl implements Sys_LogService {
 	@Resource
 	private RoleMapper roleMapper;
 	//查询用户是否存在
-	public String selectUser(String user){
+	public UserPsd selectUser(String user){
 		//查询用户
 		UserPsdExample example=new UserPsdExample();
 		example.createCriteria().andUserAccountEqualTo(user);
@@ -48,7 +48,7 @@ public class Sys_LogServiceImpl implements Sys_LogService {
 		if(us.size()==0) {
 			throw new UserException("用户不存在");
 		}
-		return us.get(0).getUserPassword();
+		return us.get(0);
 	}
 	//查询角色信息
 	@Override
