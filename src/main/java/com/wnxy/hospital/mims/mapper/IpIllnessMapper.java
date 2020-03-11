@@ -21,6 +21,8 @@ public interface IpIllnessMapper {
     List<IpIllness> selectByRemedyId(String remedyId);
 
     IpIllness selectByPrimaryKey(String illnessId);
+    
+    IpIllness selectOneByRemedyId(String remedyId);
 
     int updateByExampleSelective(@Param("record") IpIllness record, @Param("example") IpIllnessExample example);
 

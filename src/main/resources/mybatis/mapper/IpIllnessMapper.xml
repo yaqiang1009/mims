@@ -95,6 +95,12 @@
     from ip_illness
     where illness_id = #{illnessId,jdbcType=VARCHAR}
   </select>
+  <select id="selectOneByRemedyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_illness
+    where remedy_id = #{remedyId,jdbcType=VARCHAR} Order By illness_date Desc LIMIT 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ip_illness
     where illness_id = #{illnessId,jdbcType=VARCHAR}

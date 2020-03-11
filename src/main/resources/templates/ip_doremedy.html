@@ -55,12 +55,10 @@ margin: auto;
 			<th class="th1">病人</th>
 			<th class="th2">性别</th>
 			<th class="th3">年龄</th>
-			<th class="th4">电话</th>
-			<th class="th5">家属电话</th>
-			<th class="th6">病房</th>
-			<th class="th7">医疗状态</th>
-			<th class="th8">入院时间</th>
-			<th class="th9">操作</th>
+			<th class="th4">医疗状态</th>
+			<th class="th5">入院时间</th>
+			<th class="th6">最新诊断时间</th>
+			<th class="th7">操作</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -68,15 +66,12 @@ margin: auto;
 			<td>[[${remedy.opPatientinfo.ptName}]]</td>
 			<td>[[${remedy.opPatientinfo.sex}]]</td>
 			<td>[[${remedy.opPatientinfo.age}]]</td>
-			<td>[[${remedy.opPatientinfo.phone}]]</td>
-			<td>[[${remedy.opPatientinfo.familyphone}]]</td>
-			<td>[[${remedy.ipWard.wardName}]]</td>
 			<td>[[${remedy.remedyStatus}]]</td>
 			<td>[[${#dates.format(remedy.remedyDate,"yyyy-MM-dd")}]]</td>
+			<td>[[${#dates.format(remedy.ipIllness.illnessDate,"yyyy-MM-dd")}]]</td>
 			<td>
-				<a th:href="@{/ip_leaveorder/}+${remedy.remedyId}">
-					<button type="button" class="btn btn-warning" 
-					th:if="${remedy.remedyStatus } eq '住院中'">申请出院</button>
+				<a th:href="@{/ip_add_illnessorder/}+${remedy.remedyId}">
+					<button type="button" class="btn btn-warning" >今日处方</button>
 				</a>
 			</td>
 		</tr> 

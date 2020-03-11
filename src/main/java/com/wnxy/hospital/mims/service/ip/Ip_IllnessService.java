@@ -13,4 +13,5 @@ public interface Ip_IllnessService {
 	String updateIllnessOrder(IpIllness ipIllness);
 	PageInfo<IpIllness> selectAllIpIllnessByRemedyId(String remedyId,int index);
 	IpIllness selectIpIllnessById(String illnessId);
+	IpIllness selectNewIllnessByRemedyId(String remedyId);
 }

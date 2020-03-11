@@ -2,6 +2,7 @@ package com.wnxy.hospital.mims.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,10 @@ import com.wnxy.hospital.mims.entity.IpPaymentOrder;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpWard;
 import com.wnxy.hospital.mims.entity.OpPatientinfo;
+import com.wnxy.hospital.mims.entity.PhMedicines;
+import com.wnxy.hospital.mims.entity.PhOutMedicine;
 import com.wnxy.hospital.mims.entity.UserPsd;
+import com.wnxy.hospital.mims.entity.ph.page.PhPageBean;
 import com.wnxy.hospital.mims.service.Ip_Cash_Pledge;
 import com.wnxy.hospital.mims.service.Ip_DrService;
 import com.wnxy.hospital.mims.service.Ip_HosOrderService;
@@ -43,6 +47,8 @@ import com.wnxy.hospital.mims.service.ip.Ip_DrugDetailService;
 import com.wnxy.hospital.mims.service.ip.Ip_DrugService;
 import com.wnxy.hospital.mims.service.ip.Ip_IllnessService;
 import com.wnxy.hospital.mims.service.ip.Ip_LeaveapplyService;
+import com.wnxy.hospital.mims.service.ph.OutMedicinesService;
+import com.wnxy.hospital.mims.service.ph.PhMedicinesService;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -453,7 +459,7 @@ public class IpController {
 		model.addAttribute("remedyId", remedyId);
 		return "ip_drugdetail";
 	}
-	//住院医生医疗单跳转医疗单
+	//住院医生医疗单仅住院中的可查询诊断
 	@RequestMapping("/ip_doremedy")
 	public String ip_doremedy(int index,Model model,HttpServletRequest req) {
 		Ip_RemedyService remedy = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
@@ -461,9 +467,80 @@ public class IpController {
 		UserPsd userpsd = (UserPsd) req.getSession().getAttribute("nowUser");
 		System.out.println(userpsd);
 		//PageInfo<IpRemedy> remedys = remedy.selectAllRemedy(userpsd.getEmpId(),index);
-		PageInfo<IpRemedy> remedys = remedy.selectAllRemedy("1",index);
+		PageInfo<IpRemedy> remedys = remedy.selectSomeRemedy("1", index);
 		model.addAttribute("remedys", remedys);
 		return "ip_doremedy";
+	}
+	//住院医生填写病情表页面
+	@RequestMapping("/ip_add_illnessorder/{id}")
+	public String ip_add_illnessorder(@PathVariable("id") String remedyId,Model model,HttpServletRequest req) {
+		//检索医疗单信息
+		Ip_RemedyService ip_RemedyService = (Ip_RemedyService)ac.getBean("ip_RemedyServiceImpl");
+		IpRemedy remedy = ip_RemedyService.selectRemedy(remedyId);
+		model.addAttribute("remedy", remedy);
+		//检索当前药房所有药
+		PhMedicinesService medicinesService = (PhMedicinesService)ac.getBean("phMedicinesServiceImpl");
+		PhPageBean<PhMedicines> allMedicine = medicinesService.getAllMedicine(1, 10);
+		model.addAttribute("allMedicine",allMedicine);
+		return "ip_add_illnessorder";
+	}
+	//修改药品异步请求单价
+	@ResponseBody
+	@RequestMapping("/medicine")
+	public Object medicine_price(String medicineId) {
+		PhMedicinesService medicinesService = (PhMedicinesService)ac.getBean("phMedicinesServiceImpl");
+		PhMedicines medicine = medicinesService.getMedicineById(medicineId);
+		return medicine;
+	}
+	//住院医生提交病情表
+	@RequestMapping("/ip_add_allorder")
+	public String ip_add_allorder(Model model,HttpServletRequest req) {
+		//添加病情单
+		String remedyId = req.getParameter("remedyId");
+		String illness = req.getParameter("illness");
+		String caution = req.getParameter("caution");
+		IpIllness ipIllness=new IpIllness();
+		ipIllness.setCaution(caution);
+		ipIllness.setIllness(illness);
+		Ip_IllnessService illnessService = (Ip_IllnessService)ac.getBean("ip_IllnessServiceImpl");
+		String addIllnessOrder = illnessService.addIllnessOrder(ipIllness, remedyId);
+		//病情单插入成功
+		if(addIllnessOrder.equals("插入成功")) {
+			//添加药单
+			Ip_DrugService drugService = (Ip_DrugService)ac.getBean("ip_DrugServiceImpl");
+			IpDrug ipDrug=new IpDrug();
+			String addDrugOrder = drugService.addDrugOrder(ipDrug, ipIllness.getIllnessId());
+			//药单插入成功
+			if(addDrugOrder.equals("插入成功")) {
+				//添加药单明细
+				String medicineId = req.getParameter("medicineId");
+				Integer drugNum = Integer.parseInt(req.getParameter("drugNum"));
+				Double price =Double.parseDouble(req.getParameter("price"));
+				String useInstructions = req.getParameter("useInstructions");
+				IpDrugDetail ipDrugDetail=new IpDrugDetail();
+				ipDrugDetail.setDrugNum(drugNum);
+				ipDrugDetail.setMedicineId(medicineId);
+				ipDrugDetail.setPrice(price);
+				ipDrugDetail.setUseInstructions(useInstructions);
+				List<IpDrugDetail> ipDrugDetails= new ArrayList<IpDrugDetail>();
+				ipDrugDetails.add(ipDrugDetail);
+				Ip_DrugDetailService drugDetailService = (Ip_DrugDetailService)ac.getBean("ip_DrugDetailServiceImpl");
+				String addDrugDetailOrder = drugDetailService.addDrugDetailOrder(ipDrugDetails, ipDrug.getDrugId());
+				//查询现在的药单状态
+				IpDrug selectDrugByDrugId = drugService.selectDrugByDrugId(ipDrug.getDrugId());
+				//药单插入成功，且扣费成功
+				if(selectDrugByDrugId.getDrugStatus().equals("待取药")) {
+					//药单提交药房
+					OutMedicinesService outMedicinesService = (OutMedicinesService)ac.getBean("outMedicinesServiceImpl");
+					PhOutMedicine pom=new PhOutMedicine();
+					pom.setDrugId(ipDrug.getDrugId());
+					pom.setSubtotal(price);
+					outMedicinesService.insertOutMedicine(pom);
+					System.out.println("pom"+pom);
+				}
+			}
+		}
+		return "redirect:/ip_doremedy?index=1";
 	}
 	/*同步请求模板
 	@RequestMapping("/mycont1")
