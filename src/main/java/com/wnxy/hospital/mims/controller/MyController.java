@@ -50,12 +50,14 @@ public class MyController {
 		try {
 			subject.login(token);
 			//保存用户数据
+			/*
 			Sys_LogService sys_LogService = (Sys_LogService)ac.getBean("sys_LogServiceImpl");
 			UserPsd userPsd = sys_LogService.selectUser(user);
 			Sys_UserService userService = (Sys_UserService)ac.getBean("sys_UserServiceImpl");
 			UserPsd nowUser = userService.selUserDet(userPsd.getUserId());
 			request.getSession().setAttribute("nowUser", nowUser);
 			System.out.println(nowUser);
+			*/
 			System.out.println("登录成功");
 			return "redirect:/";
 		} catch (IncorrectCredentialsException e) {
