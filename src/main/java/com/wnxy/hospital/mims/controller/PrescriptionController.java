@@ -1,6 +1,8 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wnxy.hospital.mims.entity.OpDruglist;
 import com.wnxy.hospital.mims.entity.OpPrescription;
 import com.wnxy.hospital.mims.entity.OpTreatment;
 import com.wnxy.hospital.mims.entity.PhMedicines;
+import com.wnxy.hospital.mims.service.op.impl.DrugListServiceImpl;
 import com.wnxy.hospital.mims.service.op.impl.PrescriptionServiceImpl;
 import com.wnxy.hospital.mims.service.op.impl.TreatmentServiceImpl;
 import com.wnxy.hospital.mims.service.ph.impl.PhMedicinesServiceImpl;
@@ -29,6 +33,9 @@ public class PrescriptionController {
 
 	@Autowired
 	PhMedicinesServiceImpl medicineservice;
+	
+	@Autowired
+	DrugListServiceImpl druglistservice;
 	
 	@RequestMapping("/setsetPrescription")
 	@ResponseBody
@@ -63,4 +70,21 @@ public class PrescriptionController {
 			return null;
 		}
 	}
+	
+	@RequestMapping("/finishPrescription")
+	@ResponseBody
+	public Object setDruglisttoPrescription(@RequestBody String druglist) {
+//		String drugname = map.get("drugname");ds
+		System.out.println(druglist);
+		try { 
+//			List<OpDruglist> druglist = new ArrayList<>();
+//			OpDruglist drug = new OpDruglist(dlId, ptId, medicineId, num, singleprice);
+//			druglistservice.generateDrugList(druglist);
+			return "处方添加成功";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }

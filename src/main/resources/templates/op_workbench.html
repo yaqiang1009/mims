@@ -211,7 +211,7 @@
                                 <tr>
                                     <th>药品名</th>
                                     <th>价格(￥)</th>
-                                    <th>库存</th>
+                                    <!-- <th>库存</th> -->
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -220,7 +220,7 @@
                                     <tr>
                                         <td v-text="drug[0].medicineName">1</td>
                                         <td v-text="drug[0].price">zs</td>
-                                        <td v-text="drug[0].number">zs</td>
+                                        <!-- <td v-text="drug[0].number">zs</td> -->
                                         <td><button class="btn btn-default btn-group-sm" @click="adddrug">添加</button></td>
                                     </tr>
                                 </template>
@@ -253,10 +253,10 @@
                                 <template v-else></template>
                             </tbody>
                         </table>
-                        医嘱：<textarea cols="30" rows="3" class="form-control" placeholder="医嘱"></textarea>
+                        医嘱：<textarea cols="30" rows="3" class="form-control" placeholder="医嘱" v-model="advice"></textarea>
                         <template v-if="activelist[0]!=null">
                             <br/>
-                            <button class="btn btn-primary">确认添加处方</button>
+                            <button class="btn btn-primary" @click="finishprescriptment">确认添加处方</button>
                         </template>
                         <template v-else>
                             <br/>
@@ -294,10 +294,37 @@
                 advice: '' //医嘱
             },
             methods: {
-                up: function(index) {
+                finishprescriptment: function() { //完成处方
+                    if (confirm("确认生成处方单")) {
+                        var druglistobj = []
+                        for (let i = 0; i < this.druglist.length; i++) {
+                            druglistobj.push({
+                                dlId: 0,
+                                ptId: this.prescriptionid, //处方编号
+                                medicineId: this.druglist[i].medicineId, //药品id
+                                num: this.druglist[i].number, //药品数量
+                                singleprice: 0
+                            })
+                        }
+
+                        var that = this
+                        axios.post('/prescription/finishPrescription', {
+                                druglist: druglistobj,
+                                description: this.advice
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                                that.finish(that.activelist[0].callistid, 0)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                up: function(index) { //药品数量增加
                     this.druglist[index].number += 1
                 },
-                down: function(index) {
+                down: function(index) { //药品数量下降
                     if (this.druglist[index].number - 1 > 0) {
                         this.druglist[index].number -= 1
                     }
@@ -308,7 +335,7 @@
                     if (this.druglist.length >= 1) { //药品表不为空
                         for (let i = 0; i < this.druglist.length; i++) {
                             if (this.druglist[i].medicineId == this.drug[0].medicineId) { //添加相同药品，只添加数量
-                                alert(this.druglist[i].medicineName)
+
                                 this.druglist[i].number += 1
                                 flag = false
                                 return 1
@@ -325,21 +352,21 @@
 
                 },
                 removedrug: function(index) { //删除药品表中药品
-                    alert(index)
+                    this.druglist.splice(index, index + 1) //删除起始位index，长度1 
                 },
                 getdrug: function() { //查药品信息
                     var that = this
-                    alert(this.drug.length)
+
                     if (this.drug.length > 0) { //删除最后一位
                         this.drug.pop()
                     }
-                    alert(this.drug.length)
+
                     if (this.drugname != null && this.drugname != "") {
                         axios.post('/prescription/getDrug', { //查询药品信息
                                 drugname: this.drugname
                             })
                             .then(function(response) {
-                                alert(response.data)
+
                                 if (response.data != 0) {
                                     that.drug.push(response.data)
                                 } else {
