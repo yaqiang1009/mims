@@ -1,5 +1,7 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,11 +43,11 @@ public class PhMedicineController {
 		Integer pageIndex = 1;// 默认展示第一页
 		// 查询之前，先设置分页
 		// 查询结果
-		PhPageBean<PhMedicines> phpb = phMedicinesService.getMedicinesByCondition(pm, pageIndex, pageSize);
-		phpb.setIndexSize(indexSize);
-		phpb.setPageIndex(pageIndex);
-		phpb.setPageSize(pageSize);
-		model.addAttribute("phpb", phpb);
+		List<PhMedicines> pms = phMedicinesService.getMedicinesByCondition(pm);
+		//phpb.setIndexSize(indexSize);
+		//phpb.setPageIndex(pageIndex);
+		//phpb.setPageSize(pageSize);
+		model.addAttribute("pms", pms);
 		return "ph_medicine_management.html";
 	}
 
@@ -55,11 +57,11 @@ public class PhMedicineController {
 		// 查询之前，先设置分页
 		Integer pageIndex = 1;// 默认展示第一页
 		// 查询结果
-		PhPageBean<PhMedicines> phpb = phMedicinesService.getAllMedicine(pageIndex, pageSize);
-		phpb.setIndexSize(indexSize);
-		phpb.setPageIndex(pageIndex);
-		phpb.setPageSize(pageSize);
-		model.addAttribute("phpb", phpb);
+		List<PhMedicines> pms = phMedicinesService.getAllMedicine();
+		//phpb.setIndexSize(indexSize);
+		//phpb.setPageIndex(pageIndex);
+		//phpb.setPageSize(pageSize);
+		model.addAttribute("pms", pms);
 		return "ph_medicine_management.html";
 	}
 }
