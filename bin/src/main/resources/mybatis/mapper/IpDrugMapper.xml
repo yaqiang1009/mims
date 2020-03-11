@@ -89,6 +89,12 @@
     from ip_drug
     where drug_id = #{drugId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByIllnessId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_drug
+    where illness_id = #{illnessId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ip_drug
     where drug_id = #{drugId,jdbcType=VARCHAR}
@@ -208,4 +214,5 @@
       drug_date = #{drugDate,jdbcType=DATE}
     where drug_id = #{drugId,jdbcType=VARCHAR}
   </update>
+  
 </mapper>

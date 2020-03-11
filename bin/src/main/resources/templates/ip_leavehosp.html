@@ -28,20 +28,30 @@ min-width: 200px;
 .th6{
 min-width: 140px;
 }
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
 </style>
 <script type="text/javascript">
 $(function(){
-	$("#passleave").click(function(){
+	$(".passleave").click(function(){
 		if(confirm("确认通过出院申请吗？")){
-			location.href=$("#passleave").val();
+			location.href=$(this).val();
 		}
 	});
 });
 </script>
 </head>
 <body>
-<table id="main_table" class="table table-bordered">
-	<caption>出院申请信息</caption>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption><label for="name">出院申请信息</label></caption>
 	<thead>
 		<tr>
 			<th class="th1">病人</th>
@@ -53,17 +63,39 @@ $(function(){
 		</tr>
 	</thead>
 	<tbody>
- 		<tr th:each="lea:${IpLeaveapplys}">
+ 		<tr th:each="lea:${IpLeaveapplys.list}">
 			<td>[[${lea.ipRemedy.opPatientinfo.ptName}]]</td>
 			<td>[[${lea.emp.empName}]]</td>
 			<td>[[${lea.illness}]]</td>
 			<td>[[${lea.cause}]]</td>
 			<td>[[${#dates.format(lea.applyDate,"yyyy-MM-dd")}]]</td>
-			<td><button th:value="@{/leave/pass/}+${lea.applyId}" id="passleave" type="button" class="btn btn-primary">通过</button></td>
+			<td><button th:value="@{/leave/pass/}+${lea.applyId}" type="button" class="passleave btn btn-primary">通过</button></td>
 			<td><a th:href="@{/leave/reject/}+${lea.applyId}"><button type="button" class="btn btn-warning">拒绝</button></a></td>
 		</tr> 
 	</tbody>
 </table>
+
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!IpLeaveapplys.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${IpLeaveapplys.hasPreviousPage}"><a th:href="@{/leaveHospOrder?index=}+${IpLeaveapplys.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${IpLeaveapplys.pageNum>1}" th:each="inde:${#numbers.sequence(1,IpLeaveapplys.pageNum-1)}" >
+			<a th:if="${IpLeaveapplys.pageNum!=inde}" th:href="@{/leaveHospOrder?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${IpLeaveapplys.pageNum}]]</a></li>
+		<li th:if="${IpLeaveapplys.pageNum<IpLeaveapplys.pages}" th:each="inde:${#numbers.sequence(IpLeaveapplys.pageNum+1,IpLeaveapplys.pages)}" >
+			<a th:if="${IpLeaveapplys.pageNum!=inde}" th:href="@{/leaveHospOrder?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${IpLeaveapplys.hasNextPage}"><a th:href="@{/leaveHospOrder?index=}+${IpLeaveapplys.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!IpLeaveapplys.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
 </body>
 
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>

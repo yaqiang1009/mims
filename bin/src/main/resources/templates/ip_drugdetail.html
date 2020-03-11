@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查药单信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+padding:4px;
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+.th7{
+width: 10%;
+}
+#main_div{
+width:290px;
+position: absolute;
+top: 5px;
+right: 0px;
+}
+#main_div input {
+	width: 200px;
+	float: left;
+}
+#main_table{
+border: 2px solid black;
+}
+#main_table .bor{
+ border-top: 3px solid rgb(200,200,200);
+}
+/* 分页设置 */
+#numberdiv{
+
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+</style>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+	<a th:href="@{/ip_select_allillness/}+${remedyId}+@{?index=1}">返回上页</a>
+<table id="main_table" class="table table-bordered">
+	<caption><label for="name">药单信息</label></caption>
+		<tr>
+			<td colspan="4"><label for="name">药单</label></td>
+		</tr> 
+		<tr>
+			<td>药单ID：</td>
+			<td>[[${drug.drugId}]]</td>
+			<td>下单日期：</td>
+			<td>[[${#dates.format(drug.drugDate,"yyyy-MM-dd")}]]</td>
+		</tr>
+		<tr>
+			<td>总价：</td>
+			<td>[[${drug.totalPrice}]]</td>
+			<td>药单状态：</td>
+			<td>[[${drug.drugStatus}]]</td>
+		</tr>
+		<tr>
+			<td colspan="4"><label for="name">药单明细</label></td>
+		</tr> 
+		<tr>
+			<td>药品名称</td>
+			<td>单价</td>
+			<td>药品数量</td>
+			<td>使用说明</td>
+		</tr>
+		<!-- 遍历药单 -->
+ 		<tr th:each="drugDetail:${drugDetails}">
+			<td>[[${drugDetail.phMedicines.medicineName}]]</td>
+			<td>[[${drugDetail.price}]]</td>
+			<td>[[${drugDetail.drugNum}]]</td>
+			<td>[[${drugDetail.useInstructions}]]</td>
+		</tr> 
+		<tr>
+			<th colspan="2">总价</th>
+			<th colspan="2">[[${drug.totalPrice}]]</th>
+		</tr>
+</table>
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

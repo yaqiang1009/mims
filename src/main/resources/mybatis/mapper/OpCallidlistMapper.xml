@@ -3,7 +3,7 @@
 <mapper namespace="com.wnxy.hospital.mims.mapper.OpCallidlistMapper" >
   <resultMap id="BaseResultMap" type="com.wnxy.hospital.mims.entity.OpCallidlist" >
     <id column="cl_id" property="clId" jdbcType="VARCHAR" />
-    <result column="pt_id" property="ptId" jdbcType="VARCHAR" />
+    <result column="rs_id" property="rsId" jdbcType="VARCHAR" />
     <result column="emp_id" property="empId" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="DATE" />
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    cl_id, pt_id, emp_id, state, date
+    cl_id, rs_id, emp_id, state, date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wnxy.hospital.mims.entity.OpCallidlistExample" >
     select
@@ -100,9 +100,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wnxy.hospital.mims.entity.OpCallidlist" >
-    insert into op_callidlist (cl_id, pt_id, emp_id, 
+    insert into op_callidlist (cl_id, rs_id, emp_id, 
       state, date)
-    values (#{clId,jdbcType=VARCHAR}, #{ptId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
+    values (#{clId,jdbcType=VARCHAR}, #{rsId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER}, #{date,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.wnxy.hospital.mims.entity.OpCallidlist" >
@@ -111,8 +111,8 @@
       <if test="clId != null" >
         cl_id,
       </if>
-      <if test="ptId != null" >
-        pt_id,
+      <if test="rsId != null" >
+        rs_id,
       </if>
       <if test="empId != null" >
         emp_id,
@@ -128,8 +128,8 @@
       <if test="clId != null" >
         #{clId,jdbcType=VARCHAR},
       </if>
-      <if test="ptId != null" >
-        #{ptId,jdbcType=VARCHAR},
+      <if test="rsId != null" >
+        #{rsId,jdbcType=VARCHAR},
       </if>
       <if test="empId != null" >
         #{empId,jdbcType=VARCHAR},
@@ -154,8 +154,8 @@
       <if test="record.clId != null" >
         cl_id = #{record.clId,jdbcType=VARCHAR},
       </if>
-      <if test="record.ptId != null" >
-        pt_id = #{record.ptId,jdbcType=VARCHAR},
+      <if test="record.rsId != null" >
+        rs_id = #{record.rsId,jdbcType=VARCHAR},
       </if>
       <if test="record.empId != null" >
         emp_id = #{record.empId,jdbcType=VARCHAR},
@@ -174,7 +174,7 @@
   <update id="updateByExample" parameterType="map" >
     update op_callidlist
     set cl_id = #{record.clId,jdbcType=VARCHAR},
-      pt_id = #{record.ptId,jdbcType=VARCHAR},
+      rs_id = #{record.rsId,jdbcType=VARCHAR},
       emp_id = #{record.empId,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       date = #{record.date,jdbcType=DATE}
@@ -185,8 +185,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.OpCallidlist" >
     update op_callidlist
     <set >
-      <if test="ptId != null" >
-        pt_id = #{ptId,jdbcType=VARCHAR},
+      <if test="rsId != null" >
+        rs_id = #{rsId,jdbcType=VARCHAR},
       </if>
       <if test="empId != null" >
         emp_id = #{empId,jdbcType=VARCHAR},
@@ -202,7 +202,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.OpCallidlist" >
     update op_callidlist
-    set pt_id = #{ptId,jdbcType=VARCHAR},
+    set rs_id = #{rsId,jdbcType=VARCHAR},
       emp_id = #{empId,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       date = #{date,jdbcType=DATE}

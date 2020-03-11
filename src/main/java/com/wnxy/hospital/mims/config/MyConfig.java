@@ -11,7 +11,6 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -51,10 +50,12 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 				registry.addViewController("/op_registry.html").setViewName("/op_registry.html");// 挂号
 				registry.addViewController("/op_newCard.html").setViewName("/op_newCard.html");// 办卡
 				registry.addViewController("/op_rebondCard.html").setViewName("/op_rebondCard.html");// 就诊卡挂失
+				registry.addViewController("/op_workbench.html").setViewName("op_workbench");// 门诊医生工作台
 				registry.addViewController("/op_selectOpRegistryByCondition.html").setViewName("/op_selectOpRegistryByCondition.html");// 多条件模糊查挂号单
 				registry.addViewController("/op_newOffice.html").setViewName("/op_newOffice.html");//添加部门
 				registry.addViewController("/op_newDep.html").setViewName("/op_newDep.html");//添加科室
-		
+				registry.addViewController("/op_officeAlter.html").setViewName("/op_officeAlter.html");
+				
 				
 
 
@@ -89,7 +90,6 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 		properties.setProperty("supportMethodsArguments", "true");
 		properties.setProperty("params", "count=countSql");
 		pageHelper.setProperties(properties);
-
 		return pageHelper;
 	}
 	//shiro配置
@@ -108,6 +108,7 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 		filterMap.put("/loginsubmit", "anon");//登录提交
 		filterMap.put("/logout", "logout");//退出
 		filterMap.put("/**", "authc");
+
 		shiroFilterFactoryBean.setLoginUrl("/login");//拦截跳转登录页面
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 		return shiroFilterFactoryBean;

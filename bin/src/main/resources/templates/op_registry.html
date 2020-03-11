@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>挂号入口</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+
+#table {
+	vertical-align: middle;
+}
+
+td {
+	text-align: center;
+}
+
+input {
+	background-color: #d4f2ff8a;
+}
+
+#but {
+	text-align: right;
+}
+</style>
+<script type="text/javascript">
+	
+</script>
+</head>
+<body>
+	<caption>
+		<label for="name">挂号入口</label>
+	</caption>
+
+
+	<!-- 有卡挂号直接请求controller,将卡号存到session域中 -->
+	<!-- 暂时用同步提交 -->
+	<form th:action="@{/op_cardIdTosession}">
+		<table class="table table-bordered" id="table">
+
+			<tbody>
+				<tr>
+					<td class="td1">就诊卡号:</td>
+					<td><input th:text name="cardId" placeholder="" required
+						class="inserdata form-control">
+				</tr>
+
+
+
+				<tr>
+					<td colspan="2" id="but"><button type="submit"
+							class="btn btn-default">挂号</button></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	</form>
+
+
+
+
+
+
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

@@ -202,73 +202,73 @@ public class OpCallidlistExample {
             return (Criteria) this;
         }
 
-        public Criteria andPtIdIsNull() {
-            addCriterion("pt_id is null");
+        public Criteria andRsIdIsNull() {
+            addCriterion("rs_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdIsNotNull() {
-            addCriterion("pt_id is not null");
+        public Criteria andRsIdIsNotNull() {
+            addCriterion("rs_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdEqualTo(String value) {
-            addCriterion("pt_id =", value, "ptId");
+        public Criteria andRsIdEqualTo(String value) {
+            addCriterion("rs_id =", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdNotEqualTo(String value) {
-            addCriterion("pt_id <>", value, "ptId");
+        public Criteria andRsIdNotEqualTo(String value) {
+            addCriterion("rs_id <>", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdGreaterThan(String value) {
-            addCriterion("pt_id >", value, "ptId");
+        public Criteria andRsIdGreaterThan(String value) {
+            addCriterion("rs_id >", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdGreaterThanOrEqualTo(String value) {
-            addCriterion("pt_id >=", value, "ptId");
+        public Criteria andRsIdGreaterThanOrEqualTo(String value) {
+            addCriterion("rs_id >=", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdLessThan(String value) {
-            addCriterion("pt_id <", value, "ptId");
+        public Criteria andRsIdLessThan(String value) {
+            addCriterion("rs_id <", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdLessThanOrEqualTo(String value) {
-            addCriterion("pt_id <=", value, "ptId");
+        public Criteria andRsIdLessThanOrEqualTo(String value) {
+            addCriterion("rs_id <=", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdLike(String value) {
-            addCriterion("pt_id like", value, "ptId");
+        public Criteria andRsIdLike(String value) {
+            addCriterion("rs_id like", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdNotLike(String value) {
-            addCriterion("pt_id not like", value, "ptId");
+        public Criteria andRsIdNotLike(String value) {
+            addCriterion("rs_id not like", value, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdIn(List<String> values) {
-            addCriterion("pt_id in", values, "ptId");
+        public Criteria andRsIdIn(List<String> values) {
+            addCriterion("rs_id in", values, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdNotIn(List<String> values) {
-            addCriterion("pt_id not in", values, "ptId");
+        public Criteria andRsIdNotIn(List<String> values) {
+            addCriterion("rs_id not in", values, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdBetween(String value1, String value2) {
-            addCriterion("pt_id between", value1, value2, "ptId");
+        public Criteria andRsIdBetween(String value1, String value2) {
+            addCriterion("rs_id between", value1, value2, "rsId");
             return (Criteria) this;
         }
 
-        public Criteria andPtIdNotBetween(String value1, String value2) {
-            addCriterion("pt_id not between", value1, value2, "ptId");
+        public Criteria andRsIdNotBetween(String value1, String value2) {
+            addCriterion("rs_id not between", value1, value2, "rsId");
             return (Criteria) this;
         }
 

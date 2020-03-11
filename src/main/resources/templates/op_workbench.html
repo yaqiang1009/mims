@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>医生工作台</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<style>
+    .tb1 {
+        height: 400px;
+    }
+    
+    .row {
+        margin: 0px;
+    }
+    
+    .workbench {
+        padding: 5% 5%;
+    }
+    
+    th,
+    td,
+    .page {
+        text-align: center;
+    }
+    
+    ul {
+        margin: 0px auto;
+    }
+    
+    span,
+    ul {
+        font-size: 20px;
+    }
+    
+    .left {
+        height: 850px;
+        border-right: 2px #4CD5FF solid;
+    }
+</style>
+<script th:src="@{/js/jquery-2.1.4.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/vue.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+
+<body>
+
+    <div class="row" id="callid">
+        <div class="col-xs-3 left">
+            <br/>
+            <button type="button" class="btn btn-group-xs btn-primary" @click="getcallList">开始排号</button>
+            <table class="table tb1">
+                <thead>
+                    <tr>
+                        <th colspan="3"><span>待就诊</span></th>
+                    </tr>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="(callid, index) in waitlist">
+                    <tr v-if="callid.state < 1 ">
+                        <td v-text="index + 1"></td>
+                        <td v-text="callid.registrydto.patient.ptName"></td>
+                        <td><button class="btn btn-default btn-group-sm" @click="call(index)">叫号</button></td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+            <!-- 分页 -->
+            <div class="col-xs-12 page">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="#" @click="prepage">Prev</a>
+                    </li>
+                    <template v-for="num in pages">
+	                    <li v-if="num == pt_pageIndex" class="active">
+	                        <a href="#" v-text="num" @click="dopage(num)"></a>
+	                    </li>
+	                    <li v-else>
+	                        <a href="#" v-text="num" @click="dopage(num)"></a>
+	                    </li>
+                   	</template>
+                    <li>
+                        <a href="#" @click="nextpage">Next</a>
+                    </li>
+                </ul>
+            </div>
+            <table class="table tb2">
+                <thead>
+                    <tr>
+                        <th colspan="3"><span>就诊中</span></th>
+                    </tr>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="activelist[0]!=null">
+                        <td>1</td>
+                        <td v-text="activelist[0].registrydto.patient.ptName"></td>
+                        <td><button class="btn btn-default btn-group-sm" @click="wait(activelist[0].callistid)"><a href="#">等待</a></button>
+                            <button class="btn btn-default btn-group-sm" @click="finish(activelist[0].callistid,1)"><a href="#">诊毕</a></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-8">
+            <!-- 工作台 -->
+
+            <div class="row" style="padding: 20px 50px 10px;">
+                <template v-if="activelist[0] != null">
+                     <span>当前病人</span> <br/> 
+                     <div style="font-size:18px;">
+				                        挂号单号:{{activelist[0].registrydto.registryid}}<br/>
+				                        姓名： {{activelist[0].registrydto.patient.ptName}}<br/> 
+				                        性别: {{activelist[0].registrydto.patient.sex}}<br/>
+				                        年龄: {{activelist[0].registrydto.patient.age}}<br/>
+				                        电话: {{activelist[0].registrydto.patient.phone}}<br/>
+                     </div>
+            	</template>
+                <template v-else>
+            		 <span>当前病人</span> <br/> 
+                	<div style="font-size:18px;">
+				                        挂号单号:<br/>
+				                        姓名： <br/> 
+				                        性别: <br/>
+				                        年龄: <br/>
+				                        电话: <br/>
+                     </div>
+            	</template>
+
+            </div>
+            <div class="tabbable" id="tabs-25799" style="padding: 20px 50px 10px;">
+                <ul class="nav nav-tabs">
+                    <li v-bind:class="{active:showtcasehistory==1}">
+                        <a href="#panel-casehistory" data-toggle="tab">病历</a>
+                    </li>
+                    <li v-bind:class="{active:showtreatment==1}">
+                        <a href="#panel-treatment" data-toggle="tab">治疗方案</a>
+                    </li>
+                    <li v-bind:class="{active:showprescripment==1}">
+                        <a href="#panel-prescription" data-toggle="tab">处方</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div v-bind:class="{active:showtcasehistory_content==1}" class="tab-pane" id="panel-casehistory">
+                        <!--病历模板-->
+                        <div style="padding: 50px 50px 10px;">
+                            <form class="bs-example bs-example-form" role="form">
+                                <div class="input-group ">
+                                    <span class="input-group-addon">主述</span>
+                                    <textarea cols="30" rows="10" class="form-control" placeholder="病情描述" v-model="ch_description"></textarea>
+                                </div>
+                                <br>
+                                <div class="input-group ">
+                                    <span class="input-group-addon ">发病时间</span>
+                                    <input type="date" class="form-control" placeholder="选择日期" v-model="ch_date">
+                                </div>
+                                <br>
+                                <div class="input-group ">
+                                    <span class="input-group-addon ">既往史</span>
+                                    <input type="text" class="form-control" placeholder="有无既往史" v-model="ch_history">
+                                </div>
+                                <br>
+                                <div class="input-group ">
+                                    <span class="input-group-addon ">过敏史</span>
+                                    <input type="text" class="form-control" placeholder="有无过敏史" v-model="ch_allergy">
+                                </div>
+                            </form>
+                            <br/>
+                            <div v-if="activelist[0]!=null">
+                                <button type="button" class="btn btn-primary btn-lg" @click="createdescription">生成病历</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div v-bind:class="{active:showtreatment_contet==1}" class="tab-pane" id="panel-treatment" style="padding: 50px 50px 10px;">
+                        <!--治疗方案-->
+                        <template v-if="activelist[0]!=null">
+                            <button class="btn btn-primary btn-lg" type="button" @click="gotooutpatient">门诊治疗开药</button>
+                            <br/>
+                            <br/>
+                            <button class="btn btn-primary btn-lg" type="button" @click="gotoinpatient">住院申请</button>
+                            <br/>
+                            <br/>
+                        </template>
+                        <template v-else>
+                            <br/>
+                        </template>
+                    </div>
+
+                    <div v-bind:class="{active:showprescripment_content==1}" class="tab-pane" id="panel-prescription" style="padding: 5px 50px 10px;">
+                        <!--处方模板-->
+                        <br/>
+                        <span>药品查询：</span>
+                        <br/> 药品名：
+                        <input type="search" placeholder="查询药品名称" v-model="drugname">
+                        <template v-if="activelist[0]!=null">
+                            <button class="btn btn-sm btn-primary" type="button" @click="getdrug">查询</button>
+                        </template>
+                        <template v-else></template>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>药品名</th>
+                                    <th>价格(￥)</th>
+                                    <th>库存</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-if="drug[0]!=null">
+                                    <tr>
+                                        <td v-text="drug[0].medicineName">1</td>
+                                        <td v-text="drug[0].price">zs</td>
+                                        <td v-text="drug[0].number">zs</td>
+                                        <td><button class="btn btn-default btn-group-sm" @click="adddrug">添加</button></td>
+                                    </tr>
+                                </template>
+                                <template v-else></template>
+                            </tbody>
+                        </table>
+                        <span>药单：</span>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>药品名</th>
+                                    <th>单价(￥)</th>
+                                    <th>数量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-if="druglist[0]!=null">
+                                    <template v-for="(drugs,index) in druglist">
+                                        <tr>
+                                            <td v-text="index + 1"></td>
+                                            <td v-text="drugs.medicineName"></td>
+                                            <td v-text="drugs.price">22.2</td>
+                                            <td><button @click="down(index)">-</button> {{drugs.number}} <button @click="up(index)">+</button></td>
+                                            <td><button @click="removedrug(index)">删除</button></td>
+                                        </tr>
+                                    </template>
+                                </template>
+                                <template v-else></template>
+                            </tbody>
+                        </table>
+                        医嘱：<textarea cols="30" rows="3" class="form-control" placeholder="医嘱"></textarea>
+                        <template v-if="activelist[0]!=null">
+                            <br/>
+                            <button class="btn btn-primary">确认添加处方</button>
+                        </template>
+                        <template v-else>
+                            <br/>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#callid',
+            data: {
+                waitlist: [], //病人等待列表
+                activelist: [], //正在就诊病人（有且只有一人）
+                pt_pageIndex: 1, // 病人列表当前页
+                pages: 0, // 病人列表总页数
+                description: '', //病情描述
+                ch_description: '', // 病人主述
+                ch_date: '', //发病日期
+                ch_history: '', //既往史
+                ch_allergy: '', //过敏史
+                empid: '8e75f225-5d1e-11ea-ba6e-00ffaca66b24', //门诊医生id（登录读取）empid
+                caseid: '', //病历编号
+                prescriptionid: '', //处方编号
+                showtcasehistory: 1, //显示病历选项卡标题
+                showtcasehistory_content: 1, //显示病历选项卡内容
+                showtreatment: 0, //显示治疗方案选项卡标题
+                showtreatment_contet: 0, //显示治疗方案选项卡内容
+                showprescripment: 0, //显示处方选项卡标题
+                showprescripment_content: 0, //显示处方选项卡内容
+                drugname: '', //药品名称
+                drug: [], //药品详情,
+                druglist: [], //药品列表
+                advice: '' //医嘱
+            },
+            methods: {
+                up: function(index) {
+                    this.druglist[index].number += 1
+                },
+                down: function(index) {
+                    if (this.druglist[index].number - 1 > 0) {
+                        this.druglist[index].number -= 1
+                    }
+                },
+                adddrug: function() { //添加药品到药品表
+                    var num = 1 //初始化数量1
+                    var flag = true //是否可以添加药品
+                    if (this.druglist.length >= 1) { //药品表不为空
+                        for (let i = 0; i < this.druglist.length; i++) {
+                            if (this.druglist[i].medicineId == this.drug[0].medicineId) { //添加相同药品，只添加数量
+                                alert(this.druglist[i].medicineName)
+                                this.druglist[i].number += 1
+                                flag = false
+                                return 1
+                            }
+                        }
+                        if (flag) {
+                            this.druglist.push(this.drug[0]) // 添加到药品表
+                            this.druglist[this.druglist.length - 1].number = num
+                        }
+                    } else { //药品表为空
+                        this.druglist.push(this.drug[0])
+                        this.druglist[0].number = num //初始化数量1
+                    }
+
+                },
+                removedrug: function(index) { //删除药品表中药品
+                    alert(index)
+                },
+                getdrug: function() { //查药品信息
+                    var that = this
+                    alert(this.drug.length)
+                    if (this.drug.length > 0) { //删除最后一位
+                        this.drug.pop()
+                    }
+                    alert(this.drug.length)
+                    if (this.drugname != null && this.drugname != "") {
+                        axios.post('/prescription/getDrug', { //查询药品信息
+                                drugname: this.drugname
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                                if (response.data != 0) {
+                                    that.drug.push(response.data)
+                                } else {
+                                    alert("输入有误")
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+
+                },
+                createdescription: function() { //生成病历
+                    this.description = "主述：" + this.ch_description + ",发病时间：" + this.ch_date + ",既往史：" + this.ch_history + ",过敏史：" + this.ch_allergy
+                    if (confirm("请确认信息正确，如要修改信息点击取消")) {
+                        var that = this
+                        axios.post('/casehistory/setCaseHistory', {
+                                patientid: this.activelist[0].registrydto.patient.ptId,
+                                description: this.description
+                            })
+                            .then(function(response) {
+                                that.caseid = response.data //生成的病历id
+                                alert("病历生成成功")
+                                    // 跳转到治疗方案选择
+                                that.showtcasehistory = 0
+                                that.showtcasehistory_content = 0
+                                that.showtreatment = 1
+                                that.showtreatment_contet = 1
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                gotooutpatient: function() { //门诊治疗跳转
+                    if (confirm("确认门诊治疗并且前往开药")) {
+                        //创建处方
+                        var that = this
+                        axios.post('/prescription/setsetPrescription', {
+                                empid: this.activelist[0].doctor.empid,
+                            })
+                            .then(function(response) {
+                                that.prescriptionid = response.data
+                                    //跳转添加药单
+                                that.showtreatment = 0
+                                that.showtreatment_contet = 0
+                                that.showprescripment = 1
+                                that.showprescripment_content = 1
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        // 加载药品类别
+
+                    }
+                },
+                gotoinpatient: function() { //住院治疗跳转
+                    if (confirm("确认住院治疗")) {
+                        // 发送住院申请单
+                        var that = this
+                        axios.post('/callid/inpatientorder', {
+                                patientid: this.activelist[0].registrydto.patient.ptId,
+                                empid: this.activelist[0].doctor.empid,
+                                description: this.description,
+                                caseid: this.caseid
+                            })
+                            .then(function(response) {
+                                alert(response.data + "完成任务交接，请叫号")
+                                that.finish(that.activelist[0].callistid, 0)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+                },
+                getcallList: function() { //读取叫号表
+                    var that = this
+                    axios.post('/callid/getcallList', {
+                            empid: this.empid,
+                            pageIndex: this.pt_pageIndex
+                        })
+                        .then(function(response) {
+                            that.waitlist = response.data.list //记录当前排队病人
+                            for (let i = 0; i < that.waitlist.length; i++) {
+                                if (that.waitlist[i].state == 1 && that.activelist.length < 1) { //是否存在正在就诊的人
+                                    that.activelist.push(that.waitlist[i]) //记录当前病人信息
+                                }
+                            }
+                            that.pages = response.data.pages
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                },
+                call: function(index) { //叫号操作
+                    var cont = 0
+                    for (let i = 0; i < this.waitlist.length; i++) { //是否存在第二个正在就诊的人
+                        if (this.waitlist[i].state == 1) {
+                            cont += 1
+                        }
+                    }
+                    if (this.activelist.length != 0) { //判断当前是否有病人就诊
+                        cont += 1
+                    }
+                    if (cont < 1) { //每次只能叫一个人就诊
+                        var callistid = this.waitlist[index].callistid
+                        this.activelist.push(this.waitlist[index]) //记录当前病人信息
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 1
+                            })
+                            .then(function(response) {
+                                // alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    } else {
+                        alert("请先完成当前病人就诊")
+                    }
+                },
+                wait: function(callistid) { //等待操作
+                    if (confirm("请确认该病人等待")) {
+                        this.activelist.pop() //删除当前病人信息
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 0
+                            })
+                            .then(function(response) {
+                                // alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    }
+                },
+                finish: function(callistid, isNotice) { //完成就诊
+                    if (isNotice == 1) { //需要提示
+                        if (confirm("请确认该病人完成就诊 ")) {
+                            this.activelist.pop() //删除当前病人信息
+                            axios.post('/callid/setcallId', {
+                                    calllistid: callistid,
+                                    state: 2
+                                })
+                                .then(function(response) {
+                                    // alert(response.data)
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                });
+                            this.getcallList()
+                        }
+                    } else if (isNotice == 0) { //不需要提示
+                        this.activelist.pop() //删除当前病人信息
+                        axios.post('/callid/setcallId', {
+                                calllistid: callistid,
+                                state: 2
+                            })
+                            .then(function(response) {
+                                // alert(response.data)
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                        this.getcallList()
+                    }
+                    this.description = ''
+                },
+                prepage: function() { //前一页
+                    if (this.pt_pageIndex - 1 >= 1) {
+                        this.pt_pageIndex -= 1
+                        this.getcallList()
+                    }
+                },
+                nextpage: function() { //后一页
+                    if (this.pt_pageIndex + 1 <= this.pages) {
+                        this.pt_pageIndex += 1
+                        this.getcallList()
+                    }
+                },
+                dopage: function(num) { //跳转页
+                    if (this.pt_pageIndex != num) {
+                        this.pt_pageIndex = num
+                        this.getcallList()
+                    }
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>

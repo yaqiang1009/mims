@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示所有科室</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-paginator.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+
+#title {
+	font-weight: bold;
+}
+</style>
+
+
+</head>
+<body>
+
+	<tr>
+		<div id="title">所有科室</div>
+
+	</tr>
+	<div>
+		<tr th:each="dep:${allDep}">
+			<ul>
+				<li><a th:href="@{/op_depDetail/}+${dep.depId}">
+						[[${dep.depName}]] </a></li>
+			
+			</ul>
+		</tr>
+	</div>
+
+
+
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>
