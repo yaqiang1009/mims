@@ -33,6 +33,7 @@ public class Ip_PatientImpl implements Ip_Patient {
 		List<IpRemedy> ipRemedys = ipRemedyMapper.selectByExample(example);
 		//获取病人集合
 		List<String> values=new ArrayList<String>();
+		values.add("");
 		for(IpRemedy remedy:ipRemedys) {
 			values.add(remedy.getPtId());
 		}
