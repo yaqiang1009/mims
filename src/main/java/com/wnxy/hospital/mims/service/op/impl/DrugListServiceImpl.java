@@ -46,7 +46,7 @@ public class DrugListServiceImpl implements DrugListService {
 				// 使用数据库的药品单价
 				drug.setSingleprice(price.floatValue());
 				
-				// 写入药品表
+				// 写入药品详情表
 				dlmapper.insert(drug);
 				
 				// 调用药房的代码，扣库存

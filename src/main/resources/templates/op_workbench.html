@@ -200,76 +200,59 @@
                         <!--处方模板-->
                         <br/>
                         <span>药品查询：</span>
-                        <br/>药品类别：
-                        <select class="selectpicker" data-style="btn-primary">
-							<option value="PA">Pennsylvania</option>
-							<option value="CT">Connecticut</option>
-							<option value="NY">New York</option>
-							<option value="MD">Maryland</option>
-							<option value="VA">Virginia</option>
-                        </select> 药品名：
-                        <input type="search" placeholder="查询药品名称">
+                        <br/> 药品名：
+                        <input type="search" placeholder="查询药品名称" v-model="drugname">
+                        <template v-if="activelist[0]!=null">
+                            <button class="btn btn-sm btn-primary" type="button" @click="getdrug">查询</button>
+                        </template>
+                        <template v-else></template>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>药品名</th>
                                     <th>价格(￥)</th>
+                                    <th>库存</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>zs</td>
-                                    <td><button class="btn btn-default btn-group-sm"><a href="#">添加</a></button></td>
-                                </tr>
+                                <template v-if="drug[0]!=null">
+                                    <tr>
+                                        <td v-text="drug[0].medicineName">1</td>
+                                        <td v-text="drug[0].price">zs</td>
+                                        <td v-text="drug[0].number">zs</td>
+                                        <td><button class="btn btn-default btn-group-sm" @click="adddrug">添加</button></td>
+                                    </tr>
+                                </template>
+                                <template v-else></template>
                             </tbody>
                         </table>
-                        <!-- 分页 -->
-                        <div class="col-xs-12 page">
-                            <ul class="pagination pagination-sm">
-                                <li>
-                                    <a href="#">Prev</a>
-                                </li>
-                                <li>
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Next</a>
-                                </li>
-                            </ul>
-                        </div>
                         <span>药单：</span>
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>序号</th>
                                     <th>药品名</th>
                                     <th>单价(￥)</th>
                                     <th>数量</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>阿木西林</td>
-                                    <td>22.2</td>
-                                    <td><button>-</button> 1 <button>+</button></td>
-                                </tr>
+                                <template v-if="druglist[0]!=null">
+                                    <template v-for="(drugs,index) in druglist">
+                                        <tr>
+                                            <td v-text="index + 1"></td>
+                                            <td v-text="drugs.medicineName"></td>
+                                            <td v-text="drugs.price">22.2</td>
+                                            <td><button @click="down(index)">-</button> {{drugs.number}} <button @click="up(index)">+</button></td>
+                                            <td><button @click="removedrug(index)">删除</button></td>
+                                        </tr>
+                                    </template>
+                                </template>
+                                <template v-else></template>
                             </tbody>
                         </table>
-                        <!-- 分页 -->
-                        <div class="col-xs-12 page">
-                            <ul class="pagination pagination-sm">
-                                <li>
-                                    <a href="#">Prev</a>
-                                </li>
-                                <li>
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Next</a>
-                                </li>
-                            </ul>
-                        </div>
                         医嘱：<textarea cols="30" rows="3" class="form-control" placeholder="医嘱"></textarea>
                         <template v-if="activelist[0]!=null">
                             <br/>
@@ -305,14 +288,61 @@
                 showtreatment_contet: 0, //显示治疗方案选项卡内容
                 showprescripment: 0, //显示处方选项卡标题
                 showprescripment_content: 0, //显示处方选项卡内容
-                drugtypelist: [], // 药品类别表
-                drugslist: [] //药品详情表
+                drugname: '', //药品名称
+                drug: [], //药品详情,
+                druglist: [], //药品列表
+                advice: '' //医嘱
             },
             methods: {
-                getdrugslist: function() {
+                up: function(index) {
+                    this.druglist[index].number += 1
+                },
+                down: function(index) {
+                    if (this.druglist[index].number - 1 > 0) {
+                        this.druglist[index].number -= 1
+                    }
+                },
+                adddrug: function() { //添加药品到药品表
+                    var num = 1
+                    if (this.druglist.length >= 1) { //药品表不为空
+                        for (let i = 0; i < this.druglist.length; i++) {
+                            if (this.druglist[i].medicineId == this.drug[0].medicineId) { //添加相同药品，只添加数量
+                                this.druglist[i].number += 1
+                            } else {
+                                this.druglist.push(this.drug[0])
+                                this.druglist[i].number = num //初始化数量1
+                            }
+                        }
+                    } else { //药品表为空
+                        this.druglist.push(this.drug[0])
+                        this.druglist[0].number = num //初始化数量1
+                    }
 
                 },
-                getdrugtyplist: function() {
+                removedrug: function(index) { //删除药品表中药品
+                    alert(index)
+                },
+                getdrug: function() { //查药品信息
+                    var that = this
+                    if (this.drug.length > 0) { //删除最后一位
+                        this.drug.pop()
+                    }
+                    if (this.drugname != null && this.drugname != "") {
+                        axios.post('/prescription/getDrug', { //查询药品信息
+                                drugname: this.drugname
+                            })
+                            .then(function(response) {
+                                alert(response.data)
+                                if (response.data != 0) {
+                                    that.drug.push(response.data)
+                                } else {
+                                    alert("输入有误")
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
 
                 },
                 createdescription: function() { //生成病历
@@ -343,7 +373,6 @@
                         var that = this
                         axios.post('/prescription/setsetPrescription', {
                                 empid: this.activelist[0].doctor.empid,
-                                description: this.description
                             })
                             .then(function(response) {
                                 that.prescriptionid = response.data
