@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>押金使用记录</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+height: 35px;
+text-align: center;
+vertical-align: middle;
+}
+.th1,.th2,.th5{
+min-width: 60px;
+}
+.th4,.th3{
+min-width: 200px;
+}
+.th6{
+min-width: 140px;
+}
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	$(".passleave").click(function(){
+		if(confirm("确认通过出院申请吗？")){
+			location.href=$(this).val();
+		}
+	});
+});
+</script>
+</head>
+<body>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption>押金使用记录</caption>
+	<thead>
+		<tr>
+			<th class="th1">姓名</th>
+			<th class="th2">[[${pt.ptName}]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td  colspan="2"><label for="name">押金使用记录</label></td>
+		</tr>
+ 		<tr>
+			<td>使用金额</td>
+			<td>时间</td>
+		</tr> 
+ 		<tr th:each="IpCashUsep:${IpCashUsep.list}">
+			<td>[[${IpCashUsep.useCash}]]</td>
+			<td>[[${#dates.format(IpCashUsep.cashUseDate,"yyyy-MM-dd")}]]</td>
+		</tr> 
+	</tbody>
+</table>
+
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!IpCashUsep.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${IpCashUsep.hasPreviousPage}"><a th:href="@{/ip_cashuse_his?index=}+${IpCashUsep.pageNum-1}+@{&ptId=}+${pt.ptId}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${IpCashUsep.pageNum>1}" th:each="inde:${#numbers.sequence(1,IpCashUsep.pageNum-1)}" >
+			<a th:if="${IpCashUsep.pageNum!=inde}" th:href="@{/ip_cashuse_his?index=}+${inde}+@{&ptId=}+${pt.ptId}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${IpCashUsep.pageNum}]]</a></li>
+		<li th:if="${IpCashUsep.pageNum<IpCashUsep.pages}" th:each="inde:${#numbers.sequence(IpCashUsep.pageNum+1,IpCashUsep.pages)}" >
+			<a th:if="${IpCashUsep.pageNum!=inde}" th:href="@{/ip_cashuse_his?index=}+${inde}+@{&ptId=}+${pt.ptId}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${IpCashUsep.hasNextPage}"><a th:href="@{/ip_cashuse_his?index=}+${IpCashUsep.pageNum+1}+@{&ptId=}+${pt.ptId}">&raquo;</a></li>
+		<li th:if="${!IpCashUsep.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

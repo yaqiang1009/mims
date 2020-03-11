@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
 <style type="text/css">
 	.btn_a {
 		width: 88px;
@@ -21,15 +22,33 @@
 		box-shadow: 1px 1px 1px #fff;
 		border: 1px solid #fff;
 	}
+	#weather{
+	position: absolute;
+	left:520px;
+	}
 </style>
+<script type="text/javascript">
+$(function(){
+function mytime(){
+	var a = new Date();
+	var b = a.toLocaleTimeString();
+	var c = a.toLocaleDateString();
+	$("#date").html(b);
+}
+setInterval(function() {mytime()},1000);
+});
+</script>
 </head>
 <body style="background: url('../../img/title.jpg') no-repeat;overflow: hidden;">
-	<div style="width: 100%;text-align: right;line-height: 74px;padding-right: 20px;color: #FFFFFF;">
-		<span style="color: #32394d;font-size: 18px;">你好，今天是2017/06/16</span>&nbsp;&nbsp;&nbsp;&nbsp;
+<div id="weather">
+	<iframe width="500" scrolling="no" height="70" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=2&icon=2&num=2&site=12"></iframe>
+</div>
+	<div style="min-width:1200px; width: 100%;text-align: right;line-height: 74px;padding-right: 20px;color: #FFFFFF;">
+		<span id="date" style="color: #32394d;font-size: 18px;">--</span>&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="password.html" class="btn btn-sm btn_a" target="content">修改密码</a>&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="login.html" class="btn btn-sm btn_a" target="_top" onclick="javascript:window.location.href='login.html'">退出</a>
+		<a href="login.html" class="btn btn-sm btn_a" target="_top" onclick="javascript:window.location.href='/logout'">退出</a>
 	</div>
 </body>
-<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </html>

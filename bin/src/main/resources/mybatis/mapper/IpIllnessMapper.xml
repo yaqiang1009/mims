@@ -83,6 +83,12 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByRemedyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_illness
+    where remedy_id = #{remedyId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

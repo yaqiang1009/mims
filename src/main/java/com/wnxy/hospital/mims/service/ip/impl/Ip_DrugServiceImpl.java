@@ -1,12 +1,15 @@
 package com.wnxy.hospital.mims.service.ip.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wnxy.hospital.mims.entity.IpDrug;
+import com.wnxy.hospital.mims.entity.IpDrugDetail;
 import com.wnxy.hospital.mims.entity.IpDrugExample;
+import com.wnxy.hospital.mims.mapper.IpDrugDetailMapper;
 import com.wnxy.hospital.mims.mapper.IpDrugMapper;
 import com.wnxy.hospital.mims.mapper.IpIllnessMapper;
 import com.wnxy.hospital.mims.service.ip.Ip_DrugService;
@@ -21,6 +24,8 @@ public class Ip_DrugServiceImpl implements Ip_DrugService{
 	IpDrugMapper ipDrugMapper;
 	@Autowired
 	IpIllnessMapper ipIllnessMapper;
+	@Autowired
+	IpDrugDetailMapper ipDrugDetailMapper;
 
 	//添加药单
 	@Override
@@ -84,10 +89,24 @@ public class Ip_DrugServiceImpl implements Ip_DrugService{
 	@Override
 	public IpDrug selectDrugByDrugId(String drugId) {
 		IpDrug selectDrug = ipDrugMapper.selectByPrimaryKey(drugId);
+		//查询药单明细
+		List<IpDrugDetail> lists = ipDrugDetailMapper.selectByDrugId(drugId);
+		//药单明细对象
+		selectDrug.setIpDrugDetails(lists);
 		return selectDrug;
 	}
 
-
+	//查询药单详情
+	@Override
+	public IpDrug selectDrugByIllnessId(String illnessId) {
+		//查询药单
+		IpDrug selectDrug = ipDrugMapper.selectByIllnessId(illnessId);
+		//查询药单明细
+		List<IpDrugDetail> lists = ipDrugDetailMapper.selectByDrugId(selectDrug.getDrugId());
+		//药单明细对象
+		selectDrug.setIpDrugDetails(lists);
+		return selectDrug;
+	}
 	/*
 	 * //插入药单总价
 	 * 

@@ -66,10 +66,31 @@
 		</dependency>
 		<!-- pagehelper分页插件 -->
 		<dependency>
-		    <groupId>com.github.pagehelper</groupId>
-		    <artifactId>pagehelper</artifactId>
-		    <version>4.1.4</version>
+		 <groupId>com.github.pagehelper</groupId>
+		 <artifactId>pagehelper</artifactId>
+		 <version>5.1.2</version>
 		</dependency>
+		<dependency>
+		 <groupId>com.github.pagehelper</groupId>
+		 <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+		 <version>1.2.3</version>
+		</dependency>
+		<dependency>
+		 <groupId>com.github.pagehelper</groupId>
+		 <artifactId>pagehelper-spring-boot-starter</artifactId>
+		 <version>1.2.3</version>
+		</dependency>
+		<!-- shiro权限框架 -->
+		<dependency>
+		 <groupId>org.apache.shiro</groupId>
+		 <artifactId>shiro-spring-boot-web-starter</artifactId>
+		 <version>1.4.0</version>
+		</dependency>
+        <dependency>
+           <groupId>com.github.theborakompanioni</groupId>
+           <artifactId>thymeleaf-extras-shiro</artifactId>
+           <version>2.0.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -81,5 +102,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>
