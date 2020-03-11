@@ -34,8 +34,7 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 	}
 	//根据条件查询药品信息
 	@Override
-	public PhPageBean<PhMedicines> getMedicinesByCondition(PhMedicines pm,
-			Integer pageIndex, Integer pageSize) {
+	public List<PhMedicines> getMedicinesByCondition(PhMedicines pm) {
 		//将对象属性转换成example
 		PhMedicinesExample pmExample = new PhMedicinesExample();
 		Criteria cc = pmExample.createCriteria();
@@ -54,9 +53,9 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 		//小于等于药品数量
 		//cc.andNumberLessThanOrEqualTo(pm.getNumber());
 		try {
-			PageHelper.startPage(pageIndex, pageSize);
+			//PageHelper.startPage(pageIndex, pageSize);
 			List<PhMedicines> pms = phMedicinesMapper.selectByExample(pmExample);
-			int count = phMedicinesMapper.countByExample(pmExample);
+			//int count = phMedicinesMapper.countByExample(pmExample);
 			//根据classId查询className
 			for(PhMedicines pmm : pms) {
 				try {
@@ -67,14 +66,14 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 					throw new PhMedicineException(e);
 				}
 			}
-			PageInfo<PhMedicines> pages = new PageInfo<>(pms);
-			PhPageBean<PhMedicines> phpb = new PhPageBean<>();
-			phpb.setBeanlist(pages.getList());
-			phpb.setTotalCount(count);//有个totalCount，就有了totalPage
-			phpb.setBeginPageAndEndPage();//有了totalPage，就有了begin和endpage
-			phpb.setPageIndex(pages.getPageNum());
-			phpb.setPageSize(pages.getPageSize());
-			return phpb;
+			//PageInfo<PhMedicines> pages = new PageInfo<>(pms);
+			//PhPageBean<PhMedicines> phpb = new PhPageBean<>();
+			//phpb.setBeanlist(pages.getList());
+			//phpb.setTotalCount(count);//有个totalCount，就有了totalPage
+			//phpb.setBeginPageAndEndPage();//有了totalPage，就有了begin和endpage
+			//phpb.setPageIndex(pages.getPageNum());
+			//phpb.setPageSize(pages.getPageSize());
+			return pms;
 		} catch (Exception e) {
 			throw new PhMedicineException(e);
 		}
@@ -96,12 +95,12 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 	}
 	@Override
 	//查询全部信息
-	public PhPageBean<PhMedicines> getAllMedicine(Integer pageIndex, Integer pageSize) {
+	public List<PhMedicines> getAllMedicine() {
 		PhMedicinesExample pme = new PhMedicinesExample();
 		try {
-			PageHelper.startPage(pageIndex, pageSize);
+			//PageHelper.startPage(pageIndex, pageSize);
 			List<PhMedicines> pms = phMedicinesMapper.selectByExample(pme);
-			int count = phMedicinesMapper.countByExample(pme);
+			//int count = phMedicinesMapper.countByExample(pme);
 			//根据classId查询className
 			for(PhMedicines pm : pms) {
 				try {
@@ -112,13 +111,14 @@ public class PhMedicinesServiceImpl implements PhMedicinesService{
 					throw new PhMedicineException(e);
 				}
 			}
-			PageInfo<PhMedicines> pages = new PageInfo<>(pms);
-			PhPageBean<PhMedicines> phpb = new PhPageBean<>();
-			phpb.setBeanlist(pages.getList());
-			phpb.setTotalCount(count);
-			phpb.setPageIndex(pages.getPageNum());
-			phpb.setPageSize(pages.getPageSize());
-			return phpb;
+			//PageInfo<PhMedicines> pages = new PageInfo<>(pms);
+			//PhPageBean<PhMedicines> phpb = new PhPageBean<>();
+			//phpb.setBeanlist(pages.getList());
+			//phpb.setTotalCount(count);
+			//phpb.setPageIndex(pages.getPageNum());
+			//phpb.setPageSize(pages.getPageSize());
+			//return phpb;
+			return pms;
 		} catch (Exception e) {
 			throw new PhMedicineException(e);
 		}
