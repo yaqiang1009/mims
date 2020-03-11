@@ -279,7 +279,7 @@
                 ch_date: '', //发病日期
                 ch_history: '', //既往史
                 ch_allergy: '', //过敏史
-                empid: '8e75f225-5d1e-11ea-ba6e-00ffaca66b24', //门诊医生id（登录读取）
+                empid: '8e75f225-5d1e-11ea-ba6e-00ffaca66b24', //门诊医生id（登录读取）empid
                 caseid: '', //病历编号
                 prescriptionid: '', //处方编号
                 showtcasehistory: 1, //显示病历选项卡标题
@@ -303,15 +303,20 @@
                     }
                 },
                 adddrug: function() { //添加药品到药品表
-                    var num = 1
+                    var num = 1 //初始化数量1
+                    var flag = true //是否可以添加药品
                     if (this.druglist.length >= 1) { //药品表不为空
                         for (let i = 0; i < this.druglist.length; i++) {
                             if (this.druglist[i].medicineId == this.drug[0].medicineId) { //添加相同药品，只添加数量
+                                alert(this.druglist[i].medicineName)
                                 this.druglist[i].number += 1
-                            } else {
-                                this.druglist.push(this.drug[0])
-                                this.druglist[i].number = num //初始化数量1
+                                flag = false
+                                return 1
                             }
+                        }
+                        if (flag) {
+                            this.druglist.push(this.drug[0]) // 添加到药品表
+                            this.druglist[this.druglist.length - 1].number = num
                         }
                     } else { //药品表为空
                         this.druglist.push(this.drug[0])
@@ -324,9 +329,11 @@
                 },
                 getdrug: function() { //查药品信息
                     var that = this
+                    alert(this.drug.length)
                     if (this.drug.length > 0) { //删除最后一位
                         this.drug.pop()
                     }
+                    alert(this.drug.length)
                     if (this.drugname != null && this.drugname != "") {
                         axios.post('/prescription/getDrug', { //查询药品信息
                                 drugname: this.drugname
