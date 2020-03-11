@@ -103,7 +103,7 @@ public class Ip_HosOrderServiceImpl implements Ip_HosOrderService{
 			ipHospitalizedMapper.updateByPrimaryKey(ipHospitalized);
 		//添加医疗订单
 			String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");
-			IpRemedy remedy=new IpRemedy(uuid, id, ipHospitalized, wardId, null, bedId, null, ptId, null, empId, null, new Date(), "住院中");
+			IpRemedy remedy=new IpRemedy(uuid, id, ipHospitalized, wardId, null, bedId, null, ptId, null, empId, null, new Date(), "住院中", null);
 			ipRemedyMapper.insert(remedy);
 		//添加押金单
 			//判断是否新用户

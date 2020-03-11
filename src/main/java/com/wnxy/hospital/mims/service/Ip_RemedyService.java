@@ -7,6 +7,7 @@ import com.wnxy.hospital.mims.entity.IpRemedy;
 
 public interface Ip_RemedyService {
 	PageInfo<IpRemedy> selectAllRemedy(String empId,int index);
+	PageInfo<IpRemedy> selectSomeRemedy(String empId,int index);
 	PageInfo<IpRemedy> selectAllRemedyPtName(String ptName);
 	IpRemedy selectRemedy(String id);
 	IpRemedy alertRemedy(String id,String bedId,String empId,String wardId);

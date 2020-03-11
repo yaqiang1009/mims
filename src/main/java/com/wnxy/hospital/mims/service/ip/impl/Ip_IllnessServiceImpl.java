@@ -147,6 +147,12 @@ public class Ip_IllnessServiceImpl implements Ip_IllnessService {
 		ipRemedy.setIpBed(bed);
 		return ipIllness;
 	}
-
-
+	
+	//查询最新插入的病情单
+	@Override
+	public IpIllness selectNewIllnessByRemedyId(String remedyId) {
+		IpIllness illness = ipIllnessMapper.selectOneByRemedyId(remedyId);
+		return illness;
+	}
+	
 }

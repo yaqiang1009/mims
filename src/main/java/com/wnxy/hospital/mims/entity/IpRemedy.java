@@ -31,6 +31,8 @@ public class IpRemedy {
     private Date remedyDate;
 
     private String remedyStatus;
+    
+    private IpIllness ipIllness;
 
     public String getRemedyId() {
         return remedyId;

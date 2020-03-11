@@ -45,7 +45,7 @@ public class Ip_DrugDetailServiceImpl implements Ip_DrugDetailService{
 	IpCashUseMapper ipCashUseMapper;
 	
 	//添加药品详情单,参数应该为一张药单上的所有药品详情
-	//添加事务。注意注意，事务不要加try-catch！！！
+	//添加事务。
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String addDrugDetailOrder(List<IpDrugDetail> ipDrugDetails,String drugId) {

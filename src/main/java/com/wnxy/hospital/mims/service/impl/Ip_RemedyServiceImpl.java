@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.wnxy.hospital.mims.entity.Emp;
 import com.wnxy.hospital.mims.entity.IpBed;
 import com.wnxy.hospital.mims.entity.IpHospitalized;
+import com.wnxy.hospital.mims.entity.IpIllness;
 import com.wnxy.hospital.mims.entity.IpRemedy;
 import com.wnxy.hospital.mims.entity.IpRemedyExample;
 import com.wnxy.hospital.mims.entity.IpRemedyExample.Criteria;
@@ -20,6 +21,7 @@ import com.wnxy.hospital.mims.entity.OpPatientinfo;
 import com.wnxy.hospital.mims.entity.OpPatientinfoExample;
 import com.wnxy.hospital.mims.mapper.EmpMapper;
 import com.wnxy.hospital.mims.mapper.IpBedMapper;
+import com.wnxy.hospital.mims.mapper.IpIllnessMapper;
 import com.wnxy.hospital.mims.mapper.IpRemedyMapper;
 import com.wnxy.hospital.mims.mapper.IpWardMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
@@ -39,6 +41,8 @@ public class Ip_RemedyServiceImpl implements Ip_RemedyService{
 	private IpBedMapper ipBedMapper;
 	@Autowired
 	private OpDepMapper opDepMapper;
+	@Autowired
+	IpIllnessMapper ipIllnessMapper;
 	//查询所有医疗单
 	@Override
 	public PageInfo<IpRemedy> selectAllRemedy(String empId,int index) {
@@ -199,6 +203,48 @@ public class Ip_RemedyServiceImpl implements Ip_RemedyService{
 				//床位
 				IpBed bed = ipBedMapper.selectByPrimaryKey(remedy.getBedId());
 				remedy.setIpBed(bed);
+			}
+			PageInfo<IpRemedy> ipRemedyp=new PageInfo<>(ipRemedys);
+			return ipRemedyp;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//只查询尚在住院状态的医疗单
+	@Override
+	public PageInfo<IpRemedy> selectSomeRemedy(String empId,int index){
+		try {
+			//设置分页
+			PageHelper.startPage(index, 6);
+			//检索医疗单
+			IpRemedyExample example=new IpRemedyExample();
+			//可选，指定医生的医疗单,不满足则全部医生医疗单
+			Criteria create = example.createCriteria();
+			if(!empId.equals("")) {
+				create.andEmpIdEqualTo(empId);
+			}
+			//只查询住院中状态
+			create.andRemedyStatusEqualTo("住院中");
+			List<IpRemedy> ipRemedys = ipRemedyMapper.selectByExample(example);
+			//对象赋值
+			for(IpRemedy remedy:ipRemedys) {
+				//病人
+				OpPatientinfo pt = opPatientinfoMapper.selectByPrimaryKey(remedy.getPtId());
+				remedy.setOpPatientinfo(pt);
+				//医生
+				Emp emp = empMapper.selectByPrimaryKey(remedy.getEmpId());
+				remedy.setEmp(emp);
+				//病房
+				IpWard ward = ipWardMapper.selectByPrimaryKey(remedy.getWardId());
+				remedy.setIpWard(ward);
+				//床位
+				IpBed bed = ipBedMapper.selectByPrimaryKey(remedy.getBedId());
+				remedy.setIpBed(bed);
+				//查询最新的病情单
+				IpIllness illness = ipIllnessMapper.selectOneByRemedyId(remedy.getRemedyId());
+				remedy.setIpIllness(illness);
 			}
 			PageInfo<IpRemedy> ipRemedyp=new PageInfo<>(ipRemedys);
 			return ipRemedyp;

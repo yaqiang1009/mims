@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>诊断单</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body{
+padding: 10px;
+}
+.th2,.th4{
+width: 30%;
+}
+td,th{
+text-align: center;
+}
+#maintable td,#maintable th{
+text-align: center;
+vertical-align: middle;
+}
+.form-group{
+margin: 0px;
+}
+#maintable input,#maintable select{
+background-color:#d4f2ff8a;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+	/* 异步请求药品信息 */
+	$("#medicineId").change(function(){
+ 		$.post(
+			'[[@{/medicine}]]',	
+			{medicineId:$("#medicineId").val()},
+			function(data){
+				var htm="<input type='text' name='price' value='"+data.price+"' readonly='readonly'>";
+				$(".price").html(htm); 
+			}
+		); 
+	});
+});
+</script>
+</head>
+<body>
+<form onsubmit="return check()" role="form" th:action="@{/ip_add_allorder}" method="post">
+<table id="maintable"  class="table table-bordered">
+	<caption><label for="name">今日病情单</label></caption>
+	<thead>
+		<tr>
+			<th class="th1">医疗单编号：</th>
+			<th class="th2">[[${remedy.remedyId}]]</th>
+			<th class="th3">入院日期：</th>
+			<th class="th4">[[${#dates.format(remedy.remedyDate,"yyyy-MM-dd")}]]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td  colspan="4"><label for="name">主治医生</label></td>
+		</tr>
+		<tr>
+			<td>姓名：</td>
+			<td>[[${remedy.emp.empName}]]</td>
+			<td>联系方式：</td>
+			<td>[[${remedy.emp.empPhone}]]</td>
+		</tr>
+		<tr>
+			<td  colspan="4"><label for="name">病人信息</label></td>
+		</tr>
+		<tr>
+			<td>姓名：</td>
+			<td>[[${remedy.opPatientinfo.ptName}]]</td>
+			<td>年龄：</td>
+			<td>[[${remedy.opPatientinfo.age}]]</td>
+		</tr>
+		<tr>
+			<td>病情状况：</td>
+			<td colspan="3">
+				<textarea name="illness" class="form-control" rows="2"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>叮嘱：</td>
+			<td colspan="3">
+				<textarea name="caution" class="form-control" rows="2"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4"><label for="name">药单明细</label></td>
+		</tr> 
+		<tr>
+			<td>药品名称</td>
+			<td>单价</td>
+			<td>药品数量</td>
+			<td>使用说明</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="form-group">
+					<select id="medicineId" name="medicineId" class="form-control">
+						<option th:value="${phMedicines.medicineId}" 
+						th:each="phMedicines:${allMedicine}">
+							[[${phMedicines.medicineName}]]
+						</option>
+					</select>
+				</div>
+			</td>
+			<td class="price"></td>
+			<td>
+				<input type="text" name="drugNum" >
+			</td>
+			<td>
+				<input type="text" name="useInstructions">
+			</td>
+		</tr>
+	</tbody>
+</table>
+	<input type="hidden" name="remedyId" th:value="${remedy.remedyId}"/>
+	<button type="submit" class="btn btn-default">提交</button>
+</form>
+
+</body>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>
