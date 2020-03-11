@@ -480,7 +480,7 @@ public class IpController {
 		model.addAttribute("remedy", remedy);
 		//检索当前药房所有药
 		PhMedicinesService medicinesService = (PhMedicinesService)ac.getBean("phMedicinesServiceImpl");
-		PhPageBean<PhMedicines> allMedicine = medicinesService.getAllMedicine(1, 10);
+		List<PhMedicines> allMedicine = medicinesService.getAllMedicine();
 		model.addAttribute("allMedicine",allMedicine);
 		return "ip_add_illnessorder";
 	}
@@ -535,7 +535,9 @@ public class IpController {
 					PhOutMedicine pom=new PhOutMedicine();
 					pom.setDrugId(ipDrug.getDrugId());
 					pom.setSubtotal(price);
-					outMedicinesService.insertOutMedicine(pom);
+					List<PhOutMedicine> poms=new ArrayList<PhOutMedicine>();
+					poms.add(pom);
+					outMedicinesService.insertOutMedicineList(poms);
 					System.out.println("pom"+pom);
 				}
 			}

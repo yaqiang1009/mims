@@ -99,7 +99,7 @@ $(function(){
 				<div class="form-group">
 					<select id="medicineId" name="medicineId" class="form-control">
 						<option th:value="${phMedicines.medicineId}" 
-						th:each="phMedicines:${allMedicine.beanlist}">
+						th:each="phMedicines:${allMedicine}">
 							[[${phMedicines.medicineName}]]
 						</option>
 					</select>
