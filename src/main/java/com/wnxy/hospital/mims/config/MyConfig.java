@@ -54,7 +54,8 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 				registry.addViewController("/op_selectOpRegistryByCondition.html").setViewName("/op_selectOpRegistryByCondition.html");// 多条件模糊查挂号单
 				registry.addViewController("/op_newOffice.html").setViewName("/op_newOffice.html");//添加部门
 				registry.addViewController("/op_newDep.html").setViewName("/op_newDep.html");//添加科室
-		
+				registry.addViewController("/op_officeAlter.html").setViewName("/op_officeAlter.html");
+				
 				
 
 
@@ -107,6 +108,7 @@ public class MyConfig extends WebMvcConfigurerAdapter {
 		filterMap.put("/loginsubmit", "anon");//登录提交
 		filterMap.put("/logout", "logout");//退出
 		filterMap.put("/**", "authc");
+
 		shiroFilterFactoryBean.setLoginUrl("/login");//拦截跳转登录页面
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 		return shiroFilterFactoryBean;

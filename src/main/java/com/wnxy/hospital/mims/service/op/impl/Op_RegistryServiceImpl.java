@@ -82,30 +82,7 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 		newCard(opPatientinfo.getPtId());
 	}
 
-//	@Override
-//	public void rebondCard(OpCard opCard) {// 就诊卡挂失
-//
-//		List<OpCard> verifyCards = queryCardBycardIdAndpt_id(opCard.getCardId(), opCard.getPtId());// 存储通过身份证号查询的卡记录集合用于验证
-//		try {
-//			if (verifyCards.size() == 1) {// 有效卡号有且只能有一个，否则抛异常
-//				// 将卡表中对应的卡号状态设为2不可用
-//				OpCard tempCard = new OpCard(opCard.getCardId(), opCard.getPtId(), 2);
-//				opCardMapper.updateByPrimaryKey(tempCard);
-//				System.out.println("老卡状态已修改");
-//				System.out.println("验证卡集合长度：" + verifyCards.size());
-//				// 再将对应身份号的患者身份证与新卡号绑定
-//				newCard(opCard.getPtId());
-//
-//			} else {
-//
-//				throw new RuntimeException("挂失失败，卡号有误或重复挂失");
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			System.out.println("挂失失败");
-//		}
-//	}
+
 
 	@Override
 	public void rebondCard(OpCard opCard) throws RuntimeException {// 就诊卡挂失
@@ -223,7 +200,7 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 		System.out.println("此处应该有收费信息：" + opDoclevels);
 
 		if (verifyCards.size() == 1 && opDoclevels.size() == 1) {// 患者就诊卡号有效，并且有对应的科室信息
-			List<OpRegistry> opRegistrys = availableOpRegistry(empId, verifyCards.get(0).getPtId(), new Date(), 1);// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
+			List<OpRegistry> opRegistrys = availableOpRegistry(empId, verifyCards.get(0).getPtId(), new Date(), 0);// 查有效挂号单，同一天，同一患者，只能挂同一医生一次号
 			if (opRegistrys.size() == 0) {
 				// 挂号单号
 				String rs_Id = UUID.randomUUID().toString().replace("-", "").trim().toString();
@@ -231,8 +208,8 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 				String pt_Id = verifyCards.get(0).getPtId();
 				// 医生等级编号
 				String tempDlId = opDoclevels.get(0).getDlId();
-				// 挂号单状态,1待支付
-				Integer state = 1;
+				// 挂号单状态,0待支付
+				Integer state = 0;
 				// 挂号日期
 				Date date = new Date();
 				// 挂号价格
@@ -309,31 +286,3 @@ public class Op_RegistryServiceImpl implements Op_RegistryService {
 	}
 
 }
-
-//if (!rsId.equals("") && rsId != null) {
-//criteria.andRsIdLike("%" + rsId + "%");
-//}
-//
-//if (!ptId.equals("") && ptId != null) {
-//criteria.andPtIdLike("%" + ptId + "%");
-//}
-//
-//if (!dlId.equals("") && dlId != null) {
-//criteria.andDlIdLike("%" + dlId + "%");
-//}
-//
-//if (!state.equals("") && state != null) {
-//criteria.andStateEqualTo(state);
-//}
-//
-//if (!date.equals("") && date != null) {
-//criteria.andDateEqualTo(date);
-//}
-//
-//if (regprice != 0.0f) {
-//criteria.andRegpriceEqualTo(regprice);
-//}
-//
-//if (!empId.equals("") && empId != null) {
-//criteria.andEmpIdLike("%" + empId + "%");
-//}

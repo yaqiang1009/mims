@@ -33,10 +33,10 @@ public class PhDamageController {
 			if(damage.getMedicineId()==null||"".equals(damage.getMedicineId())) {
 				damage.setDamageId("");
 			}
-			if(damage.getMedicineName()==null) {
+			if(damage.getMedicineName()==null||"".equals(damage.getMedicineName())) {
 				damage.setMedicineName("");
 			}
-			if(damage.getMedicineCount()==null||"".equals(damage.getMedicineCount())) {
+			if(damage.getMedicineCount()==null||damage.getMedicineCount()==0) {
 				damage.setMedicineCount(0);
 			}
 			if(damage.getStatus()==null) {

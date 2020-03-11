@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>展示科室下所有医生</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+body {
+	padding: 15px;
+}
+th{
+text-align: center;
+}
+td {
+	width: 200px;
+	box-shadow: 0px 2px #A8A8A8;
+	text-align: center;
+	font-weight: bold;
+}
+
+
+img {
+	
+	height: 100px;
+}
+</style>
+
+</head>
+<body>
+<caption><label for="name">医生详情</label></caption>
+	<table class="table table-bordered table-striped">
+		<tr id="tr1">
+			<th>照片</th>
+			<th>姓名</th>
+			<th>性别</th>
+			<th>入职日期</th>
+			<th>医生级别</th>
+			<th>挂号费</th>
+			<th>操作</th>
+		</tr>
+
+
+		<tr>
+			<td><img th:src="@{${emp.empPhoto}}" alt="图片"></td>
+
+			<td>[[${emp.empName}]]</td>
+			<td>[[${emp.empSex}]]</td>
+			<td>[[${#dates.format(emp.empHireday,"yyyy-MM-dd")}]]</td>
+			<td>[[${opDoclevel.level}]]</td>
+			<td>[[${opDoclevel.price}]]</td>
+			<!-- 挂号时调用挂号方法，需要将session里的就诊卡号和当前医生的员工编号传过去 -->
+			<td><a th:href="@{/op_registry/}+${emp.empId}">挂号</a></td>
+		</tr>
+	</table>
+</body>
+
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

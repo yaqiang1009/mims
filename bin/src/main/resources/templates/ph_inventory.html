@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>药房库存</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<style type="text/css">
+table{
+	border-collapse: collapse;
+	width: 1300px;
+	margin-left: 6px;
+}
+#mcondition td{
+	border: 2px solid #4cd5ff;
+	width:25%;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#mdetail th,td{
+	width:10%;
+	border: 2px solid #4cd5ff;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#pageing{
+	position: fixed;
+	bottom: 5px;
+	left: 38%;
+}
+
+</style>
+</head>
+<body>
+	<h3 align="center">药房库存</h3>
+	<h5><span>&nbsp;&nbsp;查询条件</span></h5>
+	<form th:action="@{/query/inventory}" method="get">
+		<table id="mcondition">
+			<tbody>
+				<tr>
+					<td>药品名称<input type="text" name="medicineName" value=""></td>
+					<td>药品分类<input type="text" name="calssName" value=""></td>
+					<td>包装分类
+						<select name="type" >
+							<option value="">请选择</option>
+							<option value="包" >包</option>
+							<option value="盒" >盒</option>
+							<option value="瓶" >瓶</option>
+							<option value="片" >片</option>
+						</select></td>
+					<td>批次号<input type="text" name="batchNo" value=""></td>
+				</tr>
+				<tr>
+					<td colspan="4" align="center">
+					<input class="btn btn-info" type="submit" value="查询">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<table id="mdetail">
+		<thead>
+			<tr>
+				<th>行号</th>
+				<th>药品名称</th>
+				<th>药品分类</th>
+				<th>包装分类</th>
+				<th>数量</th>
+				<th>单价</th>
+				<th>批次号</th>
+				<th>预警值</th>
+				<th>生产日期</th>
+				<th>入库时间</th>
+				<!-- <th>操作</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pmi,iter:${pmis}">
+				<td>[[${iter.count}]]</td>
+				<td>[[${pmi.medicineName}]]</td>
+				<td>[[${pmi.calssName}]]</td>
+				<th>[[${pmi.type}]]</th>
+				<td>[[${pmi.number}]]</td>
+				<td>[[${pmi.price}]]</td>
+				<td>[[${pmi.batchNo}]]</td>
+				<td>[[${pmi.warnValue}]]</td>
+				<td>[[${pmi.produceDate}]]</td>
+				<td>[[${pmi.enterDate}]]</td>
+				<!-- <td><button type="button" class="btn btn-info">编辑</button></td> -->
+			</tr>
+		</tbody>
+	</table>
+	<!-- <div id="pageing">
+		<ul class="pagination pagination-lg">
+		    <li th:if="${phpb.pageIndex}>1"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex}-1'">&laquo;</a></li>
+		    <li th:each="page:${#numbers.sequence(phpb.beginPage,phpb.endPage)}"><a th:href="@{/page?pageIndex=}+${page}">[[${page}]]</a></li>
+		    <li th:each="pageNo : ${#numbers.sequence(contactsPage.start, contactsPage.end)}" >
+		    <li th:if="${phpb.pageIndex}<${phpb.totalPage}"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex+1}'">&raquo;</a></li>
+	</div> -->
+</body>
+</html>

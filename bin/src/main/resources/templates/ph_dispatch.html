@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>药房调拨单</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<script type="text/javascript" th:src="@{/js/jquery1.11.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 这里设定了项目根路径,后面使用到路径的地方正常填写即可 -->
+<style type="text/css">
+table{
+	border-collapse: collapse;
+	width: 1300px;
+	margin-left: 6px;
+}
+#mcondition td{
+	border: 2px solid #4cd5ff;
+	width:25%;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#mdetail th,td{
+	width:10%;
+	border: 2px solid #4cd5ff;
+	text-align: center;
+	padding: 10px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #4A515B;
+	background: #fff;
+}
+#modalinsert {
+	
+	border-collapse: collapse;
+	width: 500px;
+}
+#modalinsert th,td{
+	border: 2px solid #4cd5ff;
+}
+#pageing{
+	position: fixed;
+	bottom: 5px;
+	left: 38%;
+}
+</style>
+<script type="text/javascript">
+	function dispatchadd(){
+	    $.post(
+		    	"/add/dispatch",
+		    	$("#adddispatch").serialize(),
+		    );
+	    $("#submitbtn").attr({class:"btn btn-default","data-dismiss":"modal"});
+	}
+</script>
+</head>
+<body>
+	<h3 align="center">调拨管理</h3>
+	<!-- 按钮触发模态框 -->
+<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="margin-left: 10px">
+	新增调拨单
+</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					调拨单新增页面
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form action="" id="adddispatch">
+					<table id="modalinsert">
+						<thead>
+							<tr>
+								<th>药品名称</th>
+								<!-- <th>包装分类</th> -->
+								<th>调拨数量</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="search" name="medicineName" value=""></td>
+								<!-- <td>
+									<select name="medicineType">
+										<option value="">请选择</option>
+										<option value="包" >包</option>
+										<option value="盒" >盒</option>
+										<option value="瓶" >瓶</option>
+										<option value="片" >片</option>
+									</select></td> -->
+								<td><input type="number" name="dispatchCount" value="0"></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" id="submitbtn" onclick="dispatchadd()">
+					提交
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+	<h5><span>&nbsp;&nbsp;查询条件</span></h5>
+	<form th:action="@{/query/dispatch/condition}" method="get">
+		<table id="mcondition">
+			<tbody>
+				<tr>
+					<td>药品名称<input type="text" name="medicineName" value=""></td>
+					<td>包装分类
+						<select name="medicineType">
+							<option value="">请选择</option>
+							<option value="包" >包</option>
+							<option value="盒" >盒</option>
+							<option value="瓶" >瓶</option>
+							<option value="片" >片</option>
+						</select></td>
+					<td>状态
+						<select name="status" >
+							<option value="1" >待药库处理</option>
+							<option value="2" >药库处理中</option>
+							<option value="3" >药房已入库</option>
+						</select></td>
+				</tr>
+				<tr>
+					<td colspan="4" align="center">
+					<input class="btn btn-info" type="submit" value="查询">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<table id="mdetail">
+		<thead>
+			<tr>
+				<th>行号</th>
+				<th>药品名称</th>
+				<th>包装分类</th>
+				<th>调拨数量</th>
+				<th>批次号</th>
+				<th>状态</th>
+				<!-- <th>操作</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pd,iter:${pds}">
+				<td>[[${iter.count}]]</td>
+				<td>[[${pd.medicineName}]]</td>
+				<th>[[${pd.medicineType}]]</th>
+				<td>[[${pd.dispatchCount}]]</td>
+				<td>[[${pd.batchNo}]]</td>
+				<td th:switch="${pd.status}">
+					<span th:case="1" th:text="待药库处理"></span>
+					<span th:case="2" th:text="药库处理中"></span>
+					<span th:case="3" th:text="药房已入库"></span>
+				</td>
+				<!-- <td><button type="button" class="btn btn-info">编辑</button></td> -->
+			</tr>
+		</tbody>
+	</table>
+	<!-- <div id="pageing">
+		<ul class="pagination pagination-lg">
+		    <li th:if="${phpb.pageIndex}>1"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex}-1'">&laquo;</a></li>
+		    <li th:each="page:${#numbers.sequence(phpb.beginPage,phpb.endPage)}"><a th:href="@{/page?pageIndex=}+${page}">[[${page}]]</a></li>
+		    <li th:each="pageNo : ${#numbers.sequence(contactsPage.start, contactsPage.end)}" >
+		    <li th:if="${phpb.pageIndex}<${phpb.totalPage}"><a th:href="@{/page?pageIndex=}+'${phpb.pageIndex+1}'">&raquo;</a></li>
+	</div> -->
+</body>
+</html>

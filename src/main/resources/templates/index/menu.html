@@ -51,10 +51,15 @@
 					</a>
 						<ul id="systemSetting11" class="nav nav-list collapse secondmenu"
 							style="height: 0px;">
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">病人状态</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">治疗相关</a></li>
+							<li><a th:href="@{/ip_mypatient?index=1}" 
+								onclick="menuCss(this)" target="content" 
+								style="padding-left: 25px;">我的病人</a></li>
+							<li><a th:href="@{/ip_select_myremedy?index=1}"
+								onclick="menuCss(this)" target="content"
+								style="padding-left: 25px;">医疗详情</a></li>
+							<li><a th:href="@{/ip_doremedy?index=1}" 
+								onclick="menuCss(this)" target="content" 
+								style="padding-left: 25px;">诊断治疗</a></li>
 						</ul></li>
 					<!-- 角色三 -->
 					<li><a href="#systemSetting12" onclick="menuCss(this)"
@@ -107,7 +112,7 @@
 					<!-- 角色二 -->
 					<li><a href="#systemSetting21" onclick="menuCss(this)"
 						class="nav-header collapsed" data-toggle="collapse"> <i
-							class="glyphicon glyphicon-yen"></i> <span
+							class="glyphicon glyphicon-edit"></i> <span
 							style="display: inline-block; margin-left: 20px;">门诊部信息管理</span>
 							<span class="pull-right glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -115,20 +120,17 @@
 							style="height: 0px;">
 							<li><a href="op_newOffice.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加部门</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{/op_queryAllOffice}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改部门</a></li>
 							<li><a href="op_newDep.html" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加科室</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{/op_queryAllDepForManage}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改科室</a></li>
 							<li><a th:href="@{/op_newDocLevelPre}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">添加门诊挂号收费等级</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
+							<li><a th:href="@{op_showAllDocInLevel}" onclick="menuCss(this)"
 								target="content" style="padding-left: 25px;">查找修改门诊挂号收费等级</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">查找修改员工</a></li>
-							<li><a href="页面.html" onclick="menuCss(this)"
-								target="content" style="padding-left: 25px;">患者基本信息修改</a></li>
+							
 
 						</ul></li>
 					<!-- ****药房**** -->
@@ -157,7 +159,7 @@
 						</a>
 						<ul id="systemSetting30" class="nav nav-list collapse secondmenu" style="height: 0px;">
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">取药处</a>
+								<a th:href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">取药处</a>
 							</li>
 							<li> 
 								<a th:href="@{/queryall}" onclick="menuCss(this)" target="content" style="padding-left:25px;">药品信息</a>
@@ -166,10 +168,10 @@
 								<a th:href="@{/query/damage}" onclick="menuCss(this)" target="content" style="padding-left:25px;">报损管理</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">调拨管理</a>
+								<a th:href="@{/query/dispatch}" onclick="menuCss(this)" target="content" style="padding-left:25px;">调拨管理</a>
 							</li>
 							<li>
-								<a href="页面.html" onclick="menuCss(this)" target="content" style="padding-left:25px;">药房库存</a>
+								<a th:href="@{/query/inventory}" onclick="menuCss(this)" target="content" style="padding-left:25px;">药房库存</a>
 							</li>
 						</ul>
 					</li>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>医生住院医疗信息</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<style type="text/css">
+body{
+padding: 10px;
+}
+#main_table thead tr th{
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+#main_table tbody tr td{
+padding:4px;
+height: 30px;
+text-align: center;
+vertical-align: middle;
+}
+.th7{
+width: 15%;
+}
+#main_div{
+width:290px;
+position: absolute;
+top: 5px;
+right: 0px;
+}
+#main_div input {
+	width: 200px;
+	float: left;
+}
+/* 分页设置 */
+#numberdiv{
+position: absolute;
+bottom: 0px;
+width: 100%;
+text-align:center;
+}
+#numberdiv ul{
+margin: auto;
+}
+</style>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<table id="main_table" class="table table-bordered table-striped">
+	<caption><label for="name">病人医疗信息</label></caption>
+	<thead>
+		<tr>
+			<th class="th1">病人</th>
+			<th class="th2">主治医生</th>
+			<th class="th3">病房</th>
+			<th class="th4">床位</th>
+			<th class="th5">医疗状态</th>
+			<th class="th6">入院时间</th>
+			<th class="th7">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+ 		<tr th:each="remedy:${remedys.list}">
+			<td>[[${remedy.opPatientinfo.ptName}]]</td>
+			<td>[[${remedy.emp.empName}]]</td>
+			<td>[[${remedy.ipWard.wardName}]]</td>
+			<td>[[${remedy.ipBed.bedNum}]]</td>
+			<td>[[${remedy.remedyStatus}]]</td>
+			<td>[[${#dates.format(remedy.remedyDate,"yyyy-MM-dd")}]]</td>
+			<td>
+				<a th:href="@{/ip_select_allillness/}+${remedy.remedyId}+@{?index=1}">
+					<button type="button" class="btn btn-primary">病情单</button>
+				</a>
+			</td>
+		</tr> 
+	</tbody>
+</table>
+<div id="main_div" class="col-sm-10">
+	<form role="form" th:action="@{/ip_selectremedyPtName}" method="post">
+		<input class="form-control" name="name" type="text" placeholder="搜索病人姓名"/>
+		<button type="submit" class="btn btn-default">搜索</button>
+	</form>
+</div>
+
+<!-- 分页 -->
+<div id="numberdiv">
+	<ul class="pagination">
+		<!-- 上一页 -->
+		<li th:if="${!remedys.hasPreviousPage}"><a href="javascript:void(0)">&laquo;</a></li>
+		<li th:if="${remedys.hasPreviousPage}"><a th:href="@{/ip_selectremedy?index=}+${remedys.pageNum-1}">&laquo;</a></li>
+		<!-- 中间页 -->
+		<li th:if="${remedys.pageNum>1}" th:each="inde:${#numbers.sequence(1,remedys.pageNum-1)}" >
+			<a th:if="${remedys.pageNum!=inde}" th:href="@{/ip_selectremedy?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<li class="active"><a href="javascript:void(0)">[[${remedys.pageNum}]]</a></li>
+		<li th:if="${remedys.pageNum<remedys.pages}" th:each="inde:${#numbers.sequence(remedys.pageNum+1,remedys.pages)}" >
+			<a th:if="${remedys.pageNum!=inde}" th:href="@{/ip_selectremedy?index=}+${inde}">[[${inde}]]</a>
+		</li>
+		<!-- 下一页 -->
+		<li th:if="${remedys.hasNextPage}"><a th:href="@{/ip_selectremedy?index=}+${remedys.pageNum+1}">&raquo;</a></li>
+		<li th:if="${!remedys.hasNextPage}"><a href="javascript:void(0)">&raquo;</a></li>
+	</ul>
+</div>
+
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-2.1.4.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+</html>

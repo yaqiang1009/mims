@@ -1,7 +1,6 @@
 package com.wnxy.hospital.mims.service.ph.impl;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,6 @@ public class PhDispatchServiceImpl implements PhDispatchService {
 	@Override
 	public int insertPhDispatch(PhDispatch pd) {
 		try {
-			//添加主键
-			pd.setDispatchId(UUID.randomUUID().toString());
-			//添加默认状态为1--待处理
-			pd.setStatus("1");
-			
 			int num = phDispatchMapper.insertSelective(pd);
 			return num;
 		} catch (Exception e) {
@@ -32,12 +26,13 @@ public class PhDispatchServiceImpl implements PhDispatchService {
 		}
 	}
 	
-	//查询单个调度单
+	//查询全部调拨单
 	@Override
-	public PhDispatch getDispatchById(String dispatchId) {
+	public List<PhDispatch> getAllDispatch() {
 		try {
-			PhDispatch pd = phDispatchMapper.selectByPrimaryKey(dispatchId);
-			return pd;
+			PhDispatchExample pde = new PhDispatchExample();
+			List<PhDispatch> pds = phDispatchMapper.selectByExample(pde);
+			return pds;
 		} catch (Exception e) {
 			throw new PhMedicineException(e);
 		}
@@ -47,16 +42,16 @@ public class PhDispatchServiceImpl implements PhDispatchService {
 	public List<PhDispatch> getDispatchBycondition(PhDispatch pd) {
 		PhDispatchExample pde = new PhDispatchExample();
 		Criteria cc = pde.createCriteria();
-		//根据单号查询
-		cc.andDispatchIdLike("%"+pd.getDispatchId()+"%");
+		//根据药品名称查询
+		cc.andMedicineNameLike("%"+pd.getMedicineName()+"%");
 		//根据状态查询
 		cc.andStatusEqualTo(pd.getStatus());
 		//根据调用数量查询,小于等于输入数量
-		cc.andDispatchCountLessThanOrEqualTo(pd.getDispatchCount());
+		//cc.andDispatchCountLessThanOrEqualTo(pd.getDispatchCount());
 		//根据包装类型查询
-		cc.andMedicineTypeEqualTo(pd.getMedicineType());
+		cc.andMedicineTypeLike("%"+pd.getMedicineType()+"%");
 		//根据调度时间查询
-		cc.andEnterDateEqualTo(pd.getEnterDate());
+		//cc.andEnterDateEqualTo(pd.getEnterDate());
 		//调度时间降序排序
 		pde.setOrderByClause("enter_date desc");
 		try {

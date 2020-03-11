@@ -1,5 +1,6 @@
 package com.wnxy.hospital.mims.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class OpRegController {
 		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
 		try {
 			op_RegistryService.cardIssuingForPage(opPatientinfo);// 此处要用专门给页面用的带事务的二合一方法
-			session.invalidate();// 办卡完成后清空session
+			//session.invalidate();// 办卡完成后清空session
 			model.addAttribute("msg", "办卡成功");
 			return "op_msg";
 		} catch (Exception e) {
@@ -80,7 +81,7 @@ public class OpRegController {
 	@RequestMapping("/op_allAvailableReg")
 	public String op_allAvailableReg(HttpServletRequest req, Model model) {
 		Op_RegistryService op_RegistryService = (Op_RegistryService) ac.getBean("op_RegistryServiceImpl");
-		List<OpRegistry> availableOpRegistrys = op_RegistryService.AllAvailableOpRegistry(1);
+		List<OpRegistry> availableOpRegistrys = op_RegistryService.AllAvailableOpRegistry(0);
 		model.addAttribute("availableOpRegistrys", availableOpRegistrys);
 		return ("op_allAvailableReg");
 	}
@@ -104,18 +105,22 @@ public class OpRegController {
 		return ("op_selectOpRegistryByCondition");
 	}
 
-	// 查全部科室
+	// 查全部门诊科室
 	@RequestMapping("/op_showAllDep")
 	public String op_showAllDep(Model model, HttpServletRequest request) {
 		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
 				.getBean("op_InfoManagementServiceImpl");
-		List<OpDep> opDeps = op_InfoManagementService.queryAllOpDep();
+		List<OpDep> AllOpDep = op_InfoManagementService.queryAllOpDep();
+		List<OpDep> opDeps = new ArrayList<OpDep>();
+		for (int i = 0; i < AllOpDep.size(); i++) {
+			if (AllOpDep.get(i).getDepName().contains("门诊")) {// 剔除非医疗科室
+				opDeps.add(AllOpDep.get(i));
+			}
+
+		}
 		model.addAttribute("opDeps", opDeps);
 		return "op_showAllDep";
 	}
-	
-
-	
 
 //	// 查科室编号对应的全部医生,未加分页
 //	@RequestMapping("/op_showDocInDep/{depId}")
@@ -129,10 +134,11 @@ public class OpRegController {
 
 	// 查科室编号对应的全部医生,加分页
 	@RequestMapping("/op_showDocInDepPage/{depId}/{pageNum}")
-	public String op_showDocInDepPage(@PathVariable("depId") String depId,@PathVariable("pageNum") int pageNum,Model model) {
+	public String op_showDocInDepPage(@PathVariable("depId") String depId, @PathVariable("pageNum") int pageNum,
+			Model model) {
 		Op_InfoManagementService op_InfoManagementService = (Op_InfoManagementService) ac
 				.getBean("op_InfoManagementServiceImpl");
-		PageHelper.startPage(pageNum,2);// 配置分页页码和页大小
+		PageHelper.startPage(pageNum, 2);// 配置分页页码和页大小
 		List<Emp> emps = op_InfoManagementService.queryEmpByDepId(depId);// 根据页面传过来的部门编号查对应部门的医生
 		PageInfo<Emp> empsPage = new PageInfo<Emp>(emps);
 		model.addAttribute("empsPage", empsPage);
@@ -163,12 +169,12 @@ public class OpRegController {
 		try {
 			OpRegistry opRegistry = op_RegistryService.newOpRegistry(empId, cardId);
 
-			session.invalidate();// 当前挂号完成后清空session
+			//session.invalidate();// 当前挂号完成后清空session
 			model.addAttribute("msg", "挂号成功");
 			return "op_msg";
 
 		} catch (Exception e) {
-			session.invalidate();// 当前挂号完成后清空session
+			//session.invalidate();// 当前挂号完成后清空session
 			model.addAttribute("msg", e.getMessage());
 			return "op_msg";
 		}

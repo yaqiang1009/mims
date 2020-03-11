@@ -1,5 +1,6 @@
 package com.wnxy.hospital.mims.service.ph.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,14 +24,18 @@ public class DamageServiceImpl implements DamageService{
 	//新增报损单
 	@Override
 	public int insertDamages(Damages damage) {
-		//添加主键
-		damage.setDamageId(UUID.randomUUID().toString());
-		//添加来源为药房
-		damage.setSource("ph");
-		//添加默认状态为1--待审批
-		damage.setStatus(1);
-		int num = damagesMapper.insertSelective(damage);
-		return num;
+		try {
+			//添加主键
+			damage.setDamageId(UUID.randomUUID().toString());
+			//添加来源为药房
+			damage.setSource("ph");
+			//添加默认状态为1--待审批
+			damage.setStatus(1);
+			int num = damagesMapper.insertSelective(damage);
+			return num;
+		} catch (Exception e) {
+			throw new PhMedicineException(e);
+		}
 	}
 	//查询单个报损表
 	@Override
@@ -48,13 +53,13 @@ public class DamageServiceImpl implements DamageService{
 		Criteria cc = de.createCriteria();
 		cc.andDamageIdLike("%"+damage.getDamageId()+"%");
 		//根据报损数量查询,数量完全相等
-		cc.andMedicineCountEqualTo(damage.getMedicineCount());
+		cc.andMedicineCountGreaterThan(damage.getMedicineCount());
 		//根据状态查询
 		cc.andStatusEqualTo(damage.getStatus());
 		//根据来源(药房、药品)查询
-		cc.andSourceEqualTo(damage.getSource());
+		cc.andSourceLike("%"+damage.getSource()+"%");
 		//通过药品名称获取药品编号
-		cc.andMedicineNameLike(damage.getMedicineName());
+		cc.andMedicineNameLike("%"+damage.getMedicineName()+"%");
 		try {
 			List<Damages> damages = damagesMapper.selectByExample(de);
 			return damages;

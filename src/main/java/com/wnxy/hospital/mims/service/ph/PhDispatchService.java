@@ -7,7 +7,7 @@ public interface PhDispatchService {
 	//新增调度单
 	int insertPhDispatch(PhDispatch pd);
 	//查询单个调度单
-	PhDispatch getDispatchById(String dispatchId);
+	List<PhDispatch> getAllDispatch();
 	//根据条件查询调度单
 	List<PhDispatch> getDispatchBycondition(PhDispatch pd);
 }

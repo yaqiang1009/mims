@@ -87,6 +87,12 @@
     from ip_cash_pledge
     where cash_id = #{cashId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByPtId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ip_cash_pledge
+    where pt_id = #{ptId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from ip_cash_pledge
     where cash_id = #{cashId,jdbcType=VARCHAR}
@@ -134,7 +140,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="addRemainingByExampleSelective" parameterType="map" >
     update ip_cash_pledge
     <set >
       <if test="record.cashId != null" >
@@ -144,38 +150,82 @@
         pt_id = #{record.ptId,jdbcType=VARCHAR},
       </if>
       <if test="record.remaining != null" >
-        remaining = #{record.remaining,jdbcType=DOUBLE},
+        remaining =remaining+ #{record.remaining,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="subRemainingByExampleSelective" parameterType="map" >
     update ip_cash_pledge
-    set cash_id = #{record.cashId,jdbcType=VARCHAR},
-      pt_id = #{record.ptId,jdbcType=VARCHAR},
-      remaining = #{record.remaining,jdbcType=DOUBLE}
+    <set >
+      <if test="record.cashId != null" >
+        cash_id = #{record.cashId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptId != null" >
+        pt_id = #{record.ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remaining != null" >
+        remaining =remaining- #{record.remaining,jdbcType=DOUBLE},
+      </if>
+    </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+  <update id="addRemainingByExample" parameterType="map" >
+    update ip_cash_pledge
+    set cash_id = #{record.cashId,jdbcType=VARCHAR},
+      pt_id = #{record.ptId,jdbcType=VARCHAR},
+      remaining =remaining+ #{record.remaining,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="subRemainingByExample" parameterType="map" >
+    update ip_cash_pledge
+    set cash_id = #{record.cashId,jdbcType=VARCHAR},
+      pt_id = #{record.ptId,jdbcType=VARCHAR},
+      remaining =remaining- #{record.remaining,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="addRemainingByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
     update ip_cash_pledge
     <set >
       <if test="ptId != null" >
         pt_id = #{ptId,jdbcType=VARCHAR},
       </if>
       <if test="remaining != null" >
-        remaining = #{remaining,jdbcType=DOUBLE},
+        remaining =remaining+ #{remaining,jdbcType=DOUBLE},
       </if>
     </set>
     where cash_id = #{cashId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+  <update id="subRemainingByPrimaryKeySelective" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    update ip_cash_pledge
+    <set >
+      <if test="ptId != null" >
+        pt_id = #{ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="remaining != null" >
+        remaining =remaining- #{remaining,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </update>
+  <update id="addRemainingByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
     update ip_cash_pledge
     set pt_id = #{ptId,jdbcType=VARCHAR},
-      remaining = #{remaining,jdbcType=DOUBLE}
+      remaining =remaining+ #{remaining,jdbcType=DOUBLE}
+    where cash_id = #{cashId,jdbcType=VARCHAR}
+  </update>
+  <update id="subRemainingByPrimaryKey" parameterType="com.wnxy.hospital.mims.entity.IpCashPledge" >
+    update ip_cash_pledge
+    set pt_id = #{ptId,jdbcType=VARCHAR},
+      remaining =remaining- #{remaining,jdbcType=DOUBLE}
     where cash_id = #{cashId,jdbcType=VARCHAR}
   </update>
 </mapper>

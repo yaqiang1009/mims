@@ -38,6 +38,7 @@ import com.wnxy.hospital.mims.mapper.OfficeMapper;
 import com.wnxy.hospital.mims.mapper.OpDepMapper;
 import com.wnxy.hospital.mims.mapper.OpPatientinfoMapper;
 import com.wnxy.hospital.mims.service.impl.Op_Ip_OrderImpl;
+import com.wnxy.hospital.mims.service.ip.Ip_DrugDetailService;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_CashPledgeServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugDetailServiceImpl;
 import com.wnxy.hospital.mims.service.ip.impl.Ip_DrugServiceImpl;
@@ -137,10 +138,7 @@ public class IpServiceTest {
 	public void ip_IllnessServiceImplText03() {
 		Ip_IllnessServiceImpl ip_IllnessServiceImpl = (Ip_IllnessServiceImpl) ac.getBean("ip_IllnessServiceImpl");
 		//参数为医疗单id
-		List<IpIllness> list = ip_IllnessServiceImpl.selectAllIpIllnessByRemedyId("66e33789f0a84e7985ce748015e4b5df");
-		for(IpIllness ipIllness : list) {
-			System.out.println(ipIllness);
-		}
+		PageInfo<IpIllness> list = ip_IllnessServiceImpl.selectAllIpIllnessByRemedyId("66e33789f0a84e7985ce748015e4b5df", 1);
 	}
 	//查询病情订单详情service
 	@Test
@@ -154,27 +152,27 @@ public class IpServiceTest {
 	//添加药单详情订单service
 	@Test
 	public void Ip_DrugDetailServiceImplText01() {
-		Ip_DrugDetailServiceImpl ip_DrugDetailServiceImpl = (Ip_DrugDetailServiceImpl) ac.getBean("ip_DrugDetailServiceImpl");
+		Ip_DrugDetailService ip_DrugDetailServiceImpl = (Ip_DrugDetailService) ac.getBean("ip_DrugDetailServiceImpl");
 		IpDrugDetail i1 =new IpDrugDetail();
 		IpDrugDetail i2 =new IpDrugDetail();
 		IpDrugDetail i3 =new IpDrugDetail();
-		i1.setDrugNum(1);
+		i1.setDrugNum(2);
 		i1.setMedicineId("1");
 		i1.setPrice(12.0);
 		i1.setUseInstructions("一日一次");
-		i2.setDrugNum(4);
-		i2.setMedicineId("2");
+		i2.setDrugNum(2);
+		i2.setMedicineId("123314");
 		i2.setPrice(24.0);
 		i2.setUseInstructions("一日二次");
-		i3.setDrugNum(6);
-		i3.setMedicineId("3");
+		i3.setDrugNum(1);
+		i3.setMedicineId("1331");
 		i3.setPrice(6.0);
 		i3.setUseInstructions("一日三次");
 		List<IpDrugDetail> ipDrugDetails= new ArrayList<IpDrugDetail>();
 		ipDrugDetails.add(i1);
 		ipDrugDetails.add(i2);
 		ipDrugDetails.add(i3);
-		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "1");
+		ip_DrugDetailServiceImpl.addDrugDetailOrder(ipDrugDetails, "3");
 	}
 	//查询药单详情订单service
 	@Test

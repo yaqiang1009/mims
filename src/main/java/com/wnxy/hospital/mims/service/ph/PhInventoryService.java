@@ -1,6 +1,9 @@
 package com.wnxy.hospital.mims.service.ph;
 
+import java.util.List;
+
 import com.wnxy.hospital.mims.entity.PhDispatch;
+import com.wnxy.hospital.mims.entity.PhMedicineInventory;
 
 /**
  * 药房仓库管理
@@ -20,5 +23,6 @@ public interface PhInventoryService {
 	int minusCount(Integer count, String medicineId);
 	//门诊或住院部退药，根据药品id加回对应数量
 	int returnBack(Integer count, String medicineId);
-	
+	//根据条件查询库房信息
+	List<PhMedicineInventory> getInventory(PhMedicineInventory pmi);
 }

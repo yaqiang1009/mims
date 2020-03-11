@@ -9,12 +9,12 @@
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
     <result column="produce_date" property="produceDate" jdbcType="DATE" />
-    <result column="useful_date" property="usefulDate" jdbcType="DATE" />
+    <result column="useful_date" property="usefulDate" jdbcType="VARCHAR" />
     <result column="contain" property="contain" jdbcType="VARCHAR" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="class_id" property="classId" jdbcType="VARCHAR" />
     <result column="disable_date" property="disableDate" jdbcType="DATE" />
-  </resultMap>
+  </resultMap> 
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -115,7 +115,7 @@
       )
     values (#{medicineId,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, #{medicineType,jdbcType=CHAR}, 
       #{supplierId,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{batchNo,jdbcType=VARCHAR}, 
-      #{produceDate,jdbcType=DATE}, #{usefulDate,jdbcType=DATE}, #{contain,jdbcType=VARCHAR}, 
+      #{produceDate,jdbcType=DATE}, #{usefulDate,jdbcType=VARCHAR}, #{contain,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{classId,jdbcType=VARCHAR}, #{disableDate,jdbcType=DATE}
       )
   </insert>
@@ -123,7 +123,7 @@
     insert into ph_medicines
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="medicineId != null" >
-        medicine_id,
+        medicine_id, 
       </if>
       <if test="medicineName != null" >
         medicine_name,
@@ -182,7 +182,7 @@
         #{produceDate,jdbcType=DATE},
       </if>
       <if test="usefulDate != null" >
-        #{usefulDate,jdbcType=DATE},
+        #{usefulDate,jdbcType=VARCHAR},
       </if>
       <if test="contain != null" >
         #{contain,jdbcType=VARCHAR},
@@ -229,7 +229,7 @@
         produce_date = #{record.produceDate,jdbcType=DATE},
       </if>
       <if test="record.usefulDate != null" >
-        useful_date = #{record.usefulDate,jdbcType=DATE},
+        useful_date = #{record.usefulDate,jdbcType=VARCHAR},
       </if>
       <if test="record.contain != null" >
         contain = #{record.contain,jdbcType=VARCHAR},
@@ -257,7 +257,7 @@
       price = #{record.price,jdbcType=DOUBLE},
       batch_no = #{record.batchNo,jdbcType=VARCHAR},
       produce_date = #{record.produceDate,jdbcType=DATE},
-      useful_date = #{record.usefulDate,jdbcType=DATE},
+      useful_date = #{record.usefulDate,jdbcType=VARCHAR},
       contain = #{record.contain,jdbcType=VARCHAR},
       number = #{record.number,jdbcType=INTEGER},
       class_id = #{record.classId,jdbcType=VARCHAR},
@@ -288,7 +288,7 @@
         produce_date = #{produceDate,jdbcType=DATE},
       </if>
       <if test="usefulDate != null" >
-        useful_date = #{usefulDate,jdbcType=DATE},
+        useful_date = #{usefulDate,jdbcType=VARCHAR},
       </if>
       <if test="contain != null" >
         contain = #{contain,jdbcType=VARCHAR},
@@ -313,7 +313,7 @@
       price = #{price,jdbcType=DOUBLE},
       batch_no = #{batchNo,jdbcType=VARCHAR},
       produce_date = #{produceDate,jdbcType=DATE},
-      useful_date = #{usefulDate,jdbcType=DATE},
+      useful_date = #{usefulDate,jdbcType=VARCHAR},
       contain = #{contain,jdbcType=VARCHAR},
       number = #{number,jdbcType=INTEGER},
       class_id = #{classId,jdbcType=VARCHAR},

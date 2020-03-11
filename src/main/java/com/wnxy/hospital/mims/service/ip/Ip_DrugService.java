@@ -8,4 +8,5 @@ public interface Ip_DrugService {
 	String deleteDrugStatus(IpDrug ipDrug);
 	//String updateDrugStatusWithPrice(IpDrug ipDrug,int result);
 	IpDrug selectDrugByDrugId(String drugId);
+	IpDrug selectDrugByIllnessId(String illnessId);
 }

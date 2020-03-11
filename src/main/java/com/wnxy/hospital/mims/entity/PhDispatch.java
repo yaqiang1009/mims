@@ -2,6 +2,8 @@ package com.wnxy.hospital.mims.entity;
 
 import java.util.Date;
 
+import lombok.ToString;
+@ToString
 public class PhDispatch {
     private String dispatchId;
 
